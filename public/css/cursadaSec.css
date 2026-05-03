@@ -1,0 +1,224 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.main {
+    margin-left: 280px;
+    padding: 40px;
+}
+
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: #153554;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+}
+
+.top-icons {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px 0;
+}
+
+.menu {
+    margin-top: 10px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.menu a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.sidebar-footer {
+    margin-bottom: 17%;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.status {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dot {
+    margin-right: 4%;
+    width: 10px;
+    height: 10px;
+    background: limegreen;
+    border-radius: 50%;
+}
+
+footer{
+    z-index: 100;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 10px 20px;
+    background-color: #2C2C2C;
+    color: rgb(218, 218, 218);
+    height: 50px;
+    font-size: small;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 100%;
+}
+/* =========================
+   TITULOS
+========================= */
+h1 {
+    color: #444;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   CARD FORM
+========================= */
+.card {
+    background: #dcdcdc;
+    padding: 30px;
+    border-radius: 15px;
+    width: 600px;
+    max-width: 100%;
+}
+
+/* =========================
+   INPUTS
+========================= */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-box {
+    background: #efefef;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.input-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+/* ICONO */
+.input-box i {
+    color: #777;
+}
+
+/* =========================
+   BOTONES
+========================= */
+.buttons {
+    margin-top: 40px;
+}
+
+.btn {
+    padding: 10px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #2563eb;
+    color: #2563eb;
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+}
+
+/* =========================
+   RESPONSIVE TABLET
+========================= */
+@media (max-width: 1024px) {
+
+    .card {
+        width: 100%;
+    }
+
+    .main {
+        padding: 30px;
+    }
+}
+
+/* =========================
+   RESPONSIVE MOBILE
+========================= */
+@media (max-width: 768px) {
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .input-box {
+        padding: 12px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-right: 0;
+    }
+}

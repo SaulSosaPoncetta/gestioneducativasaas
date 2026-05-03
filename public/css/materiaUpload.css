@@ -1,0 +1,140 @@
+/* CONTENEDOR */
+.form-container {
+    max-width: clamp(500px, 60vw, 900px);
+    margin-top: clamp(10px, 2vh, 30px);
+}
+
+.form-container h1 {
+    font-size: clamp(22px, 2vw, 32px);
+    margin-bottom: clamp(20px, 3vh, 40px);
+    color: #444;
+}
+
+/* GRID DEL FORM */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: clamp(10px, 1.5vw, 20px);
+    align-items: center;
+}
+
+/* LABELS */
+.form-grid label {
+    font-size: clamp(13px, 0.9vw, 15px);
+    color: #333;
+}
+
+/* INPUTS */
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    padding: clamp(8px, 1vw, 12px);
+    border-radius: 12px;
+    border: 1px solid #bbb;
+    background: #f2f2f2;
+    font-size: clamp(13px, 0.9vw, 15px);
+}
+
+/* CHECKBOXES */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vh, 14px);
+    margin-top: clamp(15px, 2vh, 25px);
+    max-width: 420px;
+}
+
+.checkbox-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: clamp(13px, 0.9vw, 15px);
+}
+
+/* checkbox custom */
+.checkbox-row input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #3aa0ff;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.checkbox-row input[type="checkbox"]:checked {
+    background-color: #3aa0ff;
+    border-color: #3aa0ff;
+}
+
+.checkbox-row input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* BOTONES */
+.form-actions {
+    margin-top: clamp(25px, 4vh, 40px);
+    display: flex;
+    gap: clamp(10px, 1.5vw, 20px);
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: clamp(8px, 1vw, 12px) clamp(20px, 2vw, 30px);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: clamp(13px, 0.9vw, 15px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #2563eb;
+    border: 2px solid #2563eb;
+    padding: clamp(8px, 1vw, 12px) clamp(20px, 2vw, 30px);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: clamp(13px, 0.9vw, 15px);
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        width: 200px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+    .form-container {
+        width: 100%;
+    }
+
+    .form-actions {
+        width: 100%;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+}
