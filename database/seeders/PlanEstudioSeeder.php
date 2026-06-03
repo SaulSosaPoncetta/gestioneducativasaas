@@ -13,6 +13,6 @@ class PlanEstudioSeeder extends Seeder
      */
     public function run(): void
     {
-         PlanEstudio::factory(10)->create();
+        PlanEstudio::factory()->count(5)->create();
     }
 }

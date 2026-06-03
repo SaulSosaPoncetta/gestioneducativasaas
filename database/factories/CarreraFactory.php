@@ -17,10 +17,29 @@ class CarreraFactory extends Factory
      */
     public function definition(): array
     {
-
-        return [
-            'nombre' => 'Carrera ' . $this->faker->numberBetween(1, 100),
-            'titulo' => 'Título ' . $this->faker->numberBetween(1, 100),
+         $carreras = [
+            [
+                'nombre' => 'Analista de Sistemas',
+                'titulo' => 'Analista de Sistemas',
+            ],
+            [
+                'nombre' => 'Desarrollo de Software',
+                'titulo' => 'Técnico Superior en Desarrollo de Software',
+            ],
+            [
+                'nombre' => 'Redes Informáticas',
+                'titulo' => 'Técnico Superior en Redes',
+            ],
+            [
+                'nombre' => 'Ciencia de Datos',
+                'titulo' => 'Técnico Superior en Ciencia de Datos',
+            ],
+            [
+                'nombre' => 'Seguridad Informática',
+                'titulo' => 'Técnico Superior en Seguridad Informática',
+            ],
         ];
+        
+        return $this->faker->unique()->randomElement($carreras);
     }
 }

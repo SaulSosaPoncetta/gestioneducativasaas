@@ -1,50 +1,54 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Estudiante extends Model
 {
-    use HasFactory;
+    use HasFactory; #SoftDeletes;
 
+    protected $table = 'estudiantes';
 
-    protected $table = 'estudiante';
+    protected $primaryKey = 'id_usuario';
 
-    public $timestamps = false;
+    public $incrementing = false;
+    // public $timestamps = false;
 
     protected $fillable = [
-        'usuario_id',
-        'carrera_id',
+        'id_usuario',
     ];
 
+    // Relaciones
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
-
 
     public function carrera()
     {
-        return $this->belongsTo(Carrera::class, 'carrera_id');
+        return $this->belongsTo(Carrera::class, 'id_carrera', 'id_carrera');
     }
 
     public function tipo()
     {
-        return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id');
-    }
-    public function notas()
-    {
-        return $this->hasMany(NotaCursada::class, 'estudiante_id');
-    }
-    public function notasFinales()
-    {
-        return $this->hasMany(NotaFinal::class, 'estudiante_id');
-    }
-    public function materias()
-    {
-        return $this->belongsToMany(Materia::class, 'inscripciones', 'estudiante_id', 'materia_id')
-                ->withPivot('fecha_inscripcion');
+        return $this->belongsTo(TipoEstudiante::class, 'id_tipo_estudiante', 'id_tipo_estudiante');
     }
 
+    public function notas()
+    {
+        return $this->hasMany(NotaCuatrimestre::class, 'id_usuario', 'id_usuario'); // era NotaCursada
+    }
+
+    public function notasFinales()
+    {
+        return $this->hasMany(NotaFinal::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function materias()
+{
+    return $this->belongsToMany(Materia::class, 'inscripciones_materia', 'id_usuario', 'id_materia'); // era 'inscripciones'
+}
 }

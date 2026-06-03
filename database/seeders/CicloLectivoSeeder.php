@@ -13,6 +13,6 @@ class CicloLectivoSeeder extends Seeder
      */
     public function run(): void
     {
-        CicloLectivo::factory(30)->create();
+        CicloLectivo::factory()->count(5)->create();
     }
 }

@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\MesaExamen;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\TipoMesaExamen;
 use App\Models\Materia;
+use App\Models\Administrador;
 use App\Models\CicloLectivo;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<MesaExamen>
@@ -20,11 +22,30 @@ class MesaExamenFactory extends Factory
     public function definition(): array
     {
         return [
-            'fecha' => $this->faker->date(),
-            'turno' => $this->faker->randomElement(['Mañana', 'Tarde', 'Noche']),
-            'materia_id' => Materia::inRandomOrder()->first()->id,
-            'ciclo_lectivo_id' => CicloLectivo::inRandomOrder()->first()->id,
-            'aula' => $this->faker->numberBetween(1, 30),
+            'fecha' => fake()->dateTimeBetween('now', '+1 year'),
+
+            'id_tipo_mesa' =>
+                TipoMesaExamen::inRandomOrder()->first()->id_tipo_mesa,
+
+            'habilitado' => fake()->boolean(85),
+
+            'id_materia' =>
+                Materia::inRandomOrder()->first()->id_materia,
+
+            'aula' => fake()->randomElement([
+                'Aula 1',
+                'Aula 2',
+                'Aula 3',
+                'Laboratorio 1',
+                'Laboratorio 2',
+                'SUM'
+            ]),
+
+            'id_usuario_administracion' =>
+                Administrador::inRandomOrder()->first()?->id_usuario,
+
+            'id_ciclo' =>
+                CicloLectivo::inRandomOrder()->first()->id_ciclo,
         ];
     }
 }

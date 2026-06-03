@@ -13,7 +13,7 @@ class Rol extends Model
     protected $table = 'roles';
 
     // Desactivamos los timestamps (created_at/updated_at) porque no están en tu migración
-    public $timestamps = false;
+    // public $timestamps = false;
 
     // Habilitamos la asignación masiva para el campo descripción
     protected $fillable = [
@@ -22,7 +22,7 @@ class Rol extends Model
 
 public function usuarios()
 {
-    return $this->hasMany(Usuario::class, 'rol_id');
+    return $this->hasMany(Usuario::class, 'id_rol');
 }
 
 }

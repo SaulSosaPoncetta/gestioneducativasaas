@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,16 +11,25 @@ class Carrera extends Model
 
     protected $table = 'carreras';
 
-    public $timestamps = false;
+    protected $primaryKey = 'id_carrera';
+
+    // public $timestamps = false;
 
     protected $fillable = [
         'nombre',
         'titulo',
     ];
-   
-    public function resolucion()
+
+    // Relaciones
+    public function resoluciones()
     {
-        return $this->belongsTo(ResolucionCarrera::class, 'resolucion_carrera_id');
+        return $this->belongsToMany(ResolucionCarrera::class, 'plan_resolucion', 'id_carrera', 'id_resolucion')
+                ->withPivot('id_plan', 'id_tipo_archivo', 'total_horas', 'fecha');
     }
 
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Estudiante::class, 'estudiante_carrera', 'id_carrera', 'id_usuario')
+                    ->withPivot('cohorte', 'id_estado_carrera');
+    }
 }

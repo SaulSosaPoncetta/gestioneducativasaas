@@ -14,12 +14,15 @@ class DocenteSeeder extends Seeder
      */
     public function run(): void
     {
-        $docentes = Usuario::inRandomOrder()->take(5)->get();
+       $usuarios = Usuario::inRandomOrder()
+            ->take(10)
+            ->get();
 
-        foreach ($docentes as $do) {
+        foreach ($usuarios as $usuario) {
             Docente::create([
-                'usuario_id' => $do->id,
+                'id_usuario' => $usuario->id_usuario,
+                'nro_legajo' => fake()->unique()->numerify('LEG####'),
             ]);
-        }
+        } 
     }
 }

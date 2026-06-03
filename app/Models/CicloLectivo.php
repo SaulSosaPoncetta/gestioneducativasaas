@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,25 +9,32 @@ class CicloLectivo extends Model
 {
     use HasFactory;
 
-  
-    protected $table = 'ciclo_lectivo';
+    protected $table = 'ciclos_lectivos'; 
 
-    public $timestamps = false;
+    protected $primaryKey = 'id_ciclo';
 
-    protected $casts = [
-        'fecha_inicio' => 'date',
-        'fecha_fin' => 'date',
-    ];
+    // public $timestamps = false;
 
     protected $fillable = [
-        'anio',
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
+        'id_usuario_administracion', 
     ];
-    public function mesasExamen()
+
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_fin'    => 'date',
+    ];
+
+    // Relaciones
+    public function administrador()
     {
-        return $this->hasMany(MesaExamen::class, 'ciclo_lectivo_id');
+        return $this->belongsTo(Administrador::class, 'id_usuario_administracion', 'id_usuario');
     }
 
+    public function mesasExamen()
+    {
+        return $this->hasMany(MesaExamen::class, 'id_ciclo', 'id_ciclo');
+    }
 }

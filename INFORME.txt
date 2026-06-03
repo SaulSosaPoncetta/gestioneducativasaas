@@ -1,2 +1,0 @@
-el archivo zip del proyecto descomprimio correctamente, pude configurar composer y npm para dependencias de manera correcta, adapte el .env, genere base de datos y las keys, y ejecute migraciones sin errores.
-Al intentar ejecutar el localhost, o localhost/login me da errore de faltante de vista login.blade.php

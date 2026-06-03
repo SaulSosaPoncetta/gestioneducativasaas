@@ -13,6 +13,6 @@ class ResolucionCarreraSeeder extends Seeder
      */
     public function run(): void
     {
-        ResolucionCarrera::factory(10)->create();
+        ResolucionCarrera::factory()->count(5)->create();
     }
 }

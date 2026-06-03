@@ -1,61 +1,69 @@
 <?php
+
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable; // Usamos este para que funcione el login
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Usuario extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'usuarios'; // Obligatorio porque no se llama "users"
-    
-    public $timestamps = false;    // Obligatorio porque no están en tu migración
+    protected $table = 'usuarios';
+
+    protected $primaryKey = 'id_usuario';
 
     protected $fillable = [
         'nombre',
         'apellido',
-        'dni',
+        'nombre_usuario',
         'email',
-        'password',
-        'rol_id',
+        'password_hash',
+        'id_rol',
+        'genero',
+        'id_localidad',
     ];
 
     protected $hidden = [
-        'password',
+        'password_hash',
     ];
+    // -------------------------------------------------------------------------
+    // Relaciones existentes
+    // -------------------------------------------------------------------------
 
-    public function role()
+    public function rol()
     {
-        return $this->belongsTo(Rol::class, 'rol_id');
-    }
-
-    public function logs()
-    {
-        return $this->hasMany(Log::class, 'usuario_id');
-    }
-    public function notificaciones()
-    {
-        return $this->belongsToMany(Notificacion::class, 'usuario_notificacion')
-                ->withPivot('leido'); // Importante para acceder al campo "leido"
+        return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
     }
 
-    // Un Usuario puede haber escrito muchos comentarios
-    public function comentarios()
+    public function localidad()
     {
-        return $this->hasMany(Comentario::class, 'usuario_id');
-    }
-    public function tramitesComoDocente()
-    {
-        return $this->belongsToMany(Tramite::class, 'tramite_docente', 'usuario_id', 'tramite_id');
-    }
-    public function tramitesGestionados()
-    {
-        return $this->belongsToMany(Tramite::class, 'tramite_secretaria', 'usuario_id', 'tramite_id');
-    }
-    public function tramitesComoEstudiante()
-    {
-        return $this->belongsToMany(Tramite::class, 'tramite_estudiante', 'usuario_id', 'tramite_id');
+        return $this->belongsTo(Localidad::class, 'id_localidad', 'id_localidad');
     }
 
+    public function auditorias()
+    {
+        return $this->hasMany(Auditoria::class, 'id_usuario', 'id_usuario');
+    }
+
+    // -------------------------------------------------------------------------
+    // Relaciones nuevas (necesarias para alumnosSec y alumnoPerfil)
+    // -------------------------------------------------------------------------
+
+    /**
+     * DNIs del usuario (tabla dnis, clave foránea id_usuario)
+     */
+    public function dnis()
+    {
+        return $this->hasMany(Dni::class, 'id_usuario', 'id_usuario');
+    }
+
+    /**
+     * Teléfonos del usuario (tabla telefonos, clave foránea id_usuario)
+     */
+    public function telefonos()
+    {
+        return $this->hasMany(Telefono::class, 'id_usuario', 'id_usuario');
+    }
 }

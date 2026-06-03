@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\CicloLectivo;
+use App\Models\Administrador;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,13 +18,16 @@ class CicloLectivoFactory extends Factory
      */
     public function definition(): array
     {
-        $anio = $this->faker->unique()->numberBetween(2000, 2050);
+        $anio = fake()->numberBetween(2022, 2027);
         return [
-            'anio' => $anio,
-            'descripcion' => 'ciclo lectivo '.$anio, 
-            'fecha_inicio'=> $anio.'-03-01',
-            'fecha_fin' => $anio.'-12-15',           
+            'descripcion' => "Ciclo Lectivo {$anio}",
+
+            'fecha_inicio' => "{$anio}-03-01",
+
+            'fecha_fin' => "{$anio}-12-15",
+
+            'id_usuario_administracion' =>
+                Administrador::inRandomOrder()->first()?->id_usuario,
         ];
     }
 }
-

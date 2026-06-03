@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,17 +9,13 @@ class TipoEstudiante extends Model
 {
     use HasFactory;
 
-    protected $table = 'tipo_estudiante';
-  
-    public $timestamps = false;
+    protected $table = 'tipos_estudiante';
+
+    protected $primaryKey = 'id_tipo_estudiante';
+
+    // public $timestamps = false;
 
     protected $fillable = [
-        'descripcion',
+        'descripcion_tipo',
     ];
-
- 
-    public function estudiantes()
-    {
-        return $this->hasMany(Estudiante::class, 'tipo_estudiante_id');
-    }
 }

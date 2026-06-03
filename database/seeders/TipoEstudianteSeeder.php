@@ -13,7 +13,6 @@ class TipoEstudianteSeeder extends Seeder
      */
     public function run(): void
     {
-        TipoEstudiante::create(['descripcion' => 'Regular']);
-        TipoEstudiante::create(['descripcion' => 'Libre']);
+        TipoEstudiante::factory()->count(4)->create();
     }
 }

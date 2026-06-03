@@ -1,26 +1,34 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Docente extends Model
 {
-    use HasFactory;
+    use HasFactory; // SoftDeletes;
 
-   
-    protected $table = 'docente';
+    protected $table = 'docentes';
 
-    public $timestamps = false;
+    protected $primaryKey = 'id_usuario';
+
+    public $incrementing = false;
+    // public $timestamps = false;
 
     protected $fillable = [
-        'usuario_id',
+        'id_usuario',
+        'nro_legajo',
     ];
 
-
+    // Relaciones
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
-    
+    public function mesasExamen()
+    {
+        return $this->belongsToMany(MesaExamen::class, 'mesa_examen_docente', 'id_docente', 'id_mesa');
+    }
 }

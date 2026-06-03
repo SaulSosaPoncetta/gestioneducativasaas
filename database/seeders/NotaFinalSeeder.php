@@ -13,6 +13,8 @@ class NotaFinalSeeder extends Seeder
      */
     public function run(): void
     {
-        NotaFinal::factory(50)->create();
+         NotaFinal::factory()
+            ->count(100)
+            ->create();
     }
 }

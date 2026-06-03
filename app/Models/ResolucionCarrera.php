@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,17 +9,17 @@ class ResolucionCarrera extends Model
 {
     use HasFactory;
 
-    protected $table = 'resolucion_carrera';
+    protected $table = 'resoluciones_carrera'; 
 
-    public $timestamps = false;
+    protected $primaryKey = 'id_resolucion';
 
-    protected $fillable = ['descripcion'];
+    // public $timestamps = false;
 
-    public function carrera()
-    {
-        return $this->belongsTo(Carrera::class, 'id_carrera');
-    }
+    protected $fillable = [
+        'descripcion',
+    ];
 
+    // Relaciones
     public function planes()
     {
         return $this->belongsToMany(PlanEstudio::class, 'plan_resolucion', 'id_resolucion', 'id_plan');

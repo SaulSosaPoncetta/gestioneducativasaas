@@ -18,7 +18,13 @@ class ResolucionCarreraFactory extends Factory
     public function definition(): array
     {
         return [
-            'descripcion' => 'Resolución ' . $this->faker->unique()->numberBetween(1000, 9999),
+             'descripcion' => $this->faker->unique()->randomElement([
+                'Resolución Ministerial N° 123/2020',
+                'Resolución Académica N° 456/2021',
+                'Resolución Institucional N° 789/2022',
+                'Resolución Provincial N° 321/2023',
+                'Resolución Nacional N° 654/2024',
+            ]),
         ];
     }
 }

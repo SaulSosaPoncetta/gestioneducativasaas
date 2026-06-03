@@ -18,7 +18,14 @@ class PlanEstudioFactory extends Factory
     public function definition(): array
     {
         return [
-            'descripcion' => 'Plan ' . $this->faker->unique()->year(),
+            'titulo' => $this->faker->unique()->randomElement([
+                'Plan 2020',
+                'Plan 2021',
+                'Plan 2022',
+                'Plan 2023',
+                'Plan 2024',
+            ]),
+            'descripcion' => $this->faker->paragraph(),
         ];
     }
 }

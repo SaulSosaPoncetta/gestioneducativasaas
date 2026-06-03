@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Usuario;
-use App\Models\Rol;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Rol;
+use App\Models\Localidad;
+
 /**
  * @extends Factory<Usuario>
  */
@@ -19,12 +21,20 @@ class UsuarioFactory extends Factory
     public function definition(): array
     {
         return [
+          
             'nombre' => $this->faker->firstName(),
             'apellido' => $this->faker->lastName(),
-            'dni' => $this->faker->unique()->numerify('########'),
+            'nombre_usuario' => $this->faker->unique()->userName(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('123456'),
-            'rol_id' => Rol::inRandomOrder()->first()->id,
+            'password_hash' => Hash::make('123456'),
+            'id_rol' => Rol::inRandomOrder()->first()->id_rol,
+            'genero' => $this->faker->randomElement([
+                'Masculino',
+                'Femenino',
+                'No Binario'
+            ]),
+            'id_localidad' => Localidad::inRandomOrder()->first()?->id_localidad,
+           
         ];
     }
 }

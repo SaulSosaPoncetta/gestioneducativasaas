@@ -6,7 +6,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\MesaExamen;
 
-
 class MesaExamenSeeder extends Seeder
 {
     /**
@@ -14,6 +13,6 @@ class MesaExamenSeeder extends Seeder
      */
     public function run(): void
     {
-        MesaExamen::factory(30)->create();
+        MesaExamen::factory()->count(20)->create();
     }
 }

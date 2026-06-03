@@ -6,7 +6,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Estudiante;
 use App\Models\Usuario;
-use App\Models\Carrera;
 
 class EstudianteSeeder extends Seeder
 {
@@ -15,12 +14,13 @@ class EstudianteSeeder extends Seeder
      */
     public function run(): void
     {
-        $estudiantes = Usuario::inRandomOrder()->take(10)->get();
+        $usuarios = Usuario::inRandomOrder()
+            ->take(20)
+            ->get();
 
-        foreach ($estudiantes as $es) {
+        foreach ($usuarios as $usuario) {
             Estudiante::create([
-                'usuario_id' => $es->id,
-                'carrera_id' => Carrera::inRandomOrder()->first()->id,
+                'id_usuario' => $usuario->id_usuario,
             ]);
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,43 +10,70 @@ class Materia extends Model
     use HasFactory;
 
     protected $table = 'materias';
+
     protected $primaryKey = 'id_materia';
 
-    public $timestamps = false;
+    // public $timestamps = false;
 
-    protected $fillable = ['nombre', 'anio', 'id_plan','correlativa'];
+    protected $fillable = [
+        'id_tipo_materia',
+        'nota_promocionable',
+        'nota_aprobada',
+        'nombre',
+        'anio',
+        'id_usuario_administrador',
+        'id_carrera',
+    ];
 
-    public function plan()
+    // Relaciones
+    public function tipoMateria()
     {
-        return $this->belongsTo(PlanEstudio::class, 'id_plan');
+        return $this->belongsTo(TipoMateria::class, 'id_tipo_materia', 'id_tipo_materia');
+    }
+
+    public function administrador()
+    {
+        return $this->belongsTo(Administrador::class, 'id_usuario_administrador', 'id_usuario');
+    }
+
+    public function carrera()
+    {
+        return $this->belongsTo(Carrera::class, 'id_carrera', 'id_carrera');
+    }
+
+    public function correlativas()
+    {
+        return $this->hasMany(Correlativa::class, 'id_materia', 'id_materia');
+    }
+
+    public function correlativasDe()
+    {
+        return $this->hasMany(Correlativa::class, 'id_materia_correlativa', 'id_materia');
     }
 
     public function docentes()
     {
-        return $this->belongsToMany(Docente::class, 'docente_materia', 'id_materia', 'id_docente');
+        return $this->belongsToMany(Docente::class, 'materia_docente', 'id_materia', 'id_usuario_docente')
+                    ->withPivot('id_usuario', 'situacion_revista');
     }
 
-    public function estudiantes()
+  public function notas()
     {
-        return $this->belongsToMany(Estudiante::class, 'estudiante_materia', 'id_materia', 'id_estudiante');
+        return $this->hasMany(NotaCuatrimestre::class, 'id_materia', 'id_materia'); 
     }
-    public function notas()
-    {
-        return $this->hasMany(NotaCursada::class, 'materia_id');
-    }
+
     public function notasFinales()
     {
-        return $this->hasMany(NotaFinal::class, 'materia_id');
-    }
-    public function mesasExamen()
-    {
-        return $this->hasMany(MesaExamen::class, 'materia_id');
-    }
-    public function estudiantesInscritos()
-    {
-        return $this->belongsToMany(Estudiante::class, 'inscripciones', 'materia_id', 'estudiante_id')
-                ->withPivot('fecha_inscripcion');
+        return $this->hasMany(NotaFinal::class, 'id_materia', 'id_materia');
     }
 
+    public function mesasExamen()
+    {
+        return $this->hasMany(MesaExamen::class, 'id_materia', 'id_materia');
+    }
+    public function archivos()
+    {  
+        return $this->belongsToMany(TipoArchivo::class, 'archivo_materia', 'id_materia', 'id_tipo_archivo');
+    }
 
 }

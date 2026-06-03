@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\NotaFinal;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\MesaExamen;
+use App\Models\TipoArchivo;
 use App\Models\Estudiante;
 use App\Models\Materia;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<NotaFinal>
@@ -20,10 +22,22 @@ class NotaFinalFactory extends Factory
     public function definition(): array
     {
         return [
-            'nota' => $this->faker->numberBetween(1, 10),
-            'fecha' => $this->faker->date(),
-            'estudiante_id' => Estudiante::inRandomOrder()->first()->id,
-            'materia_id' => Materia::inRandomOrder()->first()->id,
+            'id_mesa' =>
+                MesaExamen::inRandomOrder()->first()->id_mesa,
+
+            'valor' => fake()->randomFloat(2, 1, 10),
+
+            'id_tipo_archivo' =>
+                TipoArchivo::inRandomOrder()->first()?->id_tipo_archivo,
+
+            'fecha_carga' =>
+                fake()->dateTimeBetween('-1 year', 'now'),
+
+            'id_usuario' =>
+                Estudiante::inRandomOrder()->first()->id_usuario,
+
+            'id_materia' =>
+                Materia::inRandomOrder()->first()->id_materia,
         ];
     }
 }

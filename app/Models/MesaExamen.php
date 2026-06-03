@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,31 +9,50 @@ class MesaExamen extends Model
 {
     use HasFactory;
 
-  
-    protected $table = 'mesa_examen';
+    protected $table = 'mesas_examen'; 
 
-    public $timestamps = false;
+    protected $primaryKey = 'id_mesa';
 
-    protected $casts = [
-        'fecha' => 'date',
-    ];
+    // public $timestamps = false;
 
     protected $fillable = [
         'fecha',
-        'turno',
-        'materia_id',
-        'ciclo_lectivo_id',
+        'id_tipo_mesa',          
+        'habilitado',            
+        'id_materia',          
         'aula',
+        'id_usuario_administracion', 
+        'id_ciclo',             
     ];
 
-  
-    public function materia()
+    protected $casts = [
+        'fecha'      => 'datetime', 
+        'habilitado' => 'boolean',
+    ];
+
+    // Relaciones
+    public function tipoMesa()
     {
-        return $this->belongsTo(Materia::class, 'materia_id');
+        return $this->belongsTo(TipoMesaExamen::class, 'id_tipo_mesa', 'id_tipo_mesa');
     }
 
-       public function cicloLectivo()
+    public function materia()
     {
-        return $this->belongsTo(CicloLectivo::class, 'ciclo_lectivo_id');
+        return $this->belongsTo(Materia::class, 'id_materia', 'id_materia');
+    }
+
+    public function administrador()
+    {
+        return $this->belongsTo(Administrador::class, 'id_usuario_administracion', 'id_usuario');
+    }
+
+    public function cicloLectivo()
+    {
+        return $this->belongsTo(CicloLectivo::class, 'id_ciclo', 'id_ciclo');
+    }
+
+    public function docentes()
+    {
+        return $this->belongsToMany(Docente::class, 'mesa_examen_docente', 'id_mesa', 'id_docente');
     }
 }
