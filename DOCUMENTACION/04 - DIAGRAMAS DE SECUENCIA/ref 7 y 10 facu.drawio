@@ -1,0 +1,1548 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="28.2.7" pages="15">
+  <diagram name="Ref 7.1" id="L7lnbOk3RmbRIKs5LR6z">
+    <mxGraphModel dx="1678" dy="884" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-10" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" parent="1" vertex="1">
+          <mxGeometry x="407" y="20" width="150" height="938" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-11" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" parent="1" vertex="1">
+          <mxGeometry x="691" y="20" width="150" height="938" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-12" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" parent="1" vertex="1">
+          <mxGeometry x="891" y="20" width="150" height="938" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-13" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" parent="1" vertex="1">
+          <mxGeometry x="84" y="407" width="893" height="456" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-14" value="[Generación exitosa]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" parent="GKoDWcg4cgn8eFKSxSx6-13" vertex="1">
+          <mxGeometry x="30" width="863" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-15" value="[Error al generar documento]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" parent="GKoDWcg4cgn8eFKSxSx6-13" vertex="1">
+          <mxGeometry y="259" width="893" height="4" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-16" value="Accede a &quot;Mis trámites&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" parent="1" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="297" y="127" />
+            </Array>
+            <mxPoint x="100" y="127" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-17" value="Consultar trámites generados" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-10" target="GKoDWcg4cgn8eFKSxSx6-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="633" y="179" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-18" value="Retorna trámites disponibles" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-11" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="636" y="231" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-19" value="Seleccionar trámite" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" parent="1" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="297" y="283" />
+            </Array>
+            <mxPoint x="100" y="290" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-20" value="Generar documento solicitado" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-10" target="GKoDWcg4cgn8eFKSxSx6-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="633" y="335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-21" value="Valida credenciales" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-10" target="GKoDWcg4cgn8eFKSxSx6-12" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="733" y="387" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-22" value="Documento generado" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-11" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="636" y="485" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-23" value="Éxito" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-12" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="736" y="537" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-24" value="Documento disponible" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="589" />
+            </Array>
+            <mxPoint x="84.32352941176464" y="589" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-25" value="Imprimir documento" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" parent="1" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="297" y="641" />
+            </Array>
+            <mxPoint x="84.32352941176464" y="641" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-26" value="Error" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-11" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="636" y="739" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-27" value="Error" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-12" target="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="736" y="791" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-28" value="Mostrar mensaje de error e indicar reintentar" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" parent="1" source="GKoDWcg4cgn8eFKSxSx6-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="843" />
+            </Array>
+            <mxPoint x="84.32352941176464" y="843" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-30" value="Usuario" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" parent="1" vertex="1">
+          <mxGeometry x="84" y="20" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GKoDWcg4cgn8eFKSxSx6-31" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" parent="1" target="GKoDWcg4cgn8eFKSxSx6-30" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="980" as="sourcePoint" />
+            <mxPoint x="128.70967741935488" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="3E9fTArGYHiC-oaXcpQJ" name="Ref 7.2">
+    <mxGraphModel dx="1426" dy="751" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="425" y="20" width="150" height="834" as="geometry" />
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="772" y="20" width="150" height="834" as="geometry" />
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="972" y="20" width="150" height="834" as="geometry" />
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="355" width="774" height="404" as="geometry" />
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-6" value="[Estudiante regular]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="aNUZqAIU42GWFbTvVbr6-5">
+          <mxGeometry x="30" width="744" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-7" value="[Estudiante no regular]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="aNUZqAIU42GWFbTvVbr6-5">
+          <mxGeometry y="259" width="774" height="4" as="geometry" />
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-8" value="Accede a &quot;Solicitar trámite&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" target="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="306" y="127" />
+            </Array>
+            <mxPoint x="80" y="127" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-9" value="Consultar opciones de trámites" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-2" target="aNUZqAIU42GWFbTvVbr6-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="682" y="179" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-10" value="Retorna opciones disponibles" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-3" target="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="685" y="231" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-11" value="Seleccionar &quot;Constancia de Estudiante Regular&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" target="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="306" y="283" />
+            </Array>
+            <mxPoint x="80" y="280" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-12" value="Validar condición de estudiante regular" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-2" target="aNUZqAIU42GWFbTvVbr6-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="682" y="335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-13" value="Condición válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-3" target="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="685" y="433" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-14" value="Generar y guardar constancia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-2" target="aNUZqAIU42GWFbTvVbr6-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="682" y="485" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-15" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-3" target="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="685" y="537" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-16" value="Constancia disponible para descarga/impresión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="309" y="589" />
+            </Array>
+            <mxPoint x="94.32352941176464" y="589" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-17" value="Estado no válido" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-3" target="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="685" y="687" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aNUZqAIU42GWFbTvVbr6-18" value="Mostrar mensaje &quot;No es estudiante regular&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="aNUZqAIU42GWFbTvVbr6-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="309" y="739" />
+            </Array>
+            <mxPoint x="94.32352941176464" y="739" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5nmaOdzP82NtmOOUrlyb-1" value="Estudiante&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="84" y="20" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5nmaOdzP82NtmOOUrlyb-2" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="917" as="sourcePoint" />
+            <mxPoint x="100" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="J5sCPba8r266VmbSUOyc" name="Ref.7.3">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="G2xReafBQO1GZkMw_rNv-18" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-19" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="414" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-20" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="738" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-21" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="938" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-22" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="740" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-23" value="[Estado válido (título en proceso)]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="G2xReafBQO1GZkMw_rNv-22">
+          <mxGeometry x="30" width="710" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-24" value="[Estado no válido]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="G2xReafBQO1GZkMw_rNv-22">
+          <mxGeometry y="214" width="740" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-25" value="Solicita trámite &quot;Título en trámite&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-18" target="G2xReafBQO1GZkMw_rNv-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="301" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-26" value="Verifica sesión / permisos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-19" target="G2xReafBQO1GZkMw_rNv-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-27" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-21" target="G2xReafBQO1GZkMw_rNv-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="763" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-28" value="Verificar estado de título (UsuarioId)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-19" target="G2xReafBQO1GZkMw_rNv-20">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-29" value="Estado de título" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-20" target="G2xReafBQO1GZkMw_rNv-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="663" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-30" value="Registrar solicitud de trámite" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-19" target="G2xReafBQO1GZkMw_rNv-20">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-31" value="Confirmación registro" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-20" target="G2xReafBQO1GZkMw_rNv-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="663" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-32" value="Genera/entrega constancia &quot;Título en trámite&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-19" target="G2xReafBQO1GZkMw_rNv-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="304" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-33" value="Rechaza solicitud (estado de título no válido)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="G2xReafBQO1GZkMw_rNv-19" target="G2xReafBQO1GZkMw_rNv-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="304" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G2xReafBQO1GZkMw_rNv-34" value="Postcondición: Constancia disponible para descarga o impresión." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="444" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bpcvabRYQlKbS0ZyMBaJ" name="Ref 7.4">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="401" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="751" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="951" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="753" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-6" value="[Historial completo y validado]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="tix8oTLRZSZzXxQnwVBM-5">
+          <mxGeometry x="30" width="723" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-7" value="[Faltan datos]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="tix8oTLRZSZzXxQnwVBM-5">
+          <mxGeometry y="214" width="753" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-8" value="Solicita &quot;Analítico&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-1" target="tix8oTLRZSZzXxQnwVBM-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="294" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-2" target="tix8oTLRZSZzXxQnwVBM-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-4" target="tix8oTLRZSZzXxQnwVBM-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="763" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-11" value="Obtener historial académico (UsuarioId)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-2" target="tix8oTLRZSZzXxQnwVBM-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-12" value="Retorna registros académicos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-3" target="tix8oTLRZSZzXxQnwVBM-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="663" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-13" value="Registrar solicitud de Analítico" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-2" target="tix8oTLRZSZzXxQnwVBM-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-3" target="tix8oTLRZSZzXxQnwVBM-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="663" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-15" value="Documento Analítico generado (url/archivo)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-2" target="tix8oTLRZSZzXxQnwVBM-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="297" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-16" value="Rechaza solicitud (faltan datos)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="tix8oTLRZSZzXxQnwVBM-2" target="tix8oTLRZSZzXxQnwVBM-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="297" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tix8oTLRZSZzXxQnwVBM-17" value="Postcondición: Documento listo para impresión o envío." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="451" y="685" width="400" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="U2NPMELQB4d8acfhfGNb" name="Ref 7.5">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2uomWut62XHfe6ngxROc-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="35" height="882" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="373" y="20" width="150" height="882" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-3" value="BD" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="781" y="20" width="150" height="882" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="981" y="20" width="150" height="882" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="783" height="394" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-6" value="[Registros completos]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="2uomWut62XHfe6ngxROc-5">
+          <mxGeometry x="30" width="753" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-7" value="[Registros incompletos]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="2uomWut62XHfe6ngxROc-5">
+          <mxGeometry y="298" width="783" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-8" value="Solicita trámite &quot;Porcentaje de Materias&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-1" target="2uomWut62XHfe6ngxROc-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-2" target="2uomWut62XHfe6ngxROc-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="761" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-4" target="2uomWut62XHfe6ngxROc-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="764" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-11" value="Obtener registros y plan de estudios (UsuarioId)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-2" target="2uomWut62XHfe6ngxROc-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="661" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-12" value="Lista materias aprobadas / totales" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-3" target="2uomWut62XHfe6ngxROc-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="664" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-13" value="Calcular porcentaje aprobado" style="curved=1;endArrow=block;rounded=0;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-2" target="2uomWut62XHfe6ngxROc-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="499" y="446" />
+              <mxPoint x="499" y="476" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-14" value="Registrar solicitud" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-2" target="2uomWut62XHfe6ngxROc-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="661" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-15" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-3" target="2uomWut62XHfe6ngxROc-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="664" y="584" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-16" value="Entrega constancia con porcentaje" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-2" target="2uomWut62XHfe6ngxROc-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="638" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-17" value="Rechaza solicitud (datos incompletos)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="2uomWut62XHfe6ngxROc-2" target="2uomWut62XHfe6ngxROc-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="739" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2uomWut62XHfe6ngxROc-18" value="Postcondición: Documento disponible." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="473" y="769" width="291" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cbSuRyvG3vNYZwgGkIvd" name="Ref 7.6">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="378" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="771" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="971" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="773" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-6" value="[Inscripción válida]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="X8nvcWJbc6SfNq6nO_fA-5">
+          <mxGeometry x="30" width="743" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-7" value="[No está inscripto]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="X8nvcWJbc6SfNq6nO_fA-5">
+          <mxGeometry y="214" width="773" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-8" value="Solicita &quot;Asistencia a Examen&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-1" target="X8nvcWJbc6SfNq6nO_fA-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-2" target="X8nvcWJbc6SfNq6nO_fA-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="758" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-4" target="X8nvcWJbc6SfNq6nO_fA-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="761" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-11" value="Verificar inscripción a examen (UsuarioId)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-2" target="X8nvcWJbc6SfNq6nO_fA-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="658" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-12" value="Datos de inscripción" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-3" target="X8nvcWJbc6SfNq6nO_fA-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="661" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-13" value="Registrar solicitud de constancia de Asistencia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-2" target="X8nvcWJbc6SfNq6nO_fA-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="658" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-3" target="X8nvcWJbc6SfNq6nO_fA-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="661" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-15" value="Genera constancia &quot;Asistencia a Examen&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-2" target="X8nvcWJbc6SfNq6nO_fA-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="286" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-16" value="Rechaza solicitud (sin inscripción válida)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="X8nvcWJbc6SfNq6nO_fA-2" target="X8nvcWJbc6SfNq6nO_fA-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="286" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X8nvcWJbc6SfNq6nO_fA-17" value="Postcondición: Constancia disponible para impresión o envío." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="408" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="4GWoqTagYTH0cQLlKMSE" name="Ref 7.7">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="397" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="792" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="992" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="794" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-6" value="[Cumple requisitos]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="V3TeJJXK8-ShXtIey-_N-5">
+          <mxGeometry x="30" width="764" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-7" value="[No cumple requisitos]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="V3TeJJXK8-ShXtIey-_N-5">
+          <mxGeometry y="214" width="794" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-8" value="Solicita &quot;Ingreso a la Docencia&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-1" target="V3TeJJXK8-ShXtIey-_N-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="292" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-2" target="V3TeJJXK8-ShXtIey-_N-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="778" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-4" target="V3TeJJXK8-ShXtIey-_N-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="781" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-11" value="Obtener historial académico y situación actual" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-2" target="V3TeJJXK8-ShXtIey-_N-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="678" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-12" value="Información del estudiante" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-3" target="V3TeJJXK8-ShXtIey-_N-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="681" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-13" value="Registrar solicitud de Ingreso a la Docencia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-2" target="V3TeJJXK8-ShXtIey-_N-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="678" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-3" target="V3TeJJXK8-ShXtIey-_N-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="681" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-15" value="Genera constancia de Ingreso a la Docencia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-2" target="V3TeJJXK8-ShXtIey-_N-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-16" value="Rechaza solicitud (requisitos no cumplidos)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="V3TeJJXK8-ShXtIey-_N-2" target="V3TeJJXK8-ShXtIey-_N-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V3TeJJXK8-ShXtIey-_N-17" value="Postcondición: Constancia disponible para descarga o impresión." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="427" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ltLOm_pI3s7ZaFJjJko7" name="Ref 7.8">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="392" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="703" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="903" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="705" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-6" value="[Datos válidos]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="FYlJRBOo0PcNqjtOeq0G-5">
+          <mxGeometry x="30" width="675" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-7" value="[No hay registros]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="FYlJRBOo0PcNqjtOeq0G-5">
+          <mxGeometry y="214" width="705" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-8" value="Solicita &quot;Asistencia a Prácticas&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-1" target="FYlJRBOo0PcNqjtOeq0G-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="290" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-2" target="FYlJRBOo0PcNqjtOeq0G-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="731" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-4" target="FYlJRBOo0PcNqjtOeq0G-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="734" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-11" value="Verificar participación en prácticas" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-2" target="FYlJRBOo0PcNqjtOeq0G-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="631" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-12" value="Datos de participación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-3" target="FYlJRBOo0PcNqjtOeq0G-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="634" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-13" value="Registrar solicitud de constancia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-2" target="FYlJRBOo0PcNqjtOeq0G-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="631" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-3" target="FYlJRBOo0PcNqjtOeq0G-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="634" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-15" value="Genera constancia &quot;Asistencia a Prácticas&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-2" target="FYlJRBOo0PcNqjtOeq0G-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="293" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-16" value="Rechaza solicitud (sin registros de práctica)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="FYlJRBOo0PcNqjtOeq0G-2" target="FYlJRBOo0PcNqjtOeq0G-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="293" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FYlJRBOo0PcNqjtOeq0G-17" value="Postcondición: Constancia generada y lista para impresión." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="422" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ZvGSGH834vFrbCvm2vO1" name="Ref 7.9">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="456" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="838" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="1038" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="840" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-6" value="[Participación válida]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="l7tw7mv5pb8IaAD9CLWL-5">
+          <mxGeometry x="30" width="810" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-7" value="[No hay registros]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="l7tw7mv5pb8IaAD9CLWL-5">
+          <mxGeometry y="214" width="840" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-8" value="Solicita &quot;Asistencia a Mesa Examinadora&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-1" target="l7tw7mv5pb8IaAD9CLWL-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-2" target="l7tw7mv5pb8IaAD9CLWL-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="831" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-4" target="l7tw7mv5pb8IaAD9CLWL-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="834" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-11" value="Verificar participación en mesa examinadora" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-2" target="l7tw7mv5pb8IaAD9CLWL-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="731" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-12" value="Resultado de verificación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-3" target="l7tw7mv5pb8IaAD9CLWL-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="734" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-13" value="Registrar solicitud de constancia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-2" target="l7tw7mv5pb8IaAD9CLWL-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="731" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-3" target="l7tw7mv5pb8IaAD9CLWL-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="734" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-15" value="Genera constancia &quot;Asistencia a Mesa Examinadora&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-2" target="l7tw7mv5pb8IaAD9CLWL-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-16" value="Rechaza solicitud (no figura en mesa)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="l7tw7mv5pb8IaAD9CLWL-2" target="l7tw7mv5pb8IaAD9CLWL-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l7tw7mv5pb8IaAD9CLWL-17" value="Postcondición: Constancia lista para impresión o descarga." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="486" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="BO_bwsCr6dLj5rcHDA7q" name="Ref 7.10">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="A8mkxw7BJIaCa_pssR62-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="398" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="775" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="975" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="777" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-6" value="[Es miembro]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="A8mkxw7BJIaCa_pssR62-5">
+          <mxGeometry x="30" width="747" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-7" value="[No pertenece]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="A8mkxw7BJIaCa_pssR62-5">
+          <mxGeometry y="214" width="777" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-8" value="Solicita &quot;Constancia Comisión Evaluadora&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-1" target="A8mkxw7BJIaCa_pssR62-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="293" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-2" target="A8mkxw7BJIaCa_pssR62-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-4" target="A8mkxw7BJIaCa_pssR62-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="773" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-11" value="Verificar pertenencia a comisión evaluadora" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-2" target="A8mkxw7BJIaCa_pssR62-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-12" value="Confirmación de pertenencia" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-3" target="A8mkxw7BJIaCa_pssR62-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="673" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-13" value="Registrar solicitud" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-2" target="A8mkxw7BJIaCa_pssR62-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-3" target="A8mkxw7BJIaCa_pssR62-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="673" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-15" value="Genera constancia &quot;Comisión Evaluadora&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-2" target="A8mkxw7BJIaCa_pssR62-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="296" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-16" value="Rechaza solicitud (no pertenece a comisión)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="A8mkxw7BJIaCa_pssR62-2" target="A8mkxw7BJIaCa_pssR62-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="296" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="A8mkxw7BJIaCa_pssR62-17" value="Postcondición: Constancia disponible para impresión o descarga." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="428" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="EuFF724L03wgGOj4LVz7" name="Ref 7.11">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="373" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="671" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="871" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="673" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-6" value="[Datos válidos]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="0ErHbDapvBP1TmSxi6Ed-5">
+          <mxGeometry x="30" width="643" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-7" value="[No hay registros]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="0ErHbDapvBP1TmSxi6Ed-5">
+          <mxGeometry y="214" width="673" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-8" value="Solicita &quot;Constancia de Desempeño&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-1" target="0ErHbDapvBP1TmSxi6Ed-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-2" target="0ErHbDapvBP1TmSxi6Ed-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="706" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-4" target="0ErHbDapvBP1TmSxi6Ed-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="709" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-11" value="Obtener historial de desempeño" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-2" target="0ErHbDapvBP1TmSxi6Ed-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="606" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-12" value="Registros de desempeño" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-3" target="0ErHbDapvBP1TmSxi6Ed-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="609" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-13" value="Registrar solicitud" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-2" target="0ErHbDapvBP1TmSxi6Ed-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="606" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-3" target="0ErHbDapvBP1TmSxi6Ed-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="609" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-15" value="Genera constancia &quot;Desempeño&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-2" target="0ErHbDapvBP1TmSxi6Ed-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-16" value="Rechaza solicitud (sin datos disponibles)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="0ErHbDapvBP1TmSxi6Ed-2" target="0ErHbDapvBP1TmSxi6Ed-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="283" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ErHbDapvBP1TmSxi6Ed-17" value="Postcondición: Constancia lista para impresión o envío." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="403" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="E27xvJD5KUq--4BCF07v" name="Ref 7.12">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-1" value="Estudiante" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="407" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="667" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="867" y="20" width="150" height="798" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="365" width="669" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-6" value="[Es miembro activo]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="ZSiuQpjNacMKsOzGPJSW-5">
+          <mxGeometry x="30" width="639" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-7" value="[No pertenece al CAI]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="ZSiuQpjNacMKsOzGPJSW-5">
+          <mxGeometry y="214" width="669" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-8" value="Solicita &quot;Citación a Sesión de CAI&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-1" target="ZSiuQpjNacMKsOzGPJSW-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="297" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-9" value="Verifica sesión" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-2" target="ZSiuQpjNacMKsOzGPJSW-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="721" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-10" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-4" target="ZSiuQpjNacMKsOzGPJSW-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="724" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-11" value="Verificar pertenencia al CAI" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-2" target="ZSiuQpjNacMKsOzGPJSW-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="621" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-12" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-3" target="ZSiuQpjNacMKsOzGPJSW-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="624" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-13" value="Registrar solicitud" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-2" target="ZSiuQpjNacMKsOzGPJSW-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="621" y="446" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-14" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-3" target="ZSiuQpjNacMKsOzGPJSW-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="624" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-15" value="Genera constancia &quot;Citación a Sesión de CAI&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-2" target="ZSiuQpjNacMKsOzGPJSW-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-16" value="Rechaza solicitud (no miembro del CAI)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="ZSiuQpjNacMKsOzGPJSW-2" target="ZSiuQpjNacMKsOzGPJSW-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZSiuQpjNacMKsOzGPJSW-17" value="Postcondición: Citación lista para impresión o descarga." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="685" width="437" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="iIxGRp6UOqU6c-wsK-tV" name="Ref 7.13">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1cScamSI2QyaxeLu9zdX-1" value="Secretaria" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="150" height="532" as="geometry" />
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="418" y="20" width="150" height="532" as="geometry" />
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="757" y="20" width="150" height="532" as="geometry" />
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="957" y="20" width="150" height="532" as="geometry" />
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-5" value="Solicita previsualizar trámites generados" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="1cScamSI2QyaxeLu9zdX-1" target="1cScamSI2QyaxeLu9zdX-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="303" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-6" value="Verifica sesión y permisos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="1cScamSI2QyaxeLu9zdX-2" target="1cScamSI2QyaxeLu9zdX-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="771" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-7" value="Permisos válidos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="1cScamSI2QyaxeLu9zdX-4" target="1cScamSI2QyaxeLu9zdX-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="774" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-8" value="Consultar trámites generados" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="1cScamSI2QyaxeLu9zdX-2" target="1cScamSI2QyaxeLu9zdX-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="671" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-9" value="Lista de trámites" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="1cScamSI2QyaxeLu9zdX-3" target="1cScamSI2QyaxeLu9zdX-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="674" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-10" value="Muestra vista previa de trámites seleccionados" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="1cScamSI2QyaxeLu9zdX-2" target="1cScamSI2QyaxeLu9zdX-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="306" y="399" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1cScamSI2QyaxeLu9zdX-11" value="Postcondición: Secretaría visualiza el contenido de los trámites sin modificarlos." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="419" width="448" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="9ZoLClJICU_lQl7eGUV7" name="Ref 10.1">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vbez2dfneipHsDlR14bj-1" value="Docente" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="35" height="1169" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-2" value="Secretaria" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;" vertex="1" parent="1">
+          <mxGeometry x="220" y="20" width="35" height="1169" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-3" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="451" y="20" width="150" height="1169" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-4" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="778" y="20" width="150" height="1169" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-5" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="978" y="20" width="150" height="1169" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-6" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="527" width="780" height="519" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-7" value="[Formato válido]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="vbez2dfneipHsDlR14bj-6">
+          <mxGeometry x="30" width="750" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-8" value="[Error de formato o rango]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="vbez2dfneipHsDlR14bj-6">
+          <mxGeometry y="322" width="780" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-9" value="[Error al guardar]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="vbez2dfneipHsDlR14bj-6">
+          <mxGeometry y="423" width="780" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-10" value="Accede a &quot;Subir notas&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-1" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="319" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-11" value="Accede a &quot;Subir notas&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-2" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="419" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-12" value="Verifica autenticación y permisos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="798" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-13" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-5" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="801" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-14" value="Muestra materias y cuatrimestres disponibles" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-15" value="Selecciona materia y cuatrimestre" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-1" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="319" y="399" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-16" value="Solicita carga de notas por estudiante" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322" y="453" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-17" value="Ingresa notas y valida formatos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-1" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="319" y="507" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-18" value="Guardar notas" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="698" y="608" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-19" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-4" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="701" y="662" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-20" value="Actualizar expediente del estudiante" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="698" y="716" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-21" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-4" target="vbez2dfneipHsDlR14bj-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="701" y="770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-22" value="Notifica carga exitosa" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322" y="824" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-23" value="Muestra error y solicita corrección" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322" y="925" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-24" value="Muestra mensaje y ofrece reintento" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="vbez2dfneipHsDlR14bj-3" target="vbez2dfneipHsDlR14bj-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322" y="1026" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vbez2dfneipHsDlR14bj-25" value="Postcondición: Notas registradas y expediente actualizado." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1056" width="481" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hPphoZYXwj26IT3nPFZL" name="Ref 10.2">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-1" value="Secretaria" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;size=65;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="35" height="1115" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-2" value="Sistema" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="358" y="20" width="150" height="1115" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-3" value="&quot;Base de Datos&quot;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="685" y="20" width="150" height="1115" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-4" value="Login" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;" vertex="1" parent="1">
+          <mxGeometry x="885" y="20" width="150" height="1115" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-5" value="alt" style="shape=umlFrame;dashed=1;pointerEvents=0;dropTarget=0;strokeColor=#B3B3B3;height=20;width=30" vertex="1" parent="1">
+          <mxGeometry x="84" y="473" width="687" height="519" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-6" value="[Formato válido]" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="W1CDhNPBEuLZdNNuuS7l-5">
+          <mxGeometry x="30" width="657" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-7" value="[Formato inválido]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="W1CDhNPBEuLZdNNuuS7l-5">
+          <mxGeometry y="322" width="687" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-8" value="[Error al guardar]" style="shape=line;dashed=1;whiteSpace=wrap;verticalAlign=top;labelPosition=center;verticalLabelPosition=middle;align=center;strokeColor=#B3B3B3;" vertex="1" parent="W1CDhNPBEuLZdNNuuS7l-5">
+          <mxGeometry y="423" width="687" height="3" as="geometry" />
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-9" value="Accede a &quot;Subir notas&quot;" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-1" target="W1CDhNPBEuLZdNNuuS7l-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="273" y="129" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-10" value="Verifica sesión y permisos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="705" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-11" value="Sesión válida" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-4" target="W1CDhNPBEuLZdNNuuS7l-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="708" y="237" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-12" value="Muestra materias y finales disponibles" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="276" y="291" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-13" value="Selecciona materia y final" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-1" target="W1CDhNPBEuLZdNNuuS7l-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="273" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-14" value="Solicita carga de notas por estudiante" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="276" y="399" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-15" value="Ingresa notas y valida formatos" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-1" target="W1CDhNPBEuLZdNNuuS7l-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="273" y="453" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-16" value="Guardar notas" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="605" y="554" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-17" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-3" target="W1CDhNPBEuLZdNNuuS7l-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="608" y="608" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-18" value="Actualizar expediente del estudiante" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="605" y="662" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-19" value="Confirmación" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-3" target="W1CDhNPBEuLZdNNuuS7l-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="608" y="716" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-20" value="Notifica carga exitosa" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="276" y="770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-21" value="Muestra error y solicita corrección" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="276" y="871" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-22" value="Muestra error, ofrece reintento" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;" edge="1" parent="1" source="W1CDhNPBEuLZdNNuuS7l-2" target="W1CDhNPBEuLZdNNuuS7l-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="276" y="972" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W1CDhNPBEuLZdNNuuS7l-23" value="Postcondición: Notas almacenadas y visibles según permisos." style="fillColor=#ffff88;strokeColor=#9E916F;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1002" width="388" height="48" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

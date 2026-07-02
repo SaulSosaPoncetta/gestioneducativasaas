@@ -64,6 +64,10 @@
     background-size: 18px;
 }
 
+/* .form-grid .tipoDoc{
+    width: 25%;
+} */
+
 /* BOTONES */
 .form-actions {
     grid-column: 1 / -1; /* ocupa las dos columnas del grid */

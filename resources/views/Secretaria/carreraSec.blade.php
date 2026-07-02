@@ -5,7 +5,7 @@
     <title>Carreras</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tablas.css') }}">

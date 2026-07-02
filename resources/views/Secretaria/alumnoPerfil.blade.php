@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/filtro.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
@@ -25,13 +25,13 @@
     @include('partials.sidebar')
 
     <div class="main">
-
         <div class="form-container">
 
+            <!-- HEADER -->
             <div class="perfil-header">
                 <div style="display:flex; align-items:center; gap:12px;">
-                    <button class="btn-secondary" type="button" onclick="window.location.href='{{ route('alumnos.index') }}'">
-                        <i class="ri-arrow-left-line"></i> Volver
+                    <button class="btn-secondary" onclick="window.history.back()" type="button">
+                        ← Volver
                     </button>
                     <h1>Alumno</h1>
                 </div>
@@ -40,7 +40,7 @@
                 </button>
             </div>
 
-            {{-- Mensajes de éxito o error --}}
+            {{-- Mensajes flash de sesión --}}
             @if (session('success'))
                 <div class="alert alert-success" id="alert-success">
                     <i class="ri-checkbox-circle-line"></i> {{ session('success') }}
@@ -73,13 +73,37 @@
                         disabled
                     >
 
+                    <label>Tipo de documento</label>
+                    <select name="id_tipo_dni" id="id_tipo_dni" disabled>
+                        <option value="">Seleccionar</option>
+                        @foreach ($tiposDni as $tipo)
+                            <option
+                                value="{{ $tipo->id_tipo_dni }}"
+                                {{ $idTipoDni == $tipo->id_tipo_dni ? 'selected' : '' }}
+                            >
+                                {{ $tipo->descripcion }}
+                            </option>
+                        @endforeach
+                    </select>
+
                     <label>DNI / CUIL</label>
                     <input
                         type="text"
-                        id="dni_display"
-                        value="{{ $dni ?? '—' }}"
+                        name="dni"
+                        id="dni"
+                        value="{{ $dniNumero !== '—' ? $dniNumero : '' }}"
+                        placeholder="Número de documento"
                         disabled
-                        {{-- El DNI no se edita desde este formulario --}}
+                    >
+
+                    <label>CUIL/CUIT</label>
+                    <input
+                        type="text"
+                        name="cuil"
+                        id="cuil"
+                        value="{{ $dniCuil }}"
+                        placeholder="CUIL/CUIT"
+                        disabled
                     >
 
                     <label>Localidad de domicilio</label>
@@ -103,7 +127,7 @@
                         type="text"
                         name="telefono_celular"
                         id="telefono_celular"
-                        value="{{ $telefonos['celular'] ?? '' }}"
+                        value="{{ $telefonos['celular'] }}"
                         disabled
                     >
 
@@ -112,7 +136,7 @@
                         type="text"
                         name="telefono_secundario"
                         id="telefono_secundario"
-                        value="{{ $telefonos['secundario'] ?? '' }}"
+                        value="{{ $telefonos['secundario'] }}"
                         disabled
                     >
 
@@ -124,6 +148,12 @@
                         value="{{ $estudiante->usuario->email }}"
                         disabled
                     >
+
+                    <label>Estado</label>
+                    <select name="estado" id="estado" disabled>
+                        <option value="Activo"   {{ $estudiante->usuario->estado === 'Activo'   ? 'selected' : '' }}>Activo</option>
+                        <option value="Inactivo" {{ $estudiante->usuario->estado === 'Inactivo' ? 'selected' : '' }}>Inactivo</option>
+                    </select>
 
                 </div>
 
@@ -155,36 +185,32 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="btn-primary" id="btn-guardar" disabled>
+                    <button type="button" class="btn-primary" id="btn-guardar" style="display:none;">
                         <i class="ri-save-line"></i> Guardar
                     </button>
-                    <button type="button" class="btn-secondary" id="btn-cancelar" disabled>
+                    <button type="button" class="btn-secondary" id="btn-cancelar" style="display:none;">
                         Cancelar
                     </button>
                 </div>
 
             </form>
         </div>
-
     </div>
 
     @include('partials.footer')
 
     <script>
     (function () {
-        // ------------------------------------------------------------------
-        // Referencias a elementos
-        // ------------------------------------------------------------------
         const btnModificar = document.getElementById('btn-modificar');
         const btnGuardar   = document.getElementById('btn-guardar');
         const btnCancelar  = document.getElementById('btn-cancelar');
         const form         = document.getElementById('form-alumno');
         const alertAjax    = document.getElementById('alert-ajax');
 
-        // Todos los inputs/selects editables del formulario
-        const camposEditables = form.querySelectorAll(
-            'input[name], select[name]'
-        );
+        // Todos los inputs/selects con name (excluir _token y _method)
+        const camposEditables = Array.from(
+            form.querySelectorAll('input[name], select[name]')
+        ).filter(el => el.name !== '_token' && el.name !== '_method');
 
         // Guardar valores originales para poder cancelar
         let valoresOriginales = {};
@@ -207,8 +233,8 @@
             });
             btnModificar.innerHTML = '<i class="ri-edit-line"></i> Editando...';
             btnModificar.classList.add('btn-editing');
-            btnGuardar.disabled  = false;
-            btnCancelar.disabled = false;
+            btnGuardar.style.display  = '';
+            btnCancelar.style.display = '';
         }
 
         function deshabilitarEdicion() {
@@ -217,60 +243,46 @@
             });
             btnModificar.innerHTML = '<i class="ri-edit-line"></i> Modificar';
             btnModificar.classList.remove('btn-editing');
-            btnGuardar.disabled  = true;
-            btnCancelar.disabled = true;
+            btnGuardar.style.display  = 'none';
+            btnCancelar.style.display = 'none';
         }
 
         function mostrarAlerta(mensaje, tipo) {
-            alertAjax.textContent = mensaje;
-            alertAjax.className   = 'alert alert-' + tipo;
-            alertAjax.style.display = 'block';
-            // Ocultar después de 4 segundos
+            alertAjax.textContent     = mensaje;
+            alertAjax.className       = 'alert alert-' + tipo;
+            alertAjax.style.display   = 'block';
             setTimeout(function () {
                 alertAjax.style.display = 'none';
-            }, 4000);
+            }, 5000);
         }
 
-        // ------------------------------------------------------------------
         // Guardar valores al cargar la página
-        // ------------------------------------------------------------------
         guardarValoresOriginales();
 
-        // ------------------------------------------------------------------
         // Botón Modificar → habilita edición
-        // ------------------------------------------------------------------
         btnModificar.addEventListener('click', function () {
             habilitarEdicion();
         });
 
-        // ------------------------------------------------------------------
-        // Botón Cancelar → restaura valores y deshabilita edición
-        // ------------------------------------------------------------------
+        // Botón Cancelar → restaura y deshabilita
         btnCancelar.addEventListener('click', function () {
             restaurarValoresOriginales();
             deshabilitarEdicion();
             alertAjax.style.display = 'none';
         });
 
-        // ------------------------------------------------------------------
-        // Botón Guardar → envía los datos por AJAX (PUT)
-        // ------------------------------------------------------------------
+        // Botón Guardar → AJAX PUT
         btnGuardar.addEventListener('click', function () {
             btnGuardar.disabled = true;
             btnGuardar.innerHTML = '<i class="ri-loader-4-line"></i> Guardando...';
 
-            const formData = new FormData(form);
-            // FormData no envía campos disabled, pero los nuestros ya están habilitados
             const datos = {};
-            formData.forEach(function (valor, clave) {
-                // Ignorar _token y _method
-                if (clave !== '_token' && clave !== '_method') {
-                    datos[clave] = valor;
-                }
+            camposEditables.forEach(function (campo) {
+                datos[campo.name] = campo.value;
             });
 
-            const idAlumno = {{ $estudiante->id_usuario }};
-            const url      = '/alumnoPerfil/' + idAlumno;
+            const idAlumno  = {{ $estudiante->id_usuario }};
+            const url       = '/alumnoPerfil/' + idAlumno;
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             fetch(url, {
@@ -278,7 +290,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
+                    'Accept':       'application/json',
                 },
                 body: JSON.stringify(datos),
             })
@@ -288,29 +300,37 @@
                 });
             })
             .then(function ({ status, data }) {
+                btnGuardar.disabled  = false;
+                btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
+
                 if (data.success) {
-                    guardarValoresOriginales(); // Actualizar valores originales con los nuevos
+                    guardarValoresOriginales();
                     deshabilitarEdicion();
-                    btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
                     mostrarAlerta('✓ ' + data.message, 'success');
                 } else {
-                    // Mostrar errores de validación
-                    let mensajeError = 'Errores de validación:\n';
+                    let mensajeError = 'Errores de validación: ';
                     if (data.errors) {
-                        Object.values(data.errors).forEach(function (errs) {
-                            mensajeError += '• ' + errs.join(', ') + '\n';
-                        });
+                        mensajeError += Object.values(data.errors).flat().join(' | ');
                     }
                     mostrarAlerta(mensajeError, 'error');
-                    btnGuardar.disabled = false;
-                    btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
                 }
             })
-            .catch(function (error) {
-                mostrarAlerta('Error de conexión. Intentá de nuevo.', 'error');
-                btnGuardar.disabled = false;
+            .catch(function () {
+                btnGuardar.disabled  = false;
                 btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
+                mostrarAlerta('Error de conexión. Intentá de nuevo.', 'error');
             });
+        });
+
+        // Recargar la página al volver para atrás (para reflejar cambios)
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+            const perfEntries = performance.getEntriesByType('navigation');
+            if (perfEntries.length > 0 && perfEntries[0].type === 'back_forward') {
+                window.location.reload();
+            }
         });
 
     })();

@@ -8,12 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('dnis', function (Blueprint $table) {
-            $table->string('dni');
+        Schema::create('telefonos', function (Blueprint $table) {
+            $table->string('telefono');
             $table->unsignedInteger('id_usuario');
-            $table->string('tipo_dni')->nullable();
 
-            $table->primary(['dni', 'id_usuario']);
+            $table->primary(['telefono', 'id_usuario']);
             $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
             $table->timestamps();
         });
@@ -21,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('dnis');
+        Schema::dropIfExists('telefonos');
     }
 };

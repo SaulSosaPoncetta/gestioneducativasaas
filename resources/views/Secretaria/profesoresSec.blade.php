@@ -5,8 +5,7 @@
     <title>Buscar profesor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/filtro.css') }}">
@@ -15,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/botones.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/profesoresSec.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/alumnosSec.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/Filtro.js'])
 </head>
 
 <body>
@@ -31,82 +31,82 @@
         <button class="btn-primary" onclick="window.location.href='{{ route('profesoresAgregar') }}'">Agregar Profesor</button>
     </div>
 
-    <!-- CARD PROFESORES -->
-    <div class="card-container">
+    <!-- FILTROS -->
+    <form method="GET" action="{{ route('profesoresSec') }}">
+        <div class="card-container">
+            <div class="form-grid">
 
-        <div class="form-grid">
+                <input type="text" id="buscador-profesores" placeholder="Buscar por nombre, apellido o DNI..." name="nombre_apellido">
 
-            <input type="text" placeholder="Nombre y Apellido">
+                <select id="filtro-estado" name="estado">
+                    <option disabled selected hidden>Estado</option>
+                    <option value="">Todos</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
 
-            <input type="text" placeholder="DNI">
-
-            <select>
-                <option>Tipo</option>
-                <option>Titular</option>
-                <option>Titular Interino</option>
-                <option>Provisional</option>
-                <option>Suplente</option>
-            </select>
-            
-            
-
-        </div>
-
-    </div>
-
-    <!-- CARD CARRERA -->
-    <div class="card-container">
-
-        <div class="form-grid">
-
-            <select>
-                <option>Plan de estudio</option>
-            </select>
-
-            <div class="row-small">
-                <input type="text" placeholder="Desde">
-                <input type="text" placeholder="Hasta">
             </div>
-
         </div>
-
-    </div>
-
-    <!-- BOTONES -->
-    <div class="form-actions">
-        <button class="btn-secondary">Limpiar</button>
-        <button class="btn-primary">Filtrar</button>
-    </div>
+    </form>
 
     <div class="table-container">
 
-        <table class="cursada-table">
+        <table id="tablaDocentes" class="cursada-table">
             <thead>
                 <tr>
                     <th>Nombre</th>
                     <th>DNI</th>
-                    <th>Tipo</th>
-                    <th>Materia</th>
+                    <th>Estado</th>
+                    <th>Teléfono</th>
                     <th>Perfil</th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Juan Pérez</td>
-                    <td>30123456</td>
-                    <td>Titular</td>
-                    <td>Matemática</td>
-                    <td>
-                        <button class="btn-primary">Ver</button>
-                    </td>
-                </tr>
+                @foreach($docentes as $docente)
+                    <tr>
+                        <td>
+                            {{ $docente->usuario->nombre }} {{ $docente->usuario->apellido }}
+                        </td>
+                        <td>
+                            {{ $docente->usuario->dnis->first()->dni ?? 'Sin DNI' }}
+                        </td>
+                        <td>
+                            {{ $docente->usuario->estado ?? '—' }}
+                        </td>
+                        <td>
+                            {{ $docente->usuario->telefonos->first()->telefono ?? 'Sin teléfono' }}
+                        </td>
+                        <td>
+                            <a href="{{ route('docentes.show', $docente->id_usuario) }}">
+                                <button class="btn-primary" type="button">Ver</button>
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
 
     </div>
 
-@include('partials.footer')
+    @include('partials.footer')
+
+    <!-- recargar la pagina al volver para atras si estás en el perfil, por si hay modificaciones -->
+    <script>
+        (function () {
+            window.addEventListener('pageshow', function(event){
+                if (event.persisted){
+                    window.location.reload();
+                }
+
+                const perfEntries = performance.getEntriesByType("navigation");
+
+                if (perfEntries.length > 0 && perfEntries[0].type === "back_forward"){
+                    window.location.reload();
+                }
+            });
+        })();
+    </script>
 
 </body>
 </html>

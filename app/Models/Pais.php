@@ -17,4 +17,8 @@ class Pais extends Model
     protected $fillable = [
         'nombre_pais',
     ];
+    public function usuarios()
+    {
+        return $this->hasMany(Usuario::class, 'id_pais', 'id_pais');
+    }
 }

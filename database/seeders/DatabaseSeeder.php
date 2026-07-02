@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             LocalidadSeeder::class,
             UsuarioSeeder::class,
             TelefonoSeeder::class,
+            TipoDniSeeder::class,
             DniSeeder::class,
             AdministradorSeeder::class,
             DocenteSeeder::class,

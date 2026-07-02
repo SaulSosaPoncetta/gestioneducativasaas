@@ -31,4 +31,11 @@ class Docente extends Model
     {
         return $this->belongsToMany(MesaExamen::class, 'mesa_examen_docente', 'id_docente', 'id_mesa');
     }
+
+    public function materias()
+    {
+        return $this->belongsToMany(Materia::class, 'materia_docente', 'id_usuario_docente', 'id_materia')
+                    ->withPivot('situacion_revista')
+                    ->with(['carrera', 'tipoMateria']);
+    }
 }

@@ -1,33 +1,61 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\AuthService;
-use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    protected $authService;
+    protected AuthService $authService;
 
-    public function __construct(AuthService $authService)
+   
+    public function __construct()
     {
-        $this->authService = $authService;
+        $this->authService = app(AuthService::class); 
     }
 
+    // -------------------------------------------------------------------------
+    // GET /login
+    // Muestra la vista del formulario de login
+    // -------------------------------------------------------------------------
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
+    // -------------------------------------------------------------------------
+    // POST /login
+    // Autentica al usuario por email, nombre_usuario o DNI
+    // -------------------------------------------------------------------------
     public function login(Request $request)
     {
         $data = $request->validate([
-            'login'    => 'required|string',   // coincide con name="login" del blade
+            'login'    => 'required|string',
             'password' => 'required|string',
         ]);
 
         try {
             $this->authService->login($data, $request->ip());
-            return redirect()->intended('/home');  // ajustar según la ruta del home
-        } catch (Exception $e) {
+
+            return redirect()->intended('/homeSec');
+
+        } catch (ValidationException $e) {
             return back()
                 ->withInput($request->only('login'))
-                ->withErrors(['login' => 'Usuario, DNI o contraseña incorrectos.']);
+                ->withErrors($e->errors());
         }
+    }
+
+    // -------------------------------------------------------------------------
+    // POST /logout
+    // Cierra la sesión del usuario autenticado
+    // -------------------------------------------------------------------------
+    public function logout(Request $request)
+    {
+        $this->authService->logout();
+
+        return redirect('/login');
     }
 }

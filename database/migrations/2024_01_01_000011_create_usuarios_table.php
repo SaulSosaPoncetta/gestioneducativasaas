@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('password_hash');
             $table->unsignedInteger('id_rol');
             $table->string('genero')->nullable();
+            $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
             $table->unsignedInteger('id_localidad')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('domicilio')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

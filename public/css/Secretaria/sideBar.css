@@ -23,17 +23,15 @@
 }
 
 .profile {
-    text-align: center;
+    text-align: center !important;
 }
 
 .profile img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 8px 0;
+    width: 200px;
+    height: 100px;
+    margin: 8px auto !important;
+    display: block !important;
 }
-
 /* MENU */
 .menu {
     margin-top: 12px;
@@ -80,6 +78,39 @@
 .mobile-menu-btn {
     display: none;
 }
+
+
+/* Esto para el botón de Usuario desplegable */
+
+/* Flecha del dropdown */
+.dropdown-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+/* Cuando está abierto, rota la flecha 90° */
+.dropdown-toggle.open .dropdown-arrow {
+    transform: rotate(90deg);
+}
+
+/* Submenú oculto por defecto */
+.dropdown-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+/* Submenú visible */
+.dropdown-submenu.open {
+    max-height: 200px; /* suficiente para 3 items, revisar si agregamos mas */
+}
+
+/* Links del submenú: más chicos y con sangría para evitar confusiones */
+.dropdown-submenu a {
+    font-size: 0.85em;
+    padding-left: 2rem; /* sangría */
+}
+
 
 @media (max-width: 768px) {
     body {
@@ -128,4 +159,3 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }
 }
-

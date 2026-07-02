@@ -15,7 +15,7 @@ class EstudianteSeeder extends Seeder
     public function run(): void
     {
         $usuarios = Usuario::inRandomOrder()
-            ->take(20)
+            ->take(450)
             ->get();
 
         foreach ($usuarios as $usuario) {

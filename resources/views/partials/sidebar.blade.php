@@ -7,7 +7,7 @@
         </div>
 
         <div class="profile">
-            <img src="https://via.placeholder.com/130">
+            <img src="{{ asset('img/logo.png') }}" alt="Logo">
         </div>
 
             <div class="menu">
@@ -16,11 +16,28 @@
                 <a href="{{ route('cursada') }}"><i class="ri-book-open-line"></i> Cursada</a>
                 <a href="#"><i class="ri-award-line"></i> Finales</a>
                 {{-- <a href="{{ route('alumnos') }}"><i class="ri-graduation-cap-line"></i> Alumnos</a> --}}
-                <a href="#"><i class="ri-user-line"></i> Usuarios</a>
+
+                <!-- boton viejo: -->
+                <!-- <a href="#"><i class="ri-user-line"></i> Usuarios</a> -->
+
+                <!-- boton con menú desplegable: -->
+
+                <div class="menu-item-dropdown">
+                    <a href="#" class="dropdown-toggle" id="usuarios-toggle">
+                        <i class="ri-user-line"></i> Usuarios
+                        <i class="ri-arrow-right-s-line dropdown-arrow"></i>
+                    </a>
+                    <div class="dropdown-submenu" id="usuarios-submenu">
+                        <a href="{{ route('alumnos.index') }}">Alumnos</a>
+                        <a href="{{ route('profesoresSec') }}">Profesores</a>
+                        <a href="{{ route('administracionSec') }}">Administradores</a>
+                    </div>
+                </div>
+
                 <a href="#"><i class="ri-graduation-cap-line"></i> Egresados</a>
                 <a href="#"><i class="ri-file-line"></i> Constancias</a>
                 <a href="#"><i class="ri-history-line"></i> Auditoria</a>
-                <a href="#"><i class="ri-home-line"></i> Mis datos</a>
+                <a href="{{ route('misdatos') }}"><i class="ri-home-line"></i> Mis datos</a>
             </div>
     </div>
 

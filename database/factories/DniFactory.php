@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Dni;
 use App\Models\Usuario;
+use App\Models\TipoDni;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,13 +21,9 @@ class DniFactory extends Factory
     {
         return [
             'dni' => (string) $this->faker->unique()->numberBetween(10000000, 99999999),
+            'cuil' => fake()->numerify('20-########-#'),
             'id_usuario' => Usuario::inRandomOrder()->first()->id_usuario,
-            'tipo_dni' => $this->faker->randomElement([
-                'DNI',
-                'LC',
-                'LE',
-                'Pasaporte',
-             ]),
+            'id_tipo_dni' => TipoDni::inRandomOrder()->first()->id_tipo_dni
         ];
     }
 }

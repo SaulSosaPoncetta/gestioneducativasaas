@@ -1,30 +1,48 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\AuthService;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginPasswordReset extends Controller
 {
-  
-    protected $authService;
+    protected AuthService $authService;
 
-    // El constructor recibe el servicio y lo ASIGNA a la propiedad
-    public function __construct(AuthService $authService)
+    public function __construct()
     {
-        $this->authService = $authService;
+        $this->authService = app(AuthService::class);
     }
+
+    // -------------------------------------------------------------------------
+    // GET /forgot-password
+    // Muestra el formulario para solicitar el reseteo de contraseña
+    // -------------------------------------------------------------------------
+    public function showForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    // -------------------------------------------------------------------------
+    // POST /forgot-password
+    // Envía el link de reseteo al email indicado
+    // -------------------------------------------------------------------------
     public function sendPasswordResetToken(Request $request)
     {
-        // 1. Validar que el email exista en la tabla usuarios
         $data = $request->validate([
             'email' => 'required|email|exists:usuarios,email',
         ]);
 
-        // 2. Ejecutar servicio
-        $mensaje = $this->authService->sendResetLink($data);
+        try {
+            $mensaje = $this->authService->sendResetLink($data);
 
-        // 3. Responder
-        return back()->with('status', $mensaje);
+            return back()->with('status', $mensaje);
+
+        } catch (ValidationException $e) {
+            return back()
+                ->withInput()
+                ->withErrors($e->errors());
+        }
     }
 }

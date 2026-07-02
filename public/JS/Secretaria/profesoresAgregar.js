@@ -6,5 +6,5 @@
         setTimeout(() => {
             btn.innerHTML = '<i class="ri-save-line"></i> Guardar';
             btn.style.background = '';
-        }, 2000);
+        }, 750);
     });

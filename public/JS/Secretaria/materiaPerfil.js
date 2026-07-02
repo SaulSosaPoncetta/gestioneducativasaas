@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         '.form-grid input:not(#profesor-input), .form-grid select, .checkbox-group input[type="checkbox"]'
     );
 
+    console.log(campos);
+
     let valoresOriginales = [];
 
     function guardarEstado() {
@@ -71,17 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnCancelar.addEventListener('click', () => {
         restaurarEstado();
         deshabilitarEdicion();
-    });
-
-    btnGuardar.addEventListener('click', (e) => {
-        e.preventDefault();
-        btnGuardar.innerHTML = '<i class="ri-check-line"></i> Guardado';
-        btnGuardar.style.background = '#16a34a';
-        setTimeout(() => {
-            btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
-            btnGuardar.style.background = '';
-            deshabilitarEdicion();
-        }, 1500);
     });
 
     // ─── Autocomplete Profesor ────────────────────────────────────────────

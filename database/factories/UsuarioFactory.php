@@ -28,13 +28,11 @@ class UsuarioFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password_hash' => Hash::make('123456'),
             'id_rol' => Rol::inRandomOrder()->first()->id_rol,
-            'genero' => $this->faker->randomElement([
-                'Masculino',
-                'Femenino',
-                'No Binario'
-            ]),
+            'genero' => $this->faker->randomElement(['Masculino','Femenino','No Binario']),
+            'estado' => 'Activo',
             'id_localidad' => Localidad::inRandomOrder()->first()?->id_localidad,
-           
+            'fecha_nacimiento' => $this->faker->dateTimeBetween('-65 years', '-18 years')->format('Y-m-d'),
+            'domicilio' => $this->faker->streetAddress(),
         ];
     }
 }

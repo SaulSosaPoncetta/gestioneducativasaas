@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Buscar Administador</title>
+    <title>Buscar Administrador</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/filtro.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
@@ -12,74 +12,109 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/botones.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/alumnosSec.css') }}">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/Filtro.js'])
 </head>
 
 <body>
     <button class="mobile-menu-btn" id="menu-btn">
-    <i class="ri-menu-line"></i>
+        <i class="ri-menu-line"></i>
     </button>
 
-@include('partials.sidebar')
+    @include('partials.sidebar')
 
-<div class="main">
+    <div class="main">
 
-    <!-- HEADER -->
-    <div class="top-bar">
-        <h1>Buscar Administrador</h1>
-        <button class="btn-primary" onclick="window.location.href=''">Agregar Administrador</button>
-    </div>
+        <!-- HEADER -->
+        <div class="top-bar">
+            <h1>Buscar Administrador</h1>
+            <button class="btn-primary" onclick="window.location.href='{{ route('administradores.create') }}'">Agregar Administrador</button>
+        </div>
 
-    <!-- CARD -->
-    <div class="card-container">
+        <!-- FILTROS — solo cliente, sin form GET -->
+        <div class="card-container">
+            <div class="form-grid">
 
-        <div class="form-grid">
+                <input
+                    type="text"
+                    id="filtro-nombre"
+                    placeholder="Buscar por nombre, apellido o DNI..."
+                >
 
-            <select>
-                <option id="nombre-Alumno">Nombre</option>
-            </select>
+                <select id="filtro-estado">
+                    <option value="">Todos</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
 
-            <input class="form-grid" placeholder="DNI"></input>
+            </div>
+        </div>
+
+        <div class="table-container">
+
+            <table id="tablaAdministradores" class="cursada-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>DNI</th>
+                        <th>Estado</th>
+                        <th>Teléfono</th>
+                        <th>Perfil</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach($administradores as $administrador)
+                        <tr>
+                            <td>
+                                {{ $administrador->usuario->nombre }} {{ $administrador->usuario->apellido }}
+                            </td>
+                            <td>
+                                {{ $administrador->usuario->dnis->first()->dni ?? 'Sin DNI' }}
+                            </td>
+                            <td>
+                                {{ $administrador->usuario->estado ?? '—' }}
+                            </td>
+                            <td>
+                                {{ $administrador->usuario->telefonos->first()->telefono ?? 'Sin teléfono' }}
+                            </td>
+
+                            <td>
+                                <button
+                                    class="btn-primary"
+                                    onclick="window.location.href='{{ route('administradores.show', $administrador->id_usuario) }}'">
+                                    Ver
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
         </div>
 
     </div>
 
-    <!-- BOTONES -->
-    <div class="form-actions">
-        <button class="btn-secondary">Limpiar</button>
-        <button class="btn-primary">Filtrar</button>
-    </div>
+    @include('partials.footer')
 
-    <div class="table-container">
 
-        <table class="cursada-table">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>DNI</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Perfil</th>
-                </tr>
-            </thead>
+    <!-- recargar la pagina al volver para atras si estás en el perfil, por si hay modificaciones -->
+    <script>
+        (function () {
+            window.addEventListener('pageshow', function(event){
+                if (event.persisted){
+                    window.location.reload();
+                }
 
-            <tbody>
-                <tr>
-                    <td>Juan Pérez</td>
-                    <td>30123456</td>
-                    <td>Titular@gmail.com</td>
-                    <td>2284 226478</td>
-                    <td>
-                        <button class="btn-primary">Ver</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                const perfEntries = performance.getEntriesByType("navigation");
 
-    </div>
-</div>
+                if (perfEntries.length > 0 && perfEntries[0].type === "back_forward"){
+                    window.location.reload();
+                }
+            });
+        })();
+    </script>
 
-@include('partials.footer')
 
 </body>
 </html>

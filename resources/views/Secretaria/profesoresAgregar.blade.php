@@ -5,7 +5,7 @@
     <title>Agregar Profesor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/filtro.css') }}">
@@ -30,54 +30,98 @@
         <div class="perfil-header">
             <h1>Agregar Profesor</h1>
         </div>
+        
+        @if ($errors->any())
+            <div class="alert alert-danger">
+
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+
+            </div>
+        @endif
 
         <!-- FORM -->
-        <form class="materia-form">
+        <form 
+            class="materia-form"
+            method="POST"
+            action="{{ route('profesores.store') }}">
+            @csrf
 
             <div class="form-grid">
 
-                <label>Apellido</label>
-                <input type="text" placeholder="Apellido">
+                <label>Apellido*</label>
+                <input type="text" name="apellido" placeholder="Apellido">
 
-                <label>Nombre</label>
-                <input type="text" placeholder="Nombre">
+                <label>Nombre*</label>
+                <input type="text" name="nombre" placeholder="Nombre">
 
-                <label>Documento</label>
-                <input type="text" placeholder="DNI">
+                <label>Documento*</label>
+                <input type="text" name="dni" placeholder="Documento">
+
+                <label>Tipo de documento*</label>
+                <select name="id_tipo_dni">
+                    <option disabled selected hidden>
+                        Seleccionar tipo de documento
+                    </option>
+
+                    @foreach($tiposDni as $tipo)
+                    <option value="{{ $tipo->id_tipo_dni }}">
+                        {{ $tipo->descripcion }}
+                    </option>
+                    @endforeach
+                </select>
 
                 <label>Género</label>
-                <select>
-                    <option>Seleccionar</option>
-                    <option>Masculino</option>
-                    <option>Femenino</option>
+                <select name="genero">
+                    <option disabled selected hidden>Seleccionar</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Otro">Otro</option>
                 </select>
 
                 <label>CUIL</label>
-                <input type="text" placeholder="CUIL">
+                <input type="text" name="cuil" placeholder="CUIL">
 
                 <label>Fecha de nacimiento</label>
-                <input type="date">
+                <input type="date" name="fecha_nacimiento">
 
                 <label>Nacionalidad</label>
-                <input type="text" placeholder="Nacionalidad">
+                <select name="id_pais">
+                    <option disabled selected hidden>
+                        Seleccionar nacionalidad
+                    </option>
+
+                    @foreach($paises as $pais)
+                        <option value="{{ $pais->id_pais }}">
+                            {{ $pais->nombre_pais }}
+                        </option>
+                    @endforeach
+                </select>
 
                 <label>Localidad</label>
-                <input type="text" placeholder="Localidad">
+                <select name="id_localidad">
+                    <option disabled selected hidden>
+                        Seleccionar localidad
+                    </option>
+
+                    @foreach($localidades as $localidad)
+                        <option value="{{ $localidad->id_localidad }}">
+                            {{ $localidad->nombre_localidad }}
+                        </option>
+                    @endforeach
+                </select>
 
                 <label>Domicilio</label>
-                <input type="text" placeholder="Dirección">
-
-                <label>Localidad domicilio</label>
-                <input type="text" placeholder="Localidad">
+                <input type="text" name="domicilio" placeholder="Dirección">
 
                 <label>Teléfono celular</label>
-                <input type="text" placeholder="Teléfono">
-
-                <label>Contacto alternativo</label>
-                <input type="text" placeholder="Contacto alternativo">
+                <input type="text" name="telefono" placeholder="Teléfono">
 
                 <label>Email</label>
-                <input type="email" placeholder="Email">
+                <input type="email" name="email" placeholder="Email">
 
             </div>
             <div class="section-divider"></div>
@@ -86,12 +130,10 @@
                 <h2>Inicio de Sesión</h2>
 
                 <div class="form-grid">
-
                     <label>Nombre de usuario</label>
-                    <input type="text" placeholder="Usuario">
+                    <input type="text" name="nombre_usuario" placeholder="Usuario">
                     <label>Clave</label>
-                    <input type="password" placeholder="Clave">
-
+                    <input type="password" name="password" placeholder="Clave">
                 </div>
             </div>
 

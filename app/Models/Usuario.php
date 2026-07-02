@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class Usuario extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    // SoftDeletes;
 
     protected $table = 'usuarios';
 
@@ -22,7 +23,11 @@ class Usuario extends Authenticatable
         'password_hash',
         'id_rol',
         'genero',
+        'estado',
         'id_localidad',
+        'id_pais',
+        'fecha_nacimiento',
+        'domicilio',
     ];
 
     protected $hidden = [
@@ -31,7 +36,10 @@ class Usuario extends Authenticatable
     // -------------------------------------------------------------------------
     // Relaciones existentes
     // -------------------------------------------------------------------------
-
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
+    }
     public function rol()
     {
         return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
@@ -65,5 +73,9 @@ class Usuario extends Authenticatable
     public function telefonos()
     {
         return $this->hasMany(Telefono::class, 'id_usuario', 'id_usuario');
+    }
+    public function pais()
+    {
+        return $this->belongsTo(Pais::class, 'id_pais', 'id_pais');
     }
 }
