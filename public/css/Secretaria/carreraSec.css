@@ -87,6 +87,17 @@
     cursor: pointer;
 }
 
+/* carreraSec.css */
+.form-grid.buscar-alumno-final {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+}
+
+.form-grid.buscar-alumno-final .btn-agregar {
+    justify-self: start;
+    width: auto;
+}
+
 /* ── RESPONSIVE ──────────────────────────── */
 @media (max-width: 900px) {
     .action-buttons,

@@ -389,7 +389,7 @@ public function test_store_devuelve_datos_del_administrador_creado(): void
     // update()
     // -------------------------------------------------------------------------
 
-   public function test._update_modifica_administrador_con_datos_validos(): void
+   public function test_update_modifica_administrador_con_datos_validos(): void
 {
     $idLocalidad   = $this->crearLocalidad();
     $administrador = $this->crearAdministrador();

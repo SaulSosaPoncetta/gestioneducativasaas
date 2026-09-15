@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use App\Notifications\ResetPasswordNotification;
+
 // use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class Usuario extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable, CanResetPassword;
     // SoftDeletes;
 
     protected $table = 'usuarios';
@@ -33,6 +37,11 @@ class Usuario extends Authenticatable
     protected $hidden = [
         'password_hash',
     ];
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
     // -------------------------------------------------------------------------
     // Relaciones existentes
     // -------------------------------------------------------------------------
@@ -40,9 +49,15 @@ class Usuario extends Authenticatable
     {
         return $this->password_hash;
     }
+
     public function rol()
     {
         return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
+    }
+
+    public function estudiante()
+    {
+        return $this->hasOne(Estudiante::class, 'id_usuario', 'id_usuario');
     }
 
     public function localidad()
@@ -59,21 +74,16 @@ class Usuario extends Authenticatable
     // Relaciones nuevas (necesarias para alumnosSec y alumnoPerfil)
     // -------------------------------------------------------------------------
 
-    /**
-     * DNIs del usuario (tabla dnis, clave foránea id_usuario)
-     */
     public function dnis()
     {
         return $this->hasMany(Dni::class, 'id_usuario', 'id_usuario');
     }
 
-    /**
-     * Teléfonos del usuario (tabla telefonos, clave foránea id_usuario)
-     */
     public function telefonos()
     {
         return $this->hasMany(Telefono::class, 'id_usuario', 'id_usuario');
     }
+
     public function pais()
     {
         return $this->belongsTo(Pais::class, 'id_pais', 'id_pais');

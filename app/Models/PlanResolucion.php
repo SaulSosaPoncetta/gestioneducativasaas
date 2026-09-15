@@ -10,15 +10,12 @@ class PlanResolucion extends Model
     use HasFactory;
 
     protected $table = 'plan_resolucion';
-
-    public $incrementing = false;
-    // public $timestamps = false;
-
-    protected $primaryKey = null; 
+    
+    // $incrementing = true (default) ahora que hay id autoincremental
 
     protected $fillable = [
-        'id_resolucion',  
-        'id_plan',        
+        'id_resolucion',
+        'id_plan',
         'id_carrera',
         'id_tipo_archivo',
         'total_horas',
@@ -29,7 +26,6 @@ class PlanResolucion extends Model
         'fecha' => 'date',
     ];
 
-    // Relaciones
     public function plan()
     {
         return $this->belongsTo(PlanEstudio::class, 'id_plan', 'id_plan');

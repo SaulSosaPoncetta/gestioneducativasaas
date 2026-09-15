@@ -15,19 +15,13 @@ class LoginPasswordReset extends Controller
         $this->authService = app(AuthService::class);
     }
 
-    // -------------------------------------------------------------------------
     // GET /forgot-password
-    // Muestra el formulario para solicitar el reseteo de contraseña
-    // -------------------------------------------------------------------------
     public function showForm()
     {
         return view('auth.forgot-password');
     }
 
-    // -------------------------------------------------------------------------
     // POST /forgot-password
-    // Envía el link de reseteo al email indicado
-    // -------------------------------------------------------------------------
     public function sendPasswordResetToken(Request $request)
     {
         $data = $request->validate([
@@ -42,6 +36,36 @@ class LoginPasswordReset extends Controller
         } catch (ValidationException $e) {
             return back()
                 ->withInput()
+                ->withErrors($e->errors());
+        }
+    }
+
+    // GET /reset-password/{token}
+    public function showResetForm(Request $request, string $token)
+    {
+        return view('auth.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email'),
+        ]);
+    }
+
+    // POST /reset-password
+    public function resetPassword(Request $request)
+    {
+        $data = $request->validate([
+            'token'                 => 'required',
+            'email'                 => 'required|email',
+            'password'              => 'required|string|min:8|confirmed',
+        ]);
+
+        try {
+            $mensaje = $this->authService->resetPassword($data);
+
+            return redirect()->route('login')->with('status', $mensaje);
+
+        } catch (ValidationException $e) {
+            return back()
+                ->withInput($request->only('email'))
                 ->withErrors($e->errors());
         }
     }

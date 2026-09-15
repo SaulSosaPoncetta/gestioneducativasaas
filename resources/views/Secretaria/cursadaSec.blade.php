@@ -1,178 +1,462 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Cursada</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>Perfil Carrera</title>
 
     <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/filtro.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tablas.css') }}">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/botones.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/Secretaria/cursadaSec.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/Secretaria/materiaPerfil.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/Secretaria/cursadaPerfil.css') }}">
+
+    @vite(['resources/css/app.css', 'resources/js/Filtro.js'])
+
 </head>
 
 <body>
-    <button class="mobile-menu-btn" id="menu-btn">
-    <i class="ri-menu-line"></i>
-    </button>
 
-@include('partials.sidebar')
+    @include('partials.sidebar')
 
-<div class="main">
+    <main class="main">
+        <button class="btn-modificar" type="button" onclick="window.location='{{ route('carreras.index') }}'">
+            <i class="ri-arrow-left-line"></i>Volver
+        </button>
 
-    <!-- TÍTULO -->
-    <div class="top-bar">
-        <h1>Buscar por carrera</h1>
-    </div>
+        <div id="alert-ajax" class="alert" style="display:none;"></div>
 
-    <!-- FILTROS -->
-    <div class="filter-card">
-        <div class="filter-grid">
+        <form id="form-carrera">
 
-            <select id="sel-nombre">
-                <option value="">Nombre</option>
-                {{-- @foreach($carreras as $c) --}}
-                {{-- <option value="{{ $c->carrera_id }}">{{ $c->nombre }}</option> --}}
-                {{-- @endforeach --}}
-            </select>
+            @csrf
+            @method('PUT')
 
-            <select id="sel-plan">
-                <option value="">Plan de estudio</option>
-            </select>
+            <div class="form-container">
 
-        </div>
+                <div class="perfil-header">
 
-        <div class="filter-actions">
-            <button class="btn-secondary" id="btn-limpiar">Limpiar</button>
-            <button class="btn-primary"   id="btn-filtrar" disabled>Filtrar</button>
-        </div>
-    </div>
+                    <div>
+                        <h1>{{ $carrera->nombre }}</h1>
+                    </div>
 
-    <!-- BOTONES DE ACCIÓN (deshabilitados hasta elegir carrera) -->
-    <div class="action-buttons">
-        <button class="btn-primary" disabled data-href="{{ route('materiaUP') }}">Nueva Materia</button>
-        <button class="btn-primary" disabled data-href="{{ route('cargarNota') }}">Cargar Notas</button>
-        <button class="btn-primary" disabled data-href="{{ route('alumnoUP') }}">Agregar Profesor</button>
-        <button class="btn-primary" disabled data-href="{{ route('docenteUP') }}">Agregar Alumno</button>
-    </div>
+                    <div style="display:flex; gap:12px;">
 
-    <!-- TABLA / PLACEHOLDER -->
-    <div class="table-area">
+                        <button
+                            id="btn-modificar"
+                            type="button"
+                            class="btn-modificar">
 
-        {{-- Placeholder: visible por defecto --}}
-        <div class="table-placeholder" id="table-placeholder">
-            <i class="ri-search-line"></i>
-            <p>Seleccioná una carrera y presioná <strong>Filtrar</strong> para ver las materias.</p>
-        </div>
+                            <i class="ri-edit-line"></i>
+                            Modificar
 
-        {{-- Tabla: oculta por defecto, el backend la llenará --}}
-        <div id="table-content" style="display: none;">
-            {{-- Acá van a ir los bloques por año, generados por Blade con @foreach --}}
-            {{-- Ejemplo de estructura para cuando lo conecten al backend: --}}
-            {{--
-            @foreach($añosPorCarrera as $año => $materias)
-            <div class="year-block">
-                <table class="cursada-table">
-                    <thead>
-                        <tr>
-                            <th>Espacio</th>
-                            <th>Año</th>
-                            <th>Profesores</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($materias as $m)
-                        <tr>
-                            <td>{{ $m->nombre }}</td>
-                            <td>{{ $año }}°</td>
-                            <td>{{ $m->profesores->pluck('apellido')->join(', ') }}</td>
-                            <td>
-                                <button class="btn-lupa" title="Ver detalle">
-                                    <i class="ri-search-line"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            @endforeach
-            --}}
+                        </button>
 
-            {{-- TABLA DE EJEMPLO (sacar cuando conecten el backend) --}}
-            <div class="year-block">
-                <table class="cursada-table">
-                    <thead>
-                        <tr>
-                            <th>Espacio</th>
-                            <th>Año</th>
-                            <th>Profesores</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Sistemas y Organizaciones</td>
-                            <td>1°</td>
-                            <td>Letier -</td>
-                            <td><button class="btn-lupa" title="Ver detalle"><i class="ri-search-line"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Prácticas Profesionalizantes I</td>
-                            <td>1°</td>
-                            <td>Chiramberro -</td>
-                            <td><button class="btn-lupa" title="Ver detalle"><i class="ri-search-line"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Análisis Matemático I</td>
-                            <td>1°</td>
-                            <td>Beratz -</td>
-                            <td><button class="btn-lupa" title="Ver detalle"><i class="ri-search-line"></i></button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <a
+                            href="{{ route('materias.create', $carrera->id_carrera) }}"
+                            class="btn-primary">
+
+                            <i class="ri-add-line"></i>
+                            Nueva Materia
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <label for="nombre">Nombre *</label>
+
+                    <div class="input-group">
+
+                        <input
+                            id="nombre"
+                            name="nombre"
+                            value="{{ $carrera->nombre }}"
+                            disabled>
+
+                        <small id="error-nombre" class="error-message"></small>
+
+                    </div>
+
+                    <label for="titulo">Título *</label>
+
+                    <div class="input-group">
+
+                        <input
+                            id="titulo"
+                            name="titulo"
+                            value="{{ $carrera->titulo }}"
+                            disabled>
+
+                        <small id="error-titulo" class="error-message"></small>
+
+                    </div>
+
+                    <label for="plan_estudio">Plan de estudio *</label>
+
+                    <div class="input-group">
+
+                        @php $planVigente = $carrera->planVigente; @endphp
+
+                        <input
+                            id="plan_estudio"
+                            value="{{ $planVigente ? ($planVigente->resolucion->descripcion ?? '—') . ' — ' . ($planVigente->plan->titulo ?? '—') : '—' }}"
+                            disabled>
+
+                        <small id="error-plan_estudio" class="error-message"></small>
+
+                    </div>
+
+                </div>
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="btn-guardar"
+                        style="display:none;">
+                        <i class="ri-save-line"></i> Guardar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        id="btn-cancelar"
+                        style="display:none;">
+                        Cancelar
+                    </button>
+
+                </div>
+
             </div>
 
-            <div class="year-block">
-                <table class="cursada-table">
-                    <thead>
-                        <tr>
-                            <th>Espacio</th>
-                            <th>Año</th>
-                            <th>Profesores</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Sistemas Operativos</td>
-                            <td>2°</td>
-                            <td>Letier -</td>
-                            <td><button class="btn-lupa" title="Ver detalle"><i class="ri-search-line"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td>Prácticas Profesionalizantes II</td>
-                            <td>2°</td>
-                            <td>Chiramberro -</td>
-                            <td><button class="btn-lupa" title="Ver detalle"><i class="ri-search-line"></i></button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <div class="section-divider"></div>
 
-    </div>
-</div>
+            <h2 class="section-title">Materias</h2>
+
+            @foreach($materiasPorAnio as $anio => $materias)
+
+                    <div class="year-card">
+                        <div class="year-header">
+                            <h3>{{ $anio }}
+                                <span class="year-count">
+                                    ({{ count($materias) }} {{ count($materias) == 1 ? 'materia' : 'materias' }})
+                                </span>
+                            </h3>
+                        </div>
+
+                        @if(count($materias))
+
+                            <div class="table-container">
+                                <table
+                                    id="tabla-anio-{{ $loop->index }}"
+                                    class="cursada-table tabla-anio">
+                                    <thead>
+                                        <tr>
+                                            <th>Espacio Curricular</th>
+                                            <th>Profesor</th>
+                                            <th style="width:80px;">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach($materias as $materia)
+                                        <tr>
+                                            <td>
+                                                {{ $materia->nombre }}
+                                            </td>
+                                            <td>
+                                                {{ $materia->profesor->usuario->apellido ?? 'Sin asignar' }}
+                                            </td>
+                                            <td class="text-center">
+                                                <a
+                                                    href="{{ route('materias.show', $materia->id_materia) }}"
+                                                    class="btn-table"
+                                                    title="Ver materia">
+
+                                                    <i class="ri-eye-line"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        @else
+
+                            <div class="empty-state">
+                                <i class="ri-book-open-line"></i>
+                                <p>No hay materias registradas para este año.</p>
+                            </div>
+
+                        @endif
+
+                    </div>
+
+                @endforeach
+
+
+        </form>
+    </main>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const btnModificar = document.getElementById("btn-modificar");
+        const btnGuardar   = document.getElementById("btn-guardar");
+        const btnCancelar  = document.getElementById("btn-cancelar");
+
+        const form = document.getElementById("form-carrera");
+
+        const alertAjax = document.getElementById("alert-ajax");
+
+        const camposEditables = Array.from(
+            form.querySelectorAll("input[name], select[name], textarea[name]")
+        ).filter(el => el.name !== "_token" && el.name !== "_method");
+
+        let valoresOriginales = {};
+
+        // ===========================
+        // DATATABLES (una por año, mismo estilo que el resto del sistema)
+        // ===========================
+
+        document.querySelectorAll(".tabla-anio").forEach(function (tabla) {
+
+            $(tabla).DataTable({
+                dom: "t",
+                paging: false,
+                order: [[0, "asc"]],
+            });
+
+        });
+
+        // ===========================
+        // GUARDAR VALORES ORIGINALES
+        // ===========================
+
+        function guardarValoresOriginales() {
+            camposEditables.forEach(function (campo) {
+                valoresOriginales[campo.name] = campo.value;
+            });
+        }
+
+        function restaurarValoresOriginales() {
+            camposEditables.forEach(function (campo) {
+                campo.value = valoresOriginales[campo.name] ?? "";
+            });
+        }
+
+        guardarValoresOriginales();
+
+        // ===========================
+        // HABILITAR / DESHABILITAR EDICIÓN
+        // ===========================
+
+        function habilitarEdicion() {
+            camposEditables.forEach(function (campo) {
+                campo.disabled = false;
+            });
+            btnModificar.innerHTML = '<i class="ri-edit-line"></i> Editando...';
+            btnModificar.classList.add("btn-editing");
+            btnGuardar.style.display  = "";
+            btnCancelar.style.display = "";
+        }
+
+        function deshabilitarEdicion() {
+            camposEditables.forEach(function (campo) {
+                campo.disabled = true;
+            });
+            btnModificar.innerHTML = '<i class="ri-edit-line"></i> Modificar';
+            btnModificar.classList.remove("btn-editing");
+            btnGuardar.style.display  = "none";
+            btnCancelar.style.display = "none";
+        }
+
+        btnModificar.addEventListener("click", function () {
+            habilitarEdicion();
+        });
+
+        // ===========================
+        // CANCELAR
+        // ===========================
+
+        btnCancelar.addEventListener("click", function () {
+            restaurarValoresOriginales();
+            deshabilitarEdicion();
+            limpiarErrores();
+            alertAjax.style.display = "none";
+        });
+
+        // ===========================
+        // ALERTA
+        // ===========================
+
+        function mostrarAlerta(mensaje, tipo) {
+
+            alertAjax.textContent = mensaje;
+            alertAjax.className = "alert alert-" + tipo;
+            alertAjax.style.display = "block";
+
+            alertAjax.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+
+            if (tipo === "success") {
+                setTimeout(function () {
+                    alertAjax.style.display = "none";
+                }, 5000);
+            }
+        }
+
+        // ===========================
+        // LIMPIAR ERRORES
+        // ===========================
+
+        function limpiarErrores() {
+
+            document.querySelectorAll(".error-message").forEach(function (error) {
+                error.textContent = "";
+            });
+
+            document.querySelectorAll(".input-error").forEach(function (input) {
+                input.classList.remove("input-error");
+            });
+
+        }
+
+        camposEditables.forEach(function (campo) {
+
+            const evento = campo.tagName === "SELECT" ? "change" : "input";
+
+            campo.addEventListener(evento, function () {
+
+                campo.classList.remove("input-error");
+
+                const error = document.getElementById("error-" + campo.id);
+
+                if (error) {
+                    error.textContent = "";
+                }
+
+            });
+
+        });
+
+        // ===========================
+        // GUARDAR
+        // ===========================
+
+        btnGuardar.addEventListener("click", function () {
+
+            limpiarErrores();
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            btnGuardar.disabled = true;
+            btnGuardar.innerHTML = '<i class="ri-loader-4-line"></i> Guardando...';
+
+            const formData = new FormData(form);
+            const datos = {};
+            formData.forEach((valor, clave) => {
+                if (clave !== '_token' && clave !== '_method') datos[clave] = valor;
+            });
+
+            const csrfToken = document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute('content');
+
+            fetch('{{ route('carreras.update', $carrera->id_carrera) }}', {
+
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken,
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(datos)
+
+            })
+            .then(function (response) {
+                return response.json().then(function (data) {
+                    return { status: response.status, data: data };
+                });
+            })
+            .then(function ({ status, data }) {
+
+                btnGuardar.disabled = false;
+                btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
+
+                if (data.success) {
+
+                    guardarValoresOriginales();
+                    deshabilitarEdicion();
+                    mostrarAlerta("✓ " + data.message, "success");
+
+                } else {
+
+                    if (data.errors) {
+
+                        Object.entries(data.errors).forEach(function ([campo, errores]) {
+
+                            const input = document.getElementById(campo);
+
+                            if (input) {
+                                input.classList.add("input-error");
+                            }
+
+                            const error = document.getElementById("error-" + campo);
+
+                            if (error) {
+                                error.textContent = errores[0];
+                            }
+
+                        });
+
+                        mostrarAlerta("Hay campos con errores.", "error");
+
+                    } else {
+
+                        mostrarAlerta(data.message ?? "Ocurrió un error.", "error");
+
+                    }
+
+                }
+
+            })
+            .catch(function () {
+
+                btnGuardar.disabled = false;
+                btnGuardar.innerHTML = '<i class="ri-save-line"></i> Guardar';
+
+                mostrarAlerta("Error de conexión.", "error");
+
+            });
+
+        });
+
+    });
+
+</script>
 
 @include('partials.footer')
 
-<div class="overlay" id="overlay"></div>
-
-<script src="{{ asset('js/Secretaria/cursadaPrueba.js') }}" defer></script>
-
 </body>
+
 </html>

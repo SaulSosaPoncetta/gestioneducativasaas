@@ -16,6 +16,7 @@ return new class extends Migration
             $table->dateTime('fecha_carga');
             $table->unsignedInteger('id_usuario'); // estudiante que rinde el final
             $table->unsignedInteger('id_materia');
+            $table->boolean('baja')->default(false);
             $table->timestamps();
 
             $table->foreign('id_mesa')->references('id_mesa')->on('mesas_examen');

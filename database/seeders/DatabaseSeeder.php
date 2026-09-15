@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             TipoMesaExamenSeeder::class,
             TipoArchivoSeeder::class,
             LocalidadSeeder::class,
-            UsuarioSeeder::class,
+            // UsuarioSeeder::class,
             TelefonoSeeder::class,
             TipoDniSeeder::class,
             DniSeeder::class,
@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
             ArchivoMateriaSeeder::class,
             DocenteEstudianteSeeder::class,
             CicloLectivoSeeder::class,
+            LlamadoSeeder::class,
             MesaExamenSeeder::class,
             MesaExamenDocenteSeeder::class,
             ArchivoExamenSeeder::class,
@@ -59,6 +60,8 @@ class DatabaseSeeder extends Seeder
             AdministracionDocenteSeeder::class,
             AdministracionEstudianteSeeder::class,
             AuditoriaSeeder::class,
+            UsuarioAdminSeeder::class,
+            //EstudianteFinalesSeeder::class,
         ]);
     }
 }

@@ -2,16 +2,21 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Cargar notas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('fonts/remixicon/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/sideBar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/filtro.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tablas.css') }}">
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/botones.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Secretaria/cargarNota.css') }}">
-    {{-- <script id="materias-data" type="application/json">{{ $materias->toJson() }}</script> --}}
+    <link rel="stylesheet" href="{{ asset('css/Secretaria/materiaPerfil.css') }}">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/Filtro.js'])
+
 </head>
 
 <body>
@@ -20,35 +25,53 @@
 </button>
     @include('partials.sidebar')
 
-    <div class="main">
+    @php
+        $periodos = ['1C' => '1° C', '2C' => '2° C', 'REC' => 'Rec./Prefinal'];
 
-        <h1>Cargar notas</h1>
+        $renderCeldaNota = function ($nota) {
+            $valor = $nota->valor ?? '';
+            $situacion = $nota->situacion ?? '';
+            $etiquetas = [
+                'promocionado'      => 'Promocionado',
+                'aprobado'          => 'Aprobado',
+                'desaprobado'       => 'Desaprobado',
+                'promocion_directa' => 'Promoción directa',
+                'examen_flotante'   => 'Pendiente examen flotante',
+            ];
+            $etiqueta = $etiquetas[$situacion] ?? '';
+
+            return compact('valor', 'situacion', 'etiqueta');
+        };
+    @endphp
+
+    <div
+        class="main"
+        id="app-cargar-notas"
+        data-materia="{{ $materia->id_materia }}"
+        data-nota-promocionable="{{ $materia->nota_promocionable ?? 7 }}"
+        data-nota-aprobada="{{ $materia->nota_aprobada ?? 4 }}"
+        data-promocion-directa="{{ $materia->promocionable ? '1' : '0' }}"
+    >
+        <button class="btn-modificar" type="button" onclick="window.location='{{ route('materias.show', $materia->id_materia) }}'">
+            <i class="ri-arrow-left-line"></i>Volver
+        </button>
+
+        <h1>Cargar notas — {{ $materia->nombre }}</h1>
+
+        <div id="alert-ajax" class="alert" style="display:none;"></div>
 
         <div class="top-bar">
             <label>
                 Cerrar cursada Automaticamente
-                <input type="checkbox" checked>
+                <input type="checkbox" id="cierre_automatico" checked>
             </label>
             <span class="help">
                 Si esta activado, la cursada se cerrara automaticamente en base a la situacion de los dos cuatrimestres. Puede cambiar los datos de cierre manualmete.
             </span>
         </div>
 
-        <div class="card-materia">
-            <h2>Carrera</h2>
-            <div class="input-box" id="materiaDropdown">
-                <input
-                    type="text"
-                    id="materia-input"
-                    placeholder="Materia"
-                    autocomplete="off"
-                >
-                <div class="dropdown-menu" id="materia-list"></div>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <table class="cursada-table">
+        <div class="table-container tabla-responsive">
+            <table class="cursada-table" id="tablaCargarNotas">
                 <thead>
                     <tr>
                         <th>Alumno</th>
@@ -56,84 +79,106 @@
                         <th>2° C</th>
                         <th>Rec./Prefinal</th>
                         <th>Cierre</th>
+                        <th style="width:100px;">Reprobar</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($cursando as $fila)
+                    <tr data-estado="cursando" data-id="{{ $fila->id_usuario }}">
+                        <td>{{ $fila->nombre }}</td>
 
-                    @php
-                        $alumnos = ['Requena, Lucio', 'Miguel Rodriguez', 'Marcos, Lopez'];
-                    @endphp
+                        @foreach (['primerC' => '1C', 'segundoC' => '2C', 'recPrefinal' => 'REC'] as $prop => $periodo)
+                            @php $c = $renderCeldaNota($fila->{$prop}); @endphp
+                            <td class="nota-cell" data-periodo="{{ $periodo }}">
+                                <div class="nota-wrapper dropdown" data-situacion="{{ $c['situacion'] }}">
+                                    <input type="text" class="nota-input" placeholder="Nota" value="{{ $c['valor'] }}">
+                                    <button type="button" class="arrow-btn btn-dropdown">›</button>
+                                    <ul class="dropdown-menu-notas">
+                                        <li><a class="dropdown-item opcion-nota" href="#" data-valor="promocionado">Promocionado</a></li>
+                                        <li><a class="dropdown-item opcion-nota" href="#" data-valor="aprobado">Aprobado</a></li>
+                                        <li><a class="dropdown-item opcion-nota" href="#" data-valor="desaprobado">Desaprobado</a></li>
+                                        @if ($periodo !== 'REC' && $materia->promocionable)
+                                            <li><a class="dropdown-item opcion-nota" href="#" data-valor="promocion_directa">Promoción directa</a></li>
+                                        @endif
+                                    </ul>
+                                    @if ($c['etiqueta'])
+                                        <span class="badge-situacion badge-{{ $c['situacion'] }}">{{ $c['etiqueta'] }}</span>
+                                    @endif
+                                </div>
+                            </td>
+                        @endforeach
 
-                    @foreach ($alumnos as $alumno)
-                    <tr>
-                        <td>{{ $alumno }}</td>
-
-                        {{-- 1° Cuatrimestre --}}
-                        <td class="nota-cell">
-                            <div class="nota-wrapper dropdown">
-                                <input type="text" class="nota-input" placeholder="Nota">
-                                <button class="arrow-btn btn-dropdown">›</button>
+                        {{-- Cierre (solo lectura, lo completa el cierre automático o el cierre manual) --}}
+                        @php $cierre = $renderCeldaNota($fila->cierre); @endphp
+                        <td class="nota-cell" data-periodo="CIERRE">
+                            <div class="nota-wrapper dropdown" data-situacion="{{ $cierre['situacion'] }}">
+                                <input type="text" class="nota-input" placeholder="Nota" value="{{ $cierre['valor'] }}">
+                                <button type="button" class="arrow-btn btn-dropdown">›</button>
                                 <ul class="dropdown-menu-notas">
-                                    <li><a class="dropdown-item opcion-nota" href="#">Promocionado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Aprobado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Desaprobado</a></li>
+                                    <li><a class="dropdown-item opcion-nota" href="#" data-valor="promocionado">Promocionado</a></li>
+                                    <li><a class="dropdown-item opcion-nota" href="#" data-valor="aprobado">Aprobado</a></li>
+                                    <li><a class="dropdown-item opcion-nota" href="#" data-valor="desaprobado">Desaprobado</a></li>
                                 </ul>
+                                @if ($cierre['etiqueta'])
+                                    <span class="badge-situacion badge-{{ $cierre['situacion'] }}">{{ $cierre['etiqueta'] }}</span>
+                                @endif
                             </div>
                         </td>
 
-                        {{-- 2° Cuatrimestre --}}
-                        <td class="nota-cell">
-                            <div class="nota-wrapper dropdown">
-                                <input type="text" class="nota-input" placeholder="Nota">
-                                <button class="arrow-btn btn-dropdown">›</button>
-                                <ul class="dropdown-menu-notas">
-                                    <li><a class="dropdown-item opcion-nota" href="#">Promocionado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Aprobado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Desaprobado</a></li>
-                                </ul>
-                            </div>
-                        </td>
-
-                        {{-- Rec./Prefinal --}}
-                        <td class="nota-cell">
-                            <div class="nota-wrapper dropdown">
-                                <input type="text" class="nota-input" placeholder="Nota">
-                                <button class="arrow-btn btn-dropdown">›</button>
-                                <ul class="dropdown-menu-notas">
-                                    <li><a class="dropdown-item opcion-nota" href="#">Promocionado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Aprobado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Desaprobado</a></li>
-                                </ul>
-                            </div>
-                        </td>
-
-                        {{-- Cierre --}}
-                        <td class="nota-cell">
-                            <div class="nota-wrapper dropdown">
-                                <input type="text" class="nota-input" placeholder="Nota">
-                                <button class="arrow-btn btn-dropdown">›</button>
-                                <ul class="dropdown-menu-notas">
-                                    <li><a class="dropdown-item opcion-nota" href="#">Promocionado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Aprobado</a></li>
-                                    <li><a class="dropdown-item opcion-nota" href="#">Desaprobado</a></li>
-                                </ul>
-                            </div>
+                        {{-- Reprobar directo --}}
+                        <td class="text-center">
+                            <a
+                                href="#"
+                                class="btn-table btn-reprobar-directo"
+                                title="Reprobar alumno directamente"
+                                style="background:#dc2626; text-decoration: none;">
+                                <i class="ri-close-circle-line"></i>
+                            </a>
                         </td>
 
                     </tr>
                     @endforeach
-
                 </tbody>
             </table>
         </div>
 
         <div style="display:flex; justify-content:flex-start; gap:10px; margin-top:12px;">
-            <button class="btn-secondary" id="btn-limpiar">
-                <i class="ri-eraser-line"></i> Limpiar
-            </button>
             <button class="btn-primary" id="btn-guardar">
                 <i class="ri-save-line"></i> Guardar
             </button>
+        </div>
+
+        <br>
+
+        <h1>Alumnos desaprobados directamente</h1>
+
+        <div class="table-container tabla-responsive">
+            <table class="cursada-table" id="tablaReprobados">
+                <thead>
+                    <tr>
+                        <th>Alumno</th>
+                        <th>1° C</th>
+                        <th>2° C</th>
+                        <th>Rec./Prefinal</th>
+                        <th style="width:100px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($reprobados as $fila)
+                    <tr data-estado="reprobado" data-id="{{ $fila->id_usuario }}">
+                        <td>{{ $fila->nombre }}</td>
+                        <td>{{ $fila->primerC->valor ?? '—' }}</td>
+                        <td>{{ $fila->segundoC->valor ?? '—' }}</td>
+                        <td>{{ $fila->recPrefinal->valor ?? '—' }}</td>
+                        <td class="text-center">
+                            <a href="#" class="btn-table btn-restaurar" title="Restaurar a cursando">
+                                <i class="ri-arrow-go-back-line"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
     </div>

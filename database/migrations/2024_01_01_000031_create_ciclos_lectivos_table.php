@@ -10,9 +10,12 @@ return new class extends Migration
     {
         Schema::create('ciclos_lectivos', function (Blueprint $table) {
             $table->increments('id_ciclo');
+            $table->integer('anio');
             $table->string('descripcion');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
+            $table->date('inicio_matriculacion');
+            $table->date('fin_matriculacion');
             $table->unsignedInteger('id_usuario_administracion')->nullable();
             $table->timestamps();
 

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('mesa_examen_docente', function (Blueprint $table) {
             $table->unsignedInteger('id_mesa');
             $table->unsignedInteger('id_docente');
+            $table->string('cargo', 20)->nullable();
 
             $table->primary(['id_mesa', 'id_docente']);
             $table->foreign('id_mesa')->references('id_mesa')->on('mesas_examen');

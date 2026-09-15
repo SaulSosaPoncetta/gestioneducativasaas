@@ -48,33 +48,46 @@ class EstudianteController extends Controller
     // POST /alumnoAgregar
     // Guarda un nuevo alumno (AJAX JSON)
     // -------------------------------------------------------------------------
-    public function store(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'nombre'             => 'required|string|max:100',
-            'apellido'           => 'required|string|max:100',
-            'nombre_usuario'     => 'required|string|max:50|unique:usuarios,nombre_usuario',
-            'email'              => 'required|email|max:150|unique:usuarios,email',
-            'password'           => 'required|string|min:8',
-            'genero'             => 'nullable|in:M,F,Otro',
-            'id_localidad'       => 'required|integer|exists:localidades,id_localidad',
-            'id_pais'            => 'nullable|integer|exists:paises,id_pais',
-            'domicilio'          => 'nullable|string|max:255',
-            'fecha_nacimiento'   => 'nullable|date',
-            'dni'                => 'required|string|max:20|unique:dnis,dni',
-            'cuil'               => 'nullable|string|max:13',
-            'id_tipo_dni'        => 'required|integer|exists:tipos_dni,id_tipo_dni',
-            'telefono_celular'   => 'nullable|string|max:20',
-            'telefono_secundario'=> 'nullable|string|max:20',
-        ]);
+    public function store(Request $request): JsonResponse{
+    $validator = Validator::make($request->all(), [
+        'nombre'              => 'required|string|max:100',
+        'apellido'            => 'required|string|max:100',
+        'nombre_usuario'      => 'required|string|max:50|unique:usuarios,nombre_usuario',
+        'email'               => 'required|email|max:150|unique:usuarios,email',
+        'password'            => 'required|string|min:8',
+        'genero'              => 'nullable|in:M,F,Otro',
+        'id_localidad'     => 'required|integer|exists:localidades,id_localidad',
+        'id_pais'          => 'required|integer|exists:paises,id_pais',
+        'domicilio'        => 'required|string|max:255',
+        'fecha_nacimiento' => 'required|date',
+        'dni'                 => 'required|digits_between:7,8|unique:dnis,dni',
+        'cuil'                => ['nullable','regex:/^\d{2}-\d{8}-\d$/','unique:dnis,cuil',],
+        'id_tipo_dni'         => 'required|integer|exists:tipos_dni,id_tipo_dni',
+        'telefono_celular'    =>  'nullable|numeric|digits_between:10,13',
+    ],[
+        'dni.required' => 'Debe ingresar un DNI.',
+        'dni.digits_between' => 'El DNI debe tener entre 7 y 8 dígitos.',
+        'dni.unique' => 'Ese DNI ya está registrado.',
 
-        $estudiante = $this->estudianteService->create($validated);
+        'cuil.regex' => 'El CUIL/CIUT debe tener el formato 20-12345678-3.',
+        'cuil.unique' => 'Ese CUIL/CUIT ya está registrado.',
+]);
 
+    if ($validator->fails()) {
         return response()->json([
-            'success' => true,
-            'message' => 'Alumno creado correctamente.',
-            'data'    => $estudiante,
-        ], 201);
+            'success' => false,
+            'message' => 'Errores de validación.',
+            'errors'  => $validator->errors(),
+        ], 422);
+    }
+
+    $estudiante = $this->estudianteService->create($validator->validated());
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Alumno creado correctamente.',
+        'data'    => $estudiante,
+    ], 201);
     }
 
     // -------------------------------------------------------------------------
@@ -96,11 +109,11 @@ class EstudianteController extends Controller
         $tels            = $estudiante->usuario->telefonos->values();
         $telefonos = [
             'celular'    => $tels->get(0)?->telefono ?? '',
-            'secundario' => $tels->get(1)?->telefono ?? '',
         ];
 
         $localidades = $this->estudianteService->getLocalidades();
         $tiposDni    = $this->estudianteService->getTiposDni();
+        $paises      = $this->estudianteService->getPaises();
 
         return view('Secretaria.alumnoPerfil', compact(
             'estudiante',
@@ -110,7 +123,8 @@ class EstudianteController extends Controller
             'idTipoDni',
             'telefonos',
             'localidades',
-            'tiposDni'
+            'tiposDni',
+            'paises'
         ));
     }
 
@@ -118,49 +132,63 @@ class EstudianteController extends Controller
     // PUT /alumnoPerfil/{id}
     // Actualiza los datos del alumno (AJAX)
     // -------------------------------------------------------------------------
-    public function update(Request $request, int $id): JsonResponse
-    {
-        $validator = Validator::make($request->all(), [
-            'nombre'                 => 'required|string|max:100',
-            'apellido'               => 'required|string|max:100',
-            'email'                  => [
-                'required', 'email', 'max:150',
-                Rule::unique('usuarios', 'email')->ignore($id, 'id_usuario'),
-            ],
-            'nombre_usuario'         => [
-                'required', 'string', 'max:50',
-                Rule::unique('usuarios', 'nombre_usuario')->ignore($id, 'id_usuario'),
-            ],
-            'password'               => 'nullable|string|min:8',
-            'id_localidad_domicilio' => 'required|integer|exists:localidades,id_localidad',
-            'estado'                 => 'nullable|in:Activo,Inactivo',
-            'telefono_celular'       => 'nullable|string|max:20',
-            'telefono_secundario'    => 'nullable|string|max:20',
-            'dni'                    => [
-                'nullable', 'string', 'max:20',
-                Rule::unique('dnis', 'dni')->where(function ($query) use ($id) {
-                    return $query->where('id_usuario', '!=', $id);
-                }),
-            ],
-            'cuil'                   => 'nullable|string|max:13',
-            'id_tipo_dni'            => 'nullable|integer|exists:tipos_dni,id_tipo_dni',
-        ]);
+public function update(Request $request, int $id): JsonResponse
+{
+    $validator = Validator::make($request->all(), [
+        'nombre' => 'required|string|max:100',
+        'apellido' => 'required|string|max:100',
+        'email' => [
+            'required', 'email', 'max:150',
+            Rule::unique('usuarios', 'email')->ignore($id, 'id_usuario'),
+        ],
+        'nombre_usuario' => [
+            'required', 'string', 'max:50',
+            Rule::unique('usuarios', 'nombre_usuario')->ignore($id, 'id_usuario'),
+        ],
+        'password'               => 'nullable|string|min:8',
+        'id_localidad_domicilio' => 'required|integer|exists:localidades,id_localidad',
+        'estado'                 => 'nullable|in:Activo,Inactivo',
+        'telefono_celular'       => 'nullable|numeric|digits_between:10,13',
+        'genero'           => 'nullable|in:M,F,Otro',
+        'id_pais'          => 'nullable|integer|exists:paises,id_pais',
+        'domicilio'        => 'nullable|string|max:255',
+        'fecha_nacimiento' => 'nullable|date',
+        'dni' => [
+            'nullable', 'digits_between:7,8',
+            Rule::unique('dnis', 'dni')->where(function ($query) use ($id) {
+                return $query->where('id_usuario', '!=', $id);
+            }),
+        ],
+        'cuil' => [
+            'nullable',
+            'regex:/^\d{2}-\d{8}-\d$/',
+            Rule::unique('dnis', 'cuil')->where(function ($query) use ($id) {
+                return $query->where('id_usuario', '!=', $id);
+            }),
+        ],
+        'id_tipo_dni' => 'nullable|integer|exists:tipos_dni,id_tipo_dni',
+    ], [
+        'dni.unique'   => 'Ese DNI ya está registrado.',
+        'dni.digits_between' => 'El DNI debe tener entre 7 y 8 dígitos.',
+        'cuil.regex'   => 'El CUIL/CUIT debe tener el formato 20-12345678-3.',
+        'cuil.unique'  => 'Ese CUIL/CUIT ya está registrado.',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors'  => $validator->errors(),
-            ], 422);
-        }
-
-        $estudiante = $this->estudianteService->update($id, $validator->validated());
-
+    if ($validator->fails()) {
         return response()->json([
-            'success' => true,
-            'message' => 'Datos del alumno actualizados correctamente.',
-            'data'    => $estudiante,
-        ]);
+            'success' => false,
+            'errors'  => $validator->errors(),
+        ], 422);
     }
+
+    $estudiante = $this->estudianteService->update($id, $validator->validated());
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Datos del alumno actualizados correctamente.',
+        'data'    => $estudiante,
+    ]);
+}
 
     // -------------------------------------------------------------------------
     // PATCH /alumnos/{id}/estado

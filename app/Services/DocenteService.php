@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Services;
-
 use App\Models\Docente;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class DocenteService
 {
@@ -37,7 +37,7 @@ class DocenteService
         $query->distinct();
     return $query->orderBy('usuarios.apellido')->paginate(15);}
 
-public function toggleEstado(int $id): Administrador
+public function toggleEstado(int $id): Docente
     {
         return DB::transaction(function () use ($id) {
 

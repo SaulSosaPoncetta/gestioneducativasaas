@@ -17,12 +17,14 @@ return new class extends Migration
             $table->string('aula')->nullable();
             $table->unsignedInteger('id_usuario_administracion')->nullable();
             $table->unsignedInteger('id_ciclo');
+            $table->unsignedInteger('id_llamado')->nullable();
             $table->timestamps();
 
             $table->foreign('id_tipo_mesa')->references('id_tipo_mesa')->on('tipos_mesa_examen');
             $table->foreign('id_materia')->references('id_materia')->on('materias');
             $table->foreign('id_usuario_administracion')->references('id_usuario')->on('administradores');
             $table->foreign('id_ciclo')->references('id_ciclo')->on('ciclos_lectivos');
+            $table->foreign('id_llamado')->references('id_llamado')->on('llamados')->nullOnDelete();
         });
     }
 

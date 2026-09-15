@@ -16,15 +16,20 @@ class CicloLectivo extends Model
     // public $timestamps = false;
 
     protected $fillable = [
+        'anio',
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
+        'inicio_matriculacion',
+        'fin_matriculacion',
         'id_usuario_administracion', 
     ];
 
     protected $casts = [
         'fecha_inicio' => 'date',
         'fecha_fin'    => 'date',
+        'inicio_matriculacion' => 'date',
+        'fin_matriculacion' => 'date',
     ];
 
     // Relaciones
@@ -36,5 +41,14 @@ class CicloLectivo extends Model
     public function mesasExamen()
     {
         return $this->hasMany(MesaExamen::class, 'id_ciclo', 'id_ciclo');
+    }
+
+
+    public function matriculacionAbierta(): bool
+    {
+        $hoy = now()->toDateString();
+
+        return $hoy >= $this->inicio_matriculacion->toDateString()
+            && $hoy <= $this->fin_matriculacion->toDateString();
     }
 }

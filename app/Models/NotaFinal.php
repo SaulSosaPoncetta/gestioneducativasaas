@@ -16,17 +16,19 @@ class NotaFinal extends Model
     // public $timestamps = false;
 
     protected $fillable = [
-        'id_mesa',          
-        'valor',    
-        'id_tipo_archivo',  
+        'id_mesa',
+        'valor',
+        'baja',
+        'id_tipo_archivo',
         'fecha_carga',
-        'id_usuario',       
-        'id_materia',     
+        'id_usuario',
+        'id_materia',
     ];
 
     protected $casts = [
         'valor'       => 'decimal:2',
-        'fecha_carga' => 'datetime', 
+        'baja'        => 'boolean',
+        'fecha_carga' => 'datetime',
     ];
 
     // Relaciones

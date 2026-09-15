@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\MesaExamen;
 use App\Models\TipoMesaExamen;
+use App\Models\Llamado;
 use App\Models\Materia;
 use App\Models\Administrador;
 use App\Models\CicloLectivo;
@@ -26,6 +27,9 @@ class MesaExamenFactory extends Factory
 
             'id_tipo_mesa' =>
                 TipoMesaExamen::inRandomOrder()->first()->id_tipo_mesa,
+
+            'id_llamado' =>
+                Llamado::inRandomOrder()->first()?->id_llamado,
 
             'habilitado' => fake()->boolean(85),
 

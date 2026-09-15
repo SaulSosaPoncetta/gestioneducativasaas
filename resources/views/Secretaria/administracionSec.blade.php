@@ -97,24 +97,7 @@
 
     @include('partials.footer')
 
-
-    <!-- recargar la pagina al volver para atras si estás en el perfil, por si hay modificaciones -->
-    <script>
-        (function () {
-            window.addEventListener('pageshow', function(event){
-                if (event.persisted){
-                    window.location.reload();
-                }
-
-                const perfEntries = performance.getEntriesByType("navigation");
-
-                if (perfEntries.length > 0 && perfEntries[0].type === "back_forward"){
-                    window.location.reload();
-                }
-            });
-        })();
-    </script>
-
+    <script src="{{ asset('js/Secretaria/perfilEditable.js') }}"></script>
 
 </body>
 </html>

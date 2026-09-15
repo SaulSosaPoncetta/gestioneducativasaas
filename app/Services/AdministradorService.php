@@ -18,18 +18,17 @@ class AdministradorService
     public function buscar(array $filtros): LengthAwarePaginator
     {
         $query = Administrador::with(['usuario.dnis', 'usuario.telefonos'])
-            ->join('usuarios', 'administradores.id_usuario', '=', 'usuarios.id_usuario')
+            ->select('administradores.id_usuario')
+            ->join('usuarios', 'usuarios.id_usuario', '=', 'administradores.id_usuario')
             ->leftJoin('dnis', 'usuarios.id_usuario', '=', 'dnis.id_usuario')
-            ->leftJoin('telefonos', 'usuarios.id_usuario', '=', 'telefonos.id_usuario')
-            ->whereNull('usuarios.deleted_at')
-            ->select('administradores.*', 'usuarios.apellido', 'usuarios.nombre');
+            ->with(['usuario.rol', 'usuario.localidad', 'usuario.dnis', 'usuario.telefonos']);
 
         if (!empty($filtros['nombre_apellido'])) {
             $busqueda = '%' . $filtros['nombre_apellido'] . '%';
             $query->where(function ($q) use ($busqueda) {
                 $q->where('usuarios.nombre', 'like', $busqueda)
-                  ->orWhere('usuarios.apellido', 'like', $busqueda)
-                  ->orWhereRaw("(usuarios.nombre || ' ' || usuarios.apellido) LIKE ?", [$busqueda]);
+                ->orWhere('usuarios.apellido', 'like', $busqueda)
+                ->orWhereRaw("CONCAT(usuarios.nombre, ' ', usuarios.apellido) LIKE ?", [$busqueda]);
             });
         }
 
@@ -37,9 +36,8 @@ class AdministradorService
             $query->where('dnis.dni', 'like', '%' . $filtros['dni'] . '%');
         }
 
-        if (isset($filtros['estado']) && $filtros['habilitado'] !== '') {
-            $estado = filter_var($filtros['estado'], FILTER_VALIDATE_BOOLEAN) ? 'Activo' : 'Inactivo';
-            $query->where('usuarios.estado', $estado);
+        if (!empty($filtros['estado'])) {
+            $query->where('usuarios.estado', $filtros['estado']);
         }
 
         $query->distinct();
@@ -56,14 +54,17 @@ class AdministradorService
             'usuario.telefonos',
         ])->get();
     }
+
     public function getTiposDni(): \Illuminate\Database\Eloquent\Collection
     {
         return \App\Models\TipoDni::orderBy('descripcion')->get();
     }
+
     public function getPaises(): \Illuminate\Database\Eloquent\Collection
     {
         return \App\Models\Pais::orderBy('nombre_pais')->get();
     }
+
     public function getById(int $id): Administrador
     {
         return Administrador::with([
@@ -117,10 +118,10 @@ class AdministradorService
                 'id_tipo_dni' => $data['id_tipo_dni'],
             ]);
 
-            foreach ($data['telefonos'] as $numero) {
+            if (!empty($data['telefono'])) {
                 Telefono::create([
                     'id_usuario' => $usuario->id_usuario,
-                    'telefono'   => $numero,
+                    'telefono'   => $data['telefono'],
                 ]);
             }
 
@@ -171,12 +172,15 @@ class AdministradorService
                 ]);
             }
 
-            if (!empty($data['telefonos'])) {
+            // Solo se admite UN teléfono por usuario. Si llega vacío, se borra el que hubiera;
+            // si llega con valor, se reemplaza el existente (no se acumulan filas).
+            if (array_key_exists('telefono', $data)) {
                 Telefono::where('id_usuario', $id)->delete();
-                foreach ($data['telefonos'] as $numero) {
+
+                if (!empty($data['telefono'])) {
                     Telefono::create([
                         'id_usuario' => $id,
-                        'telefono'   => $numero,
+                        'telefono'   => $data['telefono'],
                     ]);
                 }
             }

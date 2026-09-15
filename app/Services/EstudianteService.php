@@ -118,7 +118,7 @@ class EstudianteService
      *   nombre, apellido, nombre_usuario, email, password,
      *   genero, id_localidad, id_pais (opcional), domicilio (opcional),
      *   fecha_nacimiento (opcional), dni, cuil (opcional), id_tipo_dni,
-     *   telefono_celular (opcional), telefono_secundario (opcional)
+     *   telefono_celular (opcional),
      * }
      */
     public function create(array $data): Estudiante
@@ -139,7 +139,7 @@ class EstudianteService
                 'password_hash'    => Hash::make($data['password']),
                 'id_rol'           => $idRol,
                 'genero'           => $data['genero'] ?? null,
-                'id_localidad'     => $data['id_localidad'],
+                'id_localidad'     => $data['id_localidad'] ?? null,
                 'id_pais'          => $data['id_pais'] ?? null,
                 'domicilio'        => $data['domicilio'] ?? null,
                 'fecha_nacimiento' => $data['fecha_nacimiento'] ?? null,
@@ -154,7 +154,7 @@ class EstudianteService
                 'id_usuario'  => $usuario->id_usuario,
                 'dni'         => $data['dni'],
                 'cuil'        => $data['cuil'] ?? null,
-                'id_tipo_dni' => $data['id_tipo_dni'],
+                'id_tipo_dni' => $data['id_tipo_dni']
             ]);
 
             if (!empty($data['telefono_celular'])) {
@@ -164,12 +164,7 @@ class EstudianteService
                 ]);
             }
 
-            if (!empty($data['telefono_secundario'])) {
-                Telefono::create([
-                    'id_usuario' => $usuario->id_usuario,
-                    'telefono'   => $data['telefono_secundario'],
-                ]);
-            }
+
 
             return $estudiante->load([
                 'usuario.localidad.pais',
@@ -196,12 +191,16 @@ class EstudianteService
 
             // Campos del usuario
             $camposUsuario = array_filter([
-                'nombre'         => $data['nombre']                 ?? null,
-                'apellido'       => $data['apellido']               ?? null,
-                'email'          => $data['email']                  ?? null,
-                'nombre_usuario' => $data['nombre_usuario']         ?? null,
-                'id_localidad'   => $data['id_localidad_domicilio'] ?? null,
-                'estado'         => $data['estado']                 ?? null,
+                'nombre'           => $data['nombre']                 ?? null,
+                'apellido'         => $data['apellido']               ?? null,
+                'email'            => $data['email']                  ?? null,
+                'nombre_usuario'   => $data['nombre_usuario']         ?? null,
+                'id_localidad'     => $data['id_localidad_domicilio'] ?? null,
+                'estado'           => $data['estado']                 ?? null,
+                'genero'           => $data['genero']                 ?? null,
+                'id_pais'          => $data['id_pais']                ?? null,
+                'domicilio'        => $data['domicilio']               ?? null,
+                'fecha_nacimiento' => $data['fecha_nacimiento']        ?? null,
             ], fn($v) => !is_null($v));
 
             if (!empty($data['password'])) {
@@ -228,10 +227,6 @@ class EstudianteService
                 $this->upsertTelefono($idUsuario, $data['telefono_celular'], 0);
             }
 
-            // Actualizar teléfono secundario (posición 1)
-            if (array_key_exists('telefono_secundario', $data)) {
-                $this->upsertTelefono($idUsuario, $data['telefono_secundario'], 1);
-            }
 
             return $estudiante->load([
                 'usuario.localidad.pais',

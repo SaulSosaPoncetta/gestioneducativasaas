@@ -6,6 +6,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Estudiante;
 use App\Models\Usuario;
+use App\Models\Administrador;
+use App\Models\Docente;
 
 class EstudianteSeeder extends Seeder
 {
@@ -14,11 +16,12 @@ class EstudianteSeeder extends Seeder
      */
     public function run(): void
     {
-        $usuarios = Usuario::inRandomOrder()
-            ->take(450)
-            ->get();
+        for ($i = 0; $i < 20; $i++) {
 
-        foreach ($usuarios as $usuario) {
+            $usuario = Usuario::factory()->create([
+                'id_rol' => 3,
+            ]);
+
             Estudiante::create([
                 'id_usuario' => $usuario->id_usuario,
             ]);

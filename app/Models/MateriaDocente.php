@@ -21,6 +21,15 @@ class MateriaDocente extends Model
         'id_usuario_docente',
         'id_usuario',
         'situacion_revista',
+        'division',
+        'fecha_inicio',
+        'fecha_fin',
+        'horas_semanales',
+    ];
+
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_fin'    => 'date',
     ];
 
     // Relaciones

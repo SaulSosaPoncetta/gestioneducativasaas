@@ -35,6 +35,16 @@
     background: rgba(37, 99, 235, 0.08);
 }
 
+.buscar-alumno-final {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+}
+
+.buscar-alumno-final .btn-agregar {
+    justify-self: start;
+    width: auto;
+}
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
     .btn-primary,

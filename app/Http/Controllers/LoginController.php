@@ -10,10 +10,10 @@ class LoginController extends Controller
 {
     protected AuthService $authService;
 
-   
+
     public function __construct()
     {
-        $this->authService = app(AuthService::class); 
+        $this->authService = app(AuthService::class);
     }
 
     // -------------------------------------------------------------------------
@@ -39,9 +39,33 @@ class LoginController extends Controller
         try {
             $this->authService->login($data, $request->ip());
 
-            return redirect()->intended('/homeSec');
+            // Se compara por rol->descripcion (no por id_rol numérico) por el
+            // mismo motivo que en el sidebar: el número puede no ser estable
+            // según cómo se hayan seedeado los roles.
+            switch (auth()->user()->rol->descripcion) {
 
-        } catch (ValidationException $e) {
+                case 'Administrador':
+                    return redirect()->route('home');
+
+                case 'Estudiante':
+                    // TODO: reemplazar por route('homeEst') cuando esa
+                    // pantalla y su ruta existan. Por ahora manda a
+                    // "Mis datos" del estudiante para no romper el login.
+                    return redirect()->route('homeEst');
+
+                case 'Docente':
+                    // TODO: reemplazar por route('homeDoc') cuando esa
+                    // pantalla y su ruta existan. Por ahora manda a
+                    // "Mis datos" (misma ruta que usa Secretaría/Docente
+                    // en el sidebar).
+                    return redirect()->route('misdatos');
+
+                default:
+                    return redirect('/login');
+            }
+
+        }
+        catch (ValidationException $e) {
             return back()
                 ->withInput($request->only('login'))
                 ->withErrors($e->errors());

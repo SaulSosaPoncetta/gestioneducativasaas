@@ -16,6 +16,7 @@ class AdministradorController extends Controller
     {
         $this->administradorService = $administradorService;
     }
+
     public function create()
     {
         $tiposDni    = $this->administradorService->getTiposDni();
@@ -24,150 +25,142 @@ class AdministradorController extends Controller
 
         return view('Secretaria.administracionAgregar', compact('tiposDni', 'localidades', 'paises'));
     }
-    // -------------------------------------------------------------------------
-    // GET /buscarAdministrador
-    // Muestra la vista con administradores filtrados
-    // Filtros: nombre_apellido, dni, habilitado
-    // -------------------------------------------------------------------------
+
     public function index(Request $request)
     {
-        $filtros         = $request->only(['nombre_apellido', 'dni', 'habilitado']);
+        $filtros         = $request->only(['nombre_apellido', 'dni', 'estado']);
         $administradores = $this->administradorService->buscar($filtros);
 
         return view('Secretaria.administracionSec', compact('administradores', 'filtros'));
     }
 
-    // -------------------------------------------------------------------------
-    // GET /administradores/{id}
-    // Muestra el perfil completo de un administrador
-    // -------------------------------------------------------------------------
     public function show(int $id)
-{
-    $administrador = $this->administradorService->getById($id);
-    $telefonos     = $administrador->usuario->telefonos;
-    $dni           = $administrador->usuario->dnis;
-    $localidades   = $this->administradorService->getLocalidades();
-    $paises        = $this->administradorService->getPaises();
-    $tiposDni      = $this->administradorService->getTiposDni(); 
+    {
+        $administrador = $this->administradorService->getById($id);
+        $telefonos     = $administrador->usuario->telefonos;
+        $dni           = $administrador->usuario->dnis;
+        $localidades   = $this->administradorService->getLocalidades();
+        $paises        = $this->administradorService->getPaises();
+        $tiposDni      = $this->administradorService->getTiposDni();
 
-    $tipoDocumento = $dni->first() && $dni->first()->tipoDni->descripcion !== 'CUIL/CUIT'
-        ? $dni->first()->tipoDni->descripcion: '—';
+        $tipoDocumento = $dni->first() ? $dni->first()->tipoDni->descripcion : '—';
 
-    return view('Secretaria.administracionPerfil', compact(
-        'administrador',
-        'telefonos',
-        'dni',
-        'localidades',
-        'paises',
-        'tiposDni',
-        'tipoDocumento'
-    ));
-}
-
-    // -------------------------------------------------------------------------
-    // POST /administradores
-    // Crea un nuevo administrador (llamado por AJAX desde la vista)
-    // Body: { nombre, apellido, nombre_usuario, email, password,
-    //         genero, id_localidad, dni, tipo_dni, telefonos: [] }
-    // -------------------------------------------------------------------------
-    public function store(Request $request)
-{
-    $validated = $request->validate([
-    'nombre'           => 'required|string|max:100',
-    'apellido'         => 'required|string|max:100',
-    'nombre_usuario'   => 'required|string|max:50|unique:usuarios,nombre_usuario',
-    'email'            => 'required|email|max:150|unique:usuarios,email',
-    'password'         => 'required|string|min:8',
-    'genero'           => 'required|in:M,F,Otro',
-    'id_localidad'     => 'required|integer|exists:localidades,id_localidad',
-    'id_pais'          => 'nullable|integer|exists:paises,id_pais',
-    'domicilio'        => 'nullable|string|max:255',
-    'fecha_nacimiento' => 'nullable|date',
-    'dni'              => 'required|string|max:20|unique:dnis,dni',
-    'cuil'             => 'nullable|string|max:13',
-    'id_tipo_dni'      => 'required|integer|exists:tipos_dni,id_tipo_dni',
-    'telefonos'        => 'required|array|min:1',
-    'telefonos.*'      => 'required|string|max:20',
-]);
-
-
-
-    $administrador = $this->administradorService->create($validated);
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Administrador creado correctamente.',
-        'data'    => $administrador,
-    ], 201);
-}
-
-    // -------------------------------------------------------------------------
-    // PUT /administradores/{id}
-    // Actualiza los datos del administrador (llamado por AJAX desde la vista)
-    // -------------------------------------------------------------------------
-   public function update(Request $request, int $id): JsonResponse
-{
-  
-    $validator = Validator::make($request->all(), [
-        'nombre'         => 'required|string|max:100',
-        'apellido'       => 'required|string|max:100',
-        'email'          => [
-            'required', 'email', 'max:150',
-            Rule::unique('usuarios', 'email')->ignore($id, 'id_usuario'),
-        ],
-        'nombre_usuario' => [
-            'required', 'string', 'max:50',
-            Rule::unique('usuarios', 'nombre_usuario')->ignore($id, 'id_usuario'),
-        ],
-        'password'         => 'nullable|string|min:8',
-        'genero'           => 'required|in:M,F,Otro',
-        'id_localidad'     => 'required|integer|exists:localidades,id_localidad',
-        'dni' => [
-            'required', 'string', 'max:20',
-            Rule::unique('dnis', 'dni')->where(function ($query) use ($id) {
-                return $query->where('id_usuario', '!=', $id);
-            }),
-        ],
-        'id_tipo_dni'      => 'required|integer|exists:tipos_dni,id_tipo_dni',
-        'telefonos'        => 'required|array|min:1',
-        'telefonos.*'      => 'required|string|max:20',
-        'id_pais'          => 'nullable|integer|exists:paises,id_pais',
-        'domicilio'        => 'nullable|string|max:255',
-        'fecha_nacimiento' => 'nullable|date',
-        'cuil'             => 'nullable|string|max:13',
-        'estado'           => 'sometimes|in:Activo,Inactivo',
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json([
-            'success' => false,
-            'errors'  => $validator->errors(),
-        ], 422);
+        return view('Secretaria.administracionPerfil', compact(
+            'administrador',
+            'telefonos',
+            'dni',
+            'localidades',
+            'paises',
+            'tiposDni',
+            'tipoDocumento'
+        ));
     }
 
-    $administrador = $this->administradorService->update($id, $validator->validated());
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nombre'           => 'required|string|max:100',
+            'apellido'         => 'required|string|max:100',
+            'nombre_usuario'   => 'required|string|max:50|unique:usuarios,nombre_usuario',
+            'email'            => 'required|email|max:150|unique:usuarios,email',
+            'password'         => 'required|string|min:8',
+            'genero'           => 'nullable|in:M,F,Otro',
+            'id_localidad'     => 'required|integer|exists:localidades,id_localidad',
+            'id_pais'          => 'required|integer|exists:paises,id_pais',
+            'domicilio'        => 'required|string|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'dni'              => 'required|digits_between:7,8|unique:dnis,dni',
+            'cuil'             => ['nullable', 'regex:/^\d{2}-\d{8}-\d$/', 'unique:dnis,cuil'],
+            'id_tipo_dni'      => 'required|integer|exists:tipos_dni,id_tipo_dni',
+            'telefono'         => 'nullable|numeric|digits_between:10,13',
+        ], [
+            'dni.required'       => 'Debe ingresar un DNI.',
+            'dni.digits_between' => 'El DNI debe tener entre 7 y 8 dígitos.',
+            'dni.unique'         => 'Ese DNI ya está registrado.',
+            'cuil.regex'         => 'El CUIL/CUIT debe tener el formato 20-12345678-3.',
+            'cuil.unique'        => 'Ese CUIL/CUIT ya está registrado.',
+        ]);
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Administrador actualizado correctamente.',
-        'data'    => $administrador,
-    ]);
-}
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
 
-    // -------------------------------------------------------------------------
-    // PATCH /administradores/{id}/estado
-    // Habilita o deshabilita un administrador (toggle)
-    // -------------------------------------------------------------------------
+        $administrador = $this->administradorService->create($validator->validated());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Administrador creado correctamente.',
+            'data'    => $administrador,
+        ], 201);
+    }
+
+    public function update(Request $request, int $id): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'nombre'           => 'required|string|max:100',
+            'apellido'         => 'required|string|max:100',
+            'email'            => [
+                'required', 'email', 'max:150',
+                Rule::unique('usuarios', 'email')->ignore($id, 'id_usuario'),
+            ],
+            'nombre_usuario'   => [
+                'required', 'string', 'max:50',
+                Rule::unique('usuarios', 'nombre_usuario')->ignore($id, 'id_usuario'),
+            ],
+            'password'         => 'nullable|string|min:8',
+            'genero'           => 'nullable|in:M,F,Otro',
+            'id_localidad'     => 'nullable|integer|exists:localidades,id_localidad',
+            'dni'              => [
+                'required', 'digits_between:7,8',
+                Rule::unique('dnis', 'dni')->where(fn($q) => $q->where('id_usuario', '!=', $id)),
+            ],
+            'cuil'             => [
+                'nullable',
+                'regex:/^\d{2}-\d{8}-\d$/',
+                Rule::unique('dnis', 'cuil')->where(fn($q) => $q->where('id_usuario', '!=', $id)),
+            ],
+            'id_tipo_dni'      => 'required|integer|exists:tipos_dni,id_tipo_dni',
+            'telefono'         => 'nullable|numeric|digits_between:10,13',
+            'id_pais'          => 'nullable|integer|exists:paises,id_pais',
+            'domicilio'        => 'nullable|string|max:255',
+            'fecha_nacimiento' => 'nullable|date',
+            'estado'           => 'sometimes|in:Activo,Inactivo',
+        ], [
+            'dni.digits_between' => 'El DNI debe tener entre 7 y 8 dígitos.',
+            'dni.unique'         => 'Ese DNI ya está registrado.',
+            'cuil.regex'         => 'El CUIL/CUIT debe tener el formato 20-12345678-3.',
+            'cuil.unique'        => 'Ese CUIL/CUIT ya está registrado.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        $administrador = $this->administradorService->update($id, $validator->validated());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Administrador actualizado correctamente.',
+            'data'    => $administrador,
+        ]);
+    }
+
     public function toggleEstado(int $id): JsonResponse
     {
         $administrador = $this->administradorService->toggleEstado($id);
         $estado = $administrador->usuario->estado;
 
         return response()->json([
-            'success'    => true,
-            'message'    => "Administrador {$estado} correctamente.",
+            'success' => true,
+            'message' => "Administrador {$estado} correctamente.",
             'estado'  => $estado,
-            'data'       => $administrador,
+            'data'    => $administrador,
         ]);
     }
 }

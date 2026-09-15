@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Events\PasswordReset;
 
 class AuthService
 {
@@ -58,6 +59,28 @@ class AuthService
             request()->session()->regenerateToken();
         }
     }
+
+    public function resetPassword(array $data): string
+{
+    $status = Password::reset(
+        $data,
+        function (Usuario $usuario, string $password) {
+            $usuario->forceFill([
+                'password_hash' => Hash::make($password),
+            ])->save();
+
+            event(new PasswordReset($usuario));
+        }
+    );
+
+    if ($status !== Password::PASSWORD_RESET) {
+        throw ValidationException::withMessages([
+            'email' => [__($status)],
+        ]);
+    }
+
+    return __($status);
+}
 
     /**
      * Enviar el link de reseteo de contraseña al email indicado.

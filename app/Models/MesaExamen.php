@@ -17,7 +17,8 @@ class MesaExamen extends Model
 
     protected $fillable = [
         'fecha',
-        'id_tipo_mesa',          
+        'id_tipo_mesa',
+        'id_llamado',
         'habilitado',            
         'id_materia',          
         'aula',
@@ -34,6 +35,11 @@ class MesaExamen extends Model
     public function tipoMesa()
     {
         return $this->belongsTo(TipoMesaExamen::class, 'id_tipo_mesa', 'id_tipo_mesa');
+    }
+
+    public function llamado()
+    {
+        return $this->belongsTo(Llamado::class, 'id_llamado', 'id_llamado');
     }
 
     public function materia()
@@ -53,6 +59,14 @@ class MesaExamen extends Model
 
     public function docentes()
     {
-        return $this->belongsToMany(Docente::class, 'mesa_examen_docente', 'id_mesa', 'id_docente');
+        return $this->belongsToMany(Docente::class, 'mesa_examen_docente', 'id_mesa', 'id_docente')
+            ->withPivot('cargo'); // 'titular' | 'vocal' (no confundir con usuarios.id_rol)
+    }
+
+    // Los estudiantes de una mesa salen de notas_final: cada fila es un
+    // estudiante inscripto a esa mesa (con o sin nota cargada todavía).
+    public function notasFinal()
+    {
+        return $this->hasMany(NotaFinal::class, 'id_mesa', 'id_mesa');
     }
 }

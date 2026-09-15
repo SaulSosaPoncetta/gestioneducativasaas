@@ -27,9 +27,10 @@ class Estudiante extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
 
-    public function carrera()
+    public function carreras()
     {
-        return $this->belongsTo(Carrera::class, 'id_carrera', 'id_carrera');
+        return $this->belongsToMany(Carrera::class, 'estudiante_carrera', 'id_usuario', 'id_carrera'
+        )->withPivot('cohorte', 'id_estado_carrera');
     }
 
     public function tipo()

@@ -14,14 +14,15 @@ class AdministradorSeeder extends Seeder
      */
     public function run(): void
     {
-        $usuarios = Usuario::inRandomOrder()
-            ->take(5)
-            ->get();
+        for ($i = 0; $i < 5; $i++) {
 
-        foreach ($usuarios as $usuario) {
+            $usuario = Usuario::factory()->create([
+                'id_rol' => 1,
+            ]);
+
             Administrador::create([
                 'id_usuario' => $usuario->id_usuario,
             ]);
-        }   
+        }  
     }
 }

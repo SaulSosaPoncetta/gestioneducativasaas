@@ -23,8 +23,8 @@ main {
 
 /* Logo acotado — nunca más de 160px ni más del 40% del ancho */
 .top img {
-    max-height: 110px;
-    max-width: min(160px, 40%);
+    max-height: 230px;
+    max-width: min(280px, 40%);
     width: auto;
     object-fit: contain;
 }

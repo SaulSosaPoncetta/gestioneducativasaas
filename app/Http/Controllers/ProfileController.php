@@ -14,7 +14,7 @@ class ProfileController extends Controller
 
     public function __construct()
 {
-    
+
     $this->profileService = new ProfileService();
 }
 
@@ -78,5 +78,14 @@ class ProfileController extends Controller
             'message' => 'Datos actualizados correctamente.',
             'data'    => $usuario,
         ]);
+    }
+        public function showEstudiante()
+    {
+        $usuario     = $this->profileService->getPerfil();
+        $paises      = \App\Models\Pais::orderBy('nombre_pais')->get();
+        $localidades = \App\Models\Localidad::orderBy('nombre_localidad')->get();
+        $tiposDni    = \App\Models\TipoDni::orderBy('descripcion')->get();
+
+        return view('Estudiante.misDatos', compact('usuario', 'paises', 'localidades', 'tiposDni'));
     }
 }

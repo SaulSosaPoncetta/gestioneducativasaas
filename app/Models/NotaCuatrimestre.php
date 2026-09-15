@@ -21,6 +21,9 @@ class NotaCuatrimestre extends Model
         'id_tipo_archivo',  
         'id_usuario',       
         'id_materia',       
+        'id_ciclo',
+        'periodo',
+        'situacion',
     ];
 
     protected $casts = [
@@ -42,5 +45,10 @@ class NotaCuatrimestre extends Model
     public function tipoArchivo()
     {
         return $this->belongsTo(TipoArchivo::class, 'id_tipo_archivo', 'id_tipo_archivo');
+    }
+
+    public function cicloLectivo()
+    {
+        return $this->belongsTo(CicloLectivo::class, 'id_ciclo', 'id_ciclo');
     }
 }
