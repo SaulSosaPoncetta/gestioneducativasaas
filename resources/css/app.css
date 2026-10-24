@@ -1,81 +1,109 @@
-@import 'tailwindcss';
-@import 'tailwindcss' no-preflight;
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/*
+ * Estilos del sistema (Vite).
+ * Bootstrap 5 + Bootstrap Icons desde node_modules, y los ajustes propios.
+ */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.min.css';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+:root {
+    --color-marca: #1f4e79;
+    --color-menu: #14263d;
 }
 
-/* ── PAGINACIÓN DATATABLES 2.x ─────────────────────── */
-.dt-paging {
-    margin-top: 16px;
-    display: flex;
-    gap: 4px;
+body {
+    background: #f3f5f8;
 }
 
-.dt-paging-button {
+/* ---------- Navbar ---------- */
+.navbar-principal {
+    background: var(--color-menu);
+}
+
+.navbar-principal .navbar-brand {
+    font-weight: 600;
+}
+
+.navbar-principal .nav-link {
+    color: #c9d3e0;
+    border-radius: .375rem;
+}
+
+.navbar-principal .nav-link:hover,
+.navbar-principal .nav-link:focus {
+    color: #fff;
+}
+
+.navbar-principal .nav-link.active,
+.navbar-principal .nav-link.show {
+    color: #fff;
+    background: rgba(255, 255, 255, .1);
+}
+
+.navbar-principal .navbar-nav .nav-link {
+    padding-left: .75rem;
+    padding-right: .75rem;
+}
+
+.navbar-principal .dropdown-item.active,
+.navbar-principal .dropdown-item:active {
+    background: var(--color-marca);
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-marca);
+    border: 2px solid rgba(255, 255, 255, .35);
+    color: #fff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 34px;
-    height: 34px;
-    padding: 0 8px;
-    border: 1px solid #e0e0e0 !important;
-    border-radius: 6px;
-    background: #fff !important;
-    color: #444 !important;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    box-shadow: none !important;
+    font-size: .8rem;
+    font-weight: 600;
 }
 
-.dt-paging-button:hover:not(.disabled) {
-    background: #f5f5f5 !important;
-    border-color: #ccc !important;
-    color: #444 !important;
+/* ---------- Tarjetas ---------- */
+.card {
+    border: 0;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .08);
 }
 
-.dt-paging-button.current {
-    background: #444 !important;
-    color: #fff !important;
-    border-color: #444 !important;
+.tarjeta-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: .5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
 }
 
-.dt-paging-button.disabled {
-    opacity: 0.35 !important;
-    cursor: not-allowed !important;
+/* ---------- Login ---------- */
+.pagina-login {
+    background: linear-gradient(135deg, var(--color-menu) 0%, var(--color-marca) 100%);
 }
 
-
-/* Aislar estilos de DataTables al contenedor de tabla */
-.table-container * {
-    box-sizing: border-box;
+.login-card {
+    max-width: 420px;
 }
 
-/* Asegurar que img del sidebar no se vea afectada */
-.sidebar img {
-    width: 200px !important;
-    height: 100px !important;
-    display: block;
-    margin: 8px auto;
+.login-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 1rem;
+    background: var(--color-marca);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
 }
 
-/* Asegurar que los links del sidebar no se vean afectados */
-.sidebar .menu a {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    padding: 9px 16px !important;
-    color: white !important;
-    text-decoration: none !important;
-    font-size: 14px !important;
-}
-
-.sidebar .menu a i {
-    font-size: 18px !important;
+/* ---------- Impresión ---------- */
+@media print {
+    .navbar-principal,
+    .no-print {
+        display: none !important;
+    }
 }
