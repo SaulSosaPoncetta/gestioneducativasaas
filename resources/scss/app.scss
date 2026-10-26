@@ -1,0 +1,159 @@
+// =============================================================================
+// Estilos del sistema — Bootstrap 5 compilado con la paleta propia (naranjas).
+// Para cambiar la paleta alcanza con tocar las variables de este bloque:
+// Bootstrap recalcula botones, links, switches, foco, alertas, badges, etc.
+// =============================================================================
+
+// ---------- Paleta ----------
+$naranja-50:  #fff7ed;
+$naranja-100: #ffedd5;
+$naranja-200: #fed7aa;
+$naranja-300: #fdba74;
+$naranja-400: #fb923c;
+$naranja-500: #f97316;
+$naranja-600: #ea580c;
+$naranja-700: #c2410c;
+$naranja-800: #9a3412;
+$naranja-900: #7c2d12;
+$naranja-950: #431407;
+
+// ---------- Variables de Bootstrap ----------
+$primary: $naranja-700;           // botones, links, switches (contraste AA con texto blanco)
+$orange:  $naranja-500;
+$info:    #0ea5e9;
+$primary-bg-subtle: $naranja-50;  // fondos suaves (alertas, resaltados)
+$primary-border-subtle: $naranja-200;
+$primary-text-emphasis: $naranja-900;
+$link-color: $naranja-700;
+$link-hover-color: $naranja-800;
+$focus-ring-color: rgba($naranja-500, .25);
+$input-focus-border-color: $naranja-400;
+$form-check-input-checked-bg-color: $naranja-600;
+$form-check-input-checked-border-color: $naranja-600;
+$form-switch-focus-color: $naranja-400;
+$dropdown-link-active-bg: $naranja-600;
+$pagination-active-bg: $naranja-700;
+$pagination-active-border-color: $naranja-700;
+
+@import 'bootstrap/scss/bootstrap';
+
+// ---------- Colores propios del sistema ----------
+:root {
+    --color-menu: #{$naranja-900};     // fondo del navbar
+    --color-menu-hover: #{$naranja-800};
+    --color-marca: #{$naranja-600};    // avatar, acentos
+    --color-claro: #{$naranja-200};
+}
+
+// Fondo de página apenas cálido (tarjetas y campos quedan blancos)
+body {
+    background-color: #faf7f5;
+}
+
+// ---------- Navbar ----------
+.navbar-principal {
+    background: linear-gradient(90deg, var(--color-menu) 0%, var(--color-menu-hover) 100%);
+
+    .navbar-brand {
+        font-weight: 600;
+
+        i {
+            color: $naranja-400;
+        }
+    }
+
+    .navbar-nav .nav-link {
+        color: $naranja-100;
+        border-radius: .375rem;
+        padding-left: .75rem;
+        padding-right: .75rem;
+
+        &:hover,
+        &:focus {
+            color: #fff;
+        }
+
+        &.active,
+        &.show {
+            color: #fff;
+            background: rgba(255, 255, 255, .14);
+        }
+    }
+
+    .navbar-toggler {
+        border-color: rgba(255, 255, 255, .3);
+    }
+}
+
+.barra-institucion {
+    border-top: 3px solid var(--color-marca);
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-marca);
+    border: 2px solid rgba(255, 255, 255, .45);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+// ---------- Tarjetas ----------
+.card {
+    border: 0;
+    box-shadow: 0 1px 3px rgba(67, 20, 7, .08);
+}
+
+.card-header {
+    border-bottom-color: $naranja-100;
+}
+
+.tarjeta-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: .5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+// ---------- Tablas ----------
+.table > thead.table-light {
+    --bs-table-bg: #{$naranja-50};
+    --bs-table-color: #{$naranja-950};
+}
+
+// ---------- Login ----------
+.pagina-login {
+    background: linear-gradient(135deg, $naranja-950 0%, $naranja-800 55%, $naranja-600 100%);
+}
+
+.login-card {
+    max-width: 420px;
+}
+
+.login-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 1rem;
+    background: var(--color-marca);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+// ---------- Impresión ----------
+@media print {
+    .navbar-principal,
+    .no-print {
+        display: none !important;
+    }
+}

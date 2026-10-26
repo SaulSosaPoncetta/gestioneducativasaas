@@ -18,9 +18,8 @@
             ['Usuarios', 'bi-person-badge', 'usuarios.index', ['admin']],
         ],
         'Académico' => [
-            ['Carreras y planes', 'bi-diagram-3', 'carreras.index', $gestion, 'carreras'],
-            ['Cursos y divisiones', 'bi-grid-3x3-gap', 'cursos.index', $gestion],
-            ['Espacios curriculares', 'bi-journal-text', 'materias.index', $gestion],
+            ['Planes de estudio', 'bi-diagram-3', 'planes.index', $gestion],
+            ['Cursos y divisiones', 'bi-grid-3x3-gap', 'cursos.index', $gestion, 'cursos'],
         ],
         'Personas' => [
             ['Estudiantes', 'bi-people', 'estudiantes.index', [...$gestion, 'preceptor']],
@@ -54,6 +53,7 @@
         return match ($condicion) {
             null       => true,
             'carreras' => $niveles->contains(fn ($n) => $n->usaCarreras()),
+            'cursos'   => $niveles->contains(fn ($n) => $n->usaCursos()),
             default    => $niveles->contains(fn ($n) => $n->value === $condicion),
         };
     };

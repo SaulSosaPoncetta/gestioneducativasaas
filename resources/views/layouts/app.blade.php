@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('titulo', 'Inicio') · {{ config('app.name') }}</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     @stack('estilos')
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -104,13 +104,11 @@
                 </div>
             @endif
 
+            {{-- El detalle de cada error se muestra debajo de su campo --}}
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show">
-                    <ul class="mb-0 ps-3">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ $errors->count() === 1 ? 'Hay un dato para revisar' : 'Hay ' . $errors->count() . ' datos para revisar' }} en el formulario.
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif

@@ -6,6 +6,7 @@
  * dentro de document.addEventListener('DOMContentLoaded', ...).
  */
 import './bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import * as bootstrap from 'bootstrap';
 
 window.bootstrap = bootstrap;

@@ -6,10 +6,18 @@ use App\Enums\NivelEducativo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class Institucion extends Model
 {
     protected $table = 'instituciones';
+
+    public const PROVINCIAS = [
+        'Buenos Aires', 'Ciudad Autónoma de Buenos Aires', 'Catamarca', 'Chaco', 'Chubut',
+        'Córdoba', 'Corrientes', 'Entre Ríos', 'Formosa', 'Jujuy', 'La Pampa', 'La Rioja',
+        'Mendoza', 'Misiones', 'Neuquén', 'Río Negro', 'Salta', 'San Juan', 'San Luis',
+        'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego', 'Tucumán',
+    ];
 
     protected $fillable = [
         'nombre', 'nombre_corto', 'cue', 'cuit', 'tipo_gestion',
@@ -22,9 +30,16 @@ class Institucion extends Model
         return ['activo' => 'boolean'];
     }
 
+    /**
+     * Niveles de ESTA institución. Se quita el filtro por institución actual
+     * porque la relación ya filtra por institucion_id (si no, el superadmin
+     * parado en otra institución no vería los niveles de la que edita).
+     */
     public function niveles(): HasMany
     {
-        return $this->hasMany(InstitucionNivel::class)->orderBy('orden');
+        return $this->hasMany(InstitucionNivel::class)
+            ->withoutGlobalScope('institucion')
+            ->orderBy('orden');
     }
 
     public function usuarios(): HasMany
@@ -46,5 +61,10 @@ class Institucion extends Model
     public function getNombreVisibleAttribute(): string
     {
         return $this->nombre_corto ?: $this->nombre;
+    }
+
+    public function getLogoUrlAttribute(): ?string
+    {
+        return $this->logo_path ? Storage::disk('public')->url($this->logo_path) : null;
     }
 }

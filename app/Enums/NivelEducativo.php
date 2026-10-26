@@ -42,6 +42,19 @@ enum NivelEducativo: string
         };
     }
 
+    /** Ejemplo de denominación oficial, para los formularios. */
+    public function ejemploDenominacion(): string
+    {
+        return match ($this) {
+            self::Inicial           => 'Jardín de Infantes N° 905',
+            self::Primario          => 'EP N° 12 Gral. San Martín',
+            self::Secundario        => 'ES N° 3',
+            self::SecundarioTecnico => 'EEST N° 1',
+            self::Terciario         => 'ISFD N° 81',
+            self::Universitario     => 'Facultad de Ciencias Económicas',
+        };
+    }
+
     /** Cómo se llama cada tramo: "Sala de 4", "3° Grado", "2° Año". */
     public function unidadCurso(): string
     {
@@ -108,6 +121,94 @@ enum NivelEducativo: string
             self::Terciario         => 3,
             self::Universitario     => 5,
         };
+    }
+
+    /** Esquema de evaluación propuesto al crear un ciclo lectivo (editable). */
+    public function esquemaSugerido(): EsquemaEvaluacion
+    {
+        return match ($this) {
+            self::Inicial                          => EsquemaEvaluacion::Informes,
+            self::Primario                         => EsquemaEvaluacion::Trimestral,
+            self::Secundario, self::SecundarioTecnico,
+            self::Terciario, self::Universitario   => EsquemaEvaluacion::Cuatrimestral,
+        };
+    }
+
+    /** Períodos de intensificación / recuperación (diciembre y febrero). */
+    public function tieneIntensificacion(): bool
+    {
+        return in_array($this, [self::Secundario, self::SecundarioTecnico], true);
+    }
+
+    /** Se organiza en cursos con divisiones por ciclo lectivo (no en carreras). */
+    public function usaCursos(): bool
+    {
+        return ! $this->usaCarreras();
+    }
+
+    /**
+     * Tipos de plan de estudio que admite el nivel.
+     * - general: plan único (primaria, jardín) o ciclo básico común.
+     * - orientacion / especialidad: ciclo superior de secundaria / técnica.
+     * - carrera: terciario y universitario.
+     *
+     * @return array<string, string>
+     */
+    public function tiposPlan(): array
+    {
+        return match ($this) {
+            self::Inicial, self::Primario => ['general' => 'Plan general'],
+            self::Secundario => ['general' => 'Ciclo básico', 'orientacion' => 'Orientación (ciclo superior)'],
+            self::SecundarioTecnico => ['general' => 'Ciclo básico', 'especialidad' => 'Especialidad (ciclo superior)'],
+            self::Terciario, self::Universitario => ['carrera' => 'Carrera'],
+        };
+    }
+
+    /** Campos de formación (estructura curricular de técnica y nivel superior). */
+    public function usaCamposFormacion(): bool
+    {
+        return in_array($this, [self::SecundarioTecnico, self::Terciario, self::Universitario], true);
+    }
+
+    /** Cómo se llaman las unidades del plan: "Áreas", "Materias", "Unidades curriculares". */
+    public function nombreEspacios(): string
+    {
+        return match ($this) {
+            self::Inicial, self::Primario             => 'Áreas',
+            self::Secundario, self::SecundarioTecnico => 'Materias',
+            self::Terciario, self::Universitario      => 'Unidades curriculares',
+        };
+    }
+
+    /**
+     * Tramos posibles según la duración configurada.
+     * Inicial: edades de sala (duración 3 => salas de 3, 4 y 5).
+     *
+     * @return int[]
+     */
+    public function grados(int $duracion): array
+    {
+        if ($this === self::Inicial) {
+            return range(max(1, 6 - $duracion), 5);
+        }
+
+        return range(1, max(1, $duracion));
+    }
+
+    /** "Sala de 4", "3° Grado", "2° Año". */
+    public function etiquetaGrado(int $grado): string
+    {
+        return match ($this) {
+            self::Inicial  => "Sala de {$grado}",
+            self::Primario => "{$grado}° Grado",
+            default        => "{$grado}° Año",
+        };
+    }
+
+    /** Versión corta para listados: "Sala 4", "3°", "2°". */
+    public function etiquetaGradoCorta(int $grado): string
+    {
+        return $this === self::Inicial ? "Sala {$grado}" : "{$grado}°";
     }
 
     public function icono(): string
