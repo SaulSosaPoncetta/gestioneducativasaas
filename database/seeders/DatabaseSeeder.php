@@ -7,9 +7,12 @@ use App\Enums\Rol;
 use App\Models\CicloLectivo;
 use App\Models\Curso;
 use App\Models\EspacioCurricular;
+use App\Models\Estudiante;
+use App\Models\Inscripcion;
 use App\Models\Institucion;
 use App\Models\InstitucionNivel;
 use App\Models\PlanEstudio;
+use App\Models\Tutor;
 use App\Models\User;
 use App\Services\CicloLectivoService;
 use App\Support\InstitucionActual;
@@ -24,6 +27,7 @@ use Illuminate\Support\Facades\DB;
  * - Instituto Superior Belgrano (terciario y universitario) con su ciclo.
  * - Planes de estudio de ejemplo para cada nivel (simplificados, para probar:
  *   no son los diseños curriculares oficiales completos).
+ * - Estudiantes de ejemplo con sus familias e inscripciones.
  *
  * Contraseña de todos los usuarios de demo: password
  * Cambiala en producción.
@@ -79,11 +83,14 @@ class DatabaseSeeder extends Seeder
             admin: ['email' => 'admin@isbelgrano.edu.ar', 'dni' => '20333444']
         );
 
+        $this->planesColegio($colegio);
+        $this->planesInstituto($isb);
+
         $this->cicloDemo($colegio, conCursos: true);
         $this->cicloDemo($isb, conCursos: false);
 
-        $this->planesColegio($colegio);
-        $this->planesInstituto($isb);
+        $this->estudiantesColegio($colegio);
+        $this->estudiantesInstituto($isb);
 
         InstitucionActual::establecer(null);
     }
@@ -164,10 +171,15 @@ class DatabaseSeeder extends Seeder
             foreach ($n->nivel->grados($n->duracion) as $grado) {
                 $divisiones = $n->nivel === NivelEducativo::Inicial ? ['Roja', 'Verde'] : ['A', 'B'];
 
+                $plan = PlanEstudio::where('institucion_nivel_id', $n->id)
+                    ->where('grado_desde', '<=', $grado)->where('grado_hasta', '>=', $grado)
+                    ->orderBy('id')->first();
+
                 foreach ($divisiones as $i => $division) {
                     Curso::create([
                         'ciclo_lectivo_id'     => $ciclo->id,
                         'institucion_nivel_id' => $n->id,
+                        'plan_estudio_id'      => $plan?->id,
                         'grado'                => $grado,
                         'division'             => $division,
                         'turno'                => $i === 0 ? 'manana' : 'tarde',
@@ -363,5 +375,135 @@ class DatabaseSeeder extends Seeder
         }
 
         return $plan;
+    }
+
+    // -------------------------------------------------------------------------
+    // Estudiantes de ejemplo
+    // -------------------------------------------------------------------------
+
+    protected const APELLIDOS = ['González', 'Rodríguez', 'Gómez', 'Fernández', 'López', 'Díaz', 'Martínez', 'Pérez',
+        'García', 'Sánchez', 'Romero', 'Sosa', 'Álvarez', 'Torres', 'Ruiz', 'Ramírez', 'Flores', 'Acosta', 'Benítez', 'Medina'];
+    protected const NOMBRES_F = ['Sofía', 'Martina', 'Valentina', 'Isabella', 'Catalina', 'Emma', 'Mía', 'Olivia', 'Delfina', 'Julieta'];
+    protected const NOMBRES_M = ['Mateo', 'Benjamín', 'Thiago', 'Bautista', 'Joaquín', 'Santiago', 'Lautaro', 'Felipe', 'Tomás', 'Bruno'];
+    protected const NOMBRES_ADULTOS_F = ['Carolina', 'Paula', 'Laura', 'Natalia', 'Silvina', 'Andrea', 'Mariana', 'Verónica'];
+    protected const NOMBRES_ADULTOS_M = ['Pablo', 'Diego', 'Martín', 'Sergio', 'Gustavo', 'Hernán', 'Leandro', 'Fernando'];
+
+    /** 3 estudiantes por curso del ciclo en curso, con madre o padre. Algunos hermanos comparten tutor. */
+    protected function estudiantesColegio(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (Estudiante::exists()) {
+            return;
+        }
+
+        $ciclo  = CicloLectivo::enCurso()->first();
+        $cursos = Curso::with('nivel')->where('ciclo_lectivo_id', $ciclo->id)->where('division', '!=', 'B')
+            ->where('division', '!=', 'Verde')->orderBy('institucion_nivel_id')->orderBy('grado')->get();
+
+        $n = 0;
+        $tutorAnterior = null;
+
+        foreach ($cursos as $curso) {
+            for ($i = 0; $i < 3; $i++, $n++) {
+                $femenino = $n % 2 === 0;
+                $edad = match ($curso->nivel->nivel) {
+                    NivelEducativo::Inicial => $curso->grado,
+                    NivelEducativo::Primario => $curso->grado + 5,
+                    default => $curso->grado + 11,
+                };
+
+                // Cada 7 estudiantes, uno es hermano del anterior (mismo apellido y tutor).
+                $hermano = $tutorAnterior && $n % 7 === 0;
+                $apellido = $hermano ? $tutorAnterior->apellido : self::APELLIDOS[$n % count(self::APELLIDOS)];
+
+                $estudiante = Estudiante::create([
+                    'apellido'         => $apellido,
+                    'nombre'           => ($femenino ? self::NOMBRES_F : self::NOMBRES_M)[($n * 7 + intdiv($n, 20)) % 10],
+                    'tipo_documento'   => 'dni',
+                    'documento'        => (string) (60000000 - $edad * 1000000 + $n * 137),
+                    'fecha_nacimiento' => now()->subYears($edad)->subDays(($n * 37) % 300)->toDateString(),
+                    'genero'           => $femenino ? 'femenino' : 'masculino',
+                    'nacionalidad'     => 'Argentina',
+                    'domicilio'        => 'Calle ' . (1 + $n % 30) . ' N° ' . (100 + $n * 7),
+                    'localidad'        => 'La Plata',
+                    'obra_social'      => $n % 3 ? 'IOMA' : 'OSDE',
+                    'grupo_sanguineo'  => ['0+', 'A+', 'B+', '0-'][$n % 4],
+                    'salud_observaciones' => $n % 11 === 0 ? 'Alergia a la penicilina.' : null,
+                    'fecha_ingreso'    => $ciclo->fecha_inicio->toDateString(),
+                    'estado'           => 'activo',
+                ]);
+
+                $tutor = $hermano ? $tutorAnterior : Tutor::create([
+                    'apellido'  => $apellido,
+                    'nombre'    => ($n % 3 ? self::NOMBRES_ADULTOS_F : self::NOMBRES_ADULTOS_M)[$n % 8],
+                    'documento' => (string) (25000000 + $n * 1013),
+                    'telefono'  => '221-15' . str_pad((string) (400000 + $n * 91), 6, '0', STR_PAD_LEFT),
+                    'email'     => 'familia' . $n . '@ejemplo.com',
+                    'domicilio' => $estudiante->domicilio,
+                ]);
+
+                $estudiante->tutores()->attach($tutor->id, [
+                    'vinculo'               => $n % 3 ? 'madre' : 'padre',
+                    'es_responsable'        => true,
+                    'autorizado_retirar'    => true,
+                    'convive'               => true,
+                    'recibe_notificaciones' => true,
+                ]);
+
+                $tutorAnterior = $tutor;
+
+                Inscripcion::create([
+                    'estudiante_id'        => $estudiante->id,
+                    'ciclo_lectivo_id'     => $ciclo->id,
+                    'institucion_nivel_id' => $curso->institucion_nivel_id,
+                    'curso_id'             => $curso->id,
+                    'plan_estudio_id'      => $curso->plan_estudio_id,
+                    'fecha'                => $ciclo->fecha_inicio->copy()->subDays(20)->toDateString(),
+                    'condicion'            => $n % 13 === 0 ? 'repitente' : 'regular',
+                ]);
+            }
+        }
+    }
+
+    /** 8 estudiantes del Profesorado (mayores de edad, sin tutores). */
+    protected function estudiantesInstituto(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (Estudiante::exists()) {
+            return;
+        }
+
+        $ciclo = CicloLectivo::enCurso()->first();
+        $plan  = PlanEstudio::where('tipo', 'carrera')->first();
+
+        for ($n = 0; $n < 8; $n++) {
+            $femenino = $n % 4 !== 0;
+
+            $estudiante = Estudiante::create([
+                'apellido'         => self::APELLIDOS[($n * 3) % count(self::APELLIDOS)],
+                'nombre'           => ($femenino ? self::NOMBRES_ADULTOS_F : self::NOMBRES_ADULTOS_M)[$n],
+                'tipo_documento'   => 'dni',
+                'documento'        => (string) (40000000 + $n * 2711),
+                'fecha_nacimiento' => now()->subYears(19 + $n)->toDateString(),
+                'genero'           => $femenino ? 'femenino' : 'masculino',
+                'nacionalidad'     => 'Argentina',
+                'localidad'        => 'Mar del Plata',
+                'email'            => 'estudiante' . $n . '@ejemplo.com',
+                'telefono'         => '223-15' . str_pad((string) (500000 + $n * 77), 6, '0', STR_PAD_LEFT),
+                'fecha_ingreso'    => $ciclo->fecha_inicio->toDateString(),
+                'estado'           => 'activo',
+            ]);
+
+            Inscripcion::create([
+                'estudiante_id'        => $estudiante->id,
+                'ciclo_lectivo_id'     => $ciclo->id,
+                'institucion_nivel_id' => $plan->institucion_nivel_id,
+                'plan_estudio_id'      => $plan->id,
+                'fecha'                => $ciclo->fecha_inicio->copy()->subDays(30)->toDateString(),
+                'condicion'            => $n < 4 ? 'ingresante' : 'regular',
+            ]);
+        }
     }
 }

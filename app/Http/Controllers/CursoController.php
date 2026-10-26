@@ -7,6 +7,7 @@ use App\Http\Requests\CursoRequest;
 use App\Models\CicloLectivo;
 use App\Models\Curso;
 use App\Models\InstitucionNivel;
+use App\Models\PlanEstudio;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,7 +35,8 @@ class CursoController extends Controller
         $totales = collect();
 
         if ($ciclo && $nivel) {
-            $cursos = Curso::with(['nivel', 'preceptor'])
+            $cursos = Curso::with(['nivel', 'preceptor', 'plan'])
+                ->withCount('inscripcionesActivas')
                 ->where('ciclo_lectivo_id', $ciclo->id)
                 ->where('institucion_nivel_id', $nivel->id)
                 ->orderBy('grado')
@@ -74,6 +76,7 @@ class CursoController extends Controller
             'ciclo'       => $ciclo,
             'nivel'       => $nivel,
             'preceptores' => $this->preceptores(),
+            'planes'      => $this->planes($nivel),
         ]);
     }
 
@@ -113,6 +116,7 @@ class CursoController extends Controller
             'ciclo'       => $curso->ciclo,
             'nivel'       => $curso->nivel,
             'preceptores' => $this->preceptores(),
+            'planes'      => $this->planes($curso->nivel),
         ]);
     }
 
@@ -138,10 +142,23 @@ class CursoController extends Controller
             return $this->cicloCerrado($curso->ciclo, $curso->nivel);
         }
 
+        if ($curso->inscripcionesActivas()->exists()) {
+            return back()->with('error', "{$curso->nombre} tiene estudiantes inscriptos: no se puede eliminar.");
+        }
+
         $nombre = $curso->nombre;
         $curso->delete();
 
         return back()->with('ok', "Se eliminó {$nombre}.");
+    }
+
+    /** Planes vigentes del nivel (la vista filtra los que cubren el año elegido). */
+    protected function planes(InstitucionNivel $nivel)
+    {
+        return PlanEstudio::where('institucion_nivel_id', $nivel->id)
+            ->orderBy('grado_desde')
+            ->orderBy('nombre')
+            ->get();
     }
 
     protected function preceptores()

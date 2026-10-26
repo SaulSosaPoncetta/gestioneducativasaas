@@ -93,7 +93,7 @@ class CicloLectivoService
         }
     }
 
-    /** Copia los cursos (grado, división, turno, aula, cupo y preceptor) de un ciclo a otro. */
+    /** Copia los cursos (grado, división, plan, turno, aula, cupo y preceptor) de un ciclo a otro. */
     public function copiarCursos(CicloLectivo $origen, CicloLectivo $destino, InstitucionNivel $nivel): int
     {
         $copiados = 0;
@@ -109,7 +109,7 @@ class CicloLectivoService
                         'grado'                => $curso->grado,
                         'division'             => $curso->division,
                     ],
-                    $curso->only(['turno', 'preceptor_id', 'aula', 'cupo'])
+                    $curso->only(['plan_estudio_id', 'turno', 'preceptor_id', 'aula', 'cupo'])
                 );
                 $copiados++;
             });

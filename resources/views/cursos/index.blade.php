@@ -72,7 +72,8 @@
                         <th class="d-none d-md-table-cell">Turno</th>
                         <th class="d-none d-lg-table-cell">Preceptor/a</th>
                         <th class="d-none d-lg-table-cell">Aula</th>
-                        <th class="d-none d-sm-table-cell text-center">Cupo</th>
+                        <th class="d-none d-xl-table-cell">Plan</th>
+                        <th class="d-none d-sm-table-cell text-center">Inscriptos</th>
                         <th class="text-end">Acciones</th>
                     </tr>
                 </thead>
@@ -95,7 +96,18 @@
                                 <td class="d-none d-md-table-cell">{{ $curso->turno_label }}</td>
                                 <td class="d-none d-lg-table-cell">{{ $curso->preceptor?->nombre_completo ?? '—' }}</td>
                                 <td class="d-none d-lg-table-cell">{{ $curso->aula ?: '—' }}</td>
-                                <td class="d-none d-sm-table-cell text-center">{{ $curso->cupo ?: '—' }}</td>
+                                <td class="d-none d-xl-table-cell small">{{ $curso->plan?->nombre ?? '—' }}</td>
+                                <td class="d-none d-sm-table-cell text-center">
+                                    @php $inscriptos = $curso->inscripciones_activas_count; @endphp
+                                    @if (Route::has('estudiantes.index'))
+                                        <a href="{{ route('estudiantes.index', ['curso' => $curso->id]) }}"
+                                           class="badge text-decoration-none {{ $curso->cupo && $inscriptos >= $curso->cupo ? 'text-bg-danger' : 'text-bg-light border' }}">
+                                            {{ $inscriptos }}{{ $curso->cupo ? ' / ' . $curso->cupo : '' }}
+                                        </a>
+                                    @else
+                                        {{ $inscriptos }}{{ $curso->cupo ? ' / ' . $curso->cupo : '' }}
+                                    @endif
+                                </td>
                                 <td class="text-end text-nowrap">
                                     @unless ($ciclo->estaCerrado())
                                         <a href="{{ route('cursos.edit', $curso) }}" class="btn btn-sm btn-outline-secondary" title="Editar"><i class="bi bi-pencil"></i></a>
@@ -110,7 +122,7 @@
                         @empty
                             <tr class="text-muted">
                                 <td class="fw-semibold border-end">{{ $nivel->nivel->etiquetaGrado($grado) }}</td>
-                                <td colspan="5" class="small">Sin {{ Str::lower(Str::plural($nivel->nivel->unidadDivision())) }}</td>
+                                <td colspan="6" class="small">Sin {{ Str::lower(Str::plural($nivel->nivel->unidadDivision())) }}</td>
                                 <td class="text-end">
                                     @unless ($ciclo->estaCerrado())
                                         <a href="{{ route('cursos.create', ['ciclo' => $ciclo->id, 'nivel' => $nivel->id, 'grado' => $grado]) }}"

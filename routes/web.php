@@ -6,9 +6,12 @@ use App\Http\Controllers\CicloLectivoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EspacioCurricularController;
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\MiInstitucionController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PlanEstudioController;
+use App\Http\Controllers\TutorController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Middleware\RequiereInstitucion;
 use Illuminate\Support\Facades\Route;
@@ -103,5 +106,52 @@ Route::middleware(['auth', 'institucion'])->group(function () {
             ->parameters(['planes' => 'plan', 'espacios' => 'espacio'])
             ->only(['create', 'store', 'edit', 'update', 'destroy'])
             ->shallow();
+
+        // Estudiantes (alta y edición del legajo)
+        Route::resource('estudiantes', EstudianteController::class)
+            ->parameters(['estudiantes' => 'estudiante'])
+            ->only(['create', 'store', 'edit', 'update']);
+
+        // Tutores vinculados a un estudiante
+        Route::get('/estudiantes/{estudiante}/tutores/agregar', [TutorController::class, 'create'])
+            ->name('estudiantes.tutores.create');
+        Route::post('/estudiantes/{estudiante}/tutores', [TutorController::class, 'store'])
+            ->name('estudiantes.tutores.store');
+        Route::get('/estudiantes/{estudiante}/tutores/{tutor}/editar', [TutorController::class, 'editVinculo'])
+            ->name('estudiantes.tutores.edit');
+        Route::put('/estudiantes/{estudiante}/tutores/{tutor}', [TutorController::class, 'updateVinculo'])
+            ->name('estudiantes.tutores.update');
+        Route::delete('/estudiantes/{estudiante}/tutores/{tutor}', [TutorController::class, 'desvincular'])
+            ->name('estudiantes.tutores.destroy');
+
+        // Tutores (datos)
+        Route::resource('tutores', TutorController::class)
+            ->parameters(['tutores' => 'tutor'])
+            ->only(['edit', 'update', 'destroy']);
+
+        // Inscripciones
+        Route::get('/estudiantes/{estudiante}/inscribir', [InscripcionController::class, 'create'])
+            ->name('estudiantes.inscripciones.create');
+        Route::post('/estudiantes/{estudiante}/inscripciones', [InscripcionController::class, 'store'])
+            ->name('estudiantes.inscripciones.store');
+        Route::get('/inscripciones/{inscripcion}/editar', [InscripcionController::class, 'edit'])
+            ->name('inscripciones.edit');
+        Route::put('/inscripciones/{inscripcion}', [InscripcionController::class, 'update'])
+            ->name('inscripciones.update');
+        Route::patch('/inscripciones/{inscripcion}/estado', [InscripcionController::class, 'estado'])
+            ->name('inscripciones.estado');
+        Route::delete('/inscripciones/{inscripcion}', [InscripcionController::class, 'destroy'])
+            ->name('inscripciones.destroy');
+    });
+
+    // -----------------------------------------------------------------
+    // Consulta de estudiantes y familias (gestión + preceptoría)
+    // Va después del grupo anterior para que /estudiantes/crear no
+    // lo tome {estudiante}.
+    // -----------------------------------------------------------------
+    Route::middleware(['rol:admin,directivo,secretario,preceptor', RequiereInstitucion::class])->group(function () {
+        Route::get('/estudiantes', [EstudianteController::class, 'index'])->name('estudiantes.index');
+        Route::get('/estudiantes/{estudiante}', [EstudianteController::class, 'show'])->name('estudiantes.show');
+        Route::get('/tutores', [TutorController::class, 'index'])->name('tutores.index');
     });
 });

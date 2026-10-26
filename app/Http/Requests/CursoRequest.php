@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Curso;
 use App\Models\InstitucionNivel;
+use App\Models\PlanEstudio;
 use App\Support\InstitucionActual;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -56,6 +57,10 @@ class CursoRequest extends FormRequest
                 'nullable', 'integer',
                 Rule::exists('users', 'id')->where('institucion_id', $institucion)->where('rol', 'preceptor'),
             ],
+            'plan_estudio_id' => [
+                'nullable', 'integer',
+                Rule::exists('planes_estudio', 'id')->where('institucion_id', $institucion),
+            ],
             'aula' => ['nullable', 'string', 'max:40'],
             'cupo' => ['nullable', 'integer', 'between:1,999'],
         ];
@@ -78,6 +83,15 @@ class CursoRequest extends FormRequest
 
                 if (! in_array((int) $this->grado, $nivel->nivel->grados($nivel->duracion), true)) {
                     $validator->errors()->add('grado', 'El ' . mb_strtolower($nivel->nivel->unidadCurso()) . ' elegido no corresponde al nivel.');
+                }
+
+                if ($this->filled('plan_estudio_id')) {
+                    $plan = PlanEstudio::find($this->plan_estudio_id);
+
+                    if ($plan->institucion_nivel_id !== $nivel->id
+                        || $this->grado < $plan->grado_desde || $this->grado > $plan->grado_hasta) {
+                        $validator->errors()->add('plan_estudio_id', 'El plan elegido no corresponde a ese nivel y año.');
+                    }
                 }
 
                 $divisiones = $this->divisiones();
@@ -125,7 +139,7 @@ class CursoRequest extends FormRequest
 
     public function datosCurso(): array
     {
-        return $this->only(['ciclo_lectivo_id', 'institucion_nivel_id', 'grado', 'turno', 'preceptor_id', 'aula', 'cupo']);
+        return $this->only(['ciclo_lectivo_id', 'institucion_nivel_id', 'plan_estudio_id', 'grado', 'turno', 'preceptor_id', 'aula', 'cupo']);
     }
 
     public function attributes(): array
@@ -135,6 +149,7 @@ class CursoRequest extends FormRequest
             'ciclo_lectivo_id'     => 'ciclo lectivo',
             'grado'                => 'año / grado / sala',
             'preceptor_id'         => 'preceptor',
+            'plan_estudio_id'      => 'plan de estudio',
             'divisiones'           => 'divisiones',
             'division'             => 'división',
         ];

@@ -51,6 +51,23 @@
                         @endif
                     </div>
 
+                    <div class="col-12">
+                        <label for="plan_estudio_id" class="form-label">Plan de estudio</label>
+                        <select name="plan_estudio_id" id="plan_estudio_id" class="form-select @error('plan_estudio_id') is-invalid @enderror">
+                            <option value="">Sin plan asignado</option>
+                            @foreach ($planes as $p)
+                                <option value="{{ $p->id }}" data-desde="{{ $p->grado_desde }}" data-hasta="{{ $p->grado_hasta }}"
+                                        @selected((int) old('plan_estudio_id', $curso->plan_estudio_id) === $p->id)>
+                                    {{ $p->nombre }} ({{ $p->alcance }}){{ $p->activo ? '' : ' · inactivo' }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if ($planes->isEmpty())
+                            <div class="form-text">Este nivel no tiene planes cargados. Se cargan desde Planes de estudio.</div>
+                        @endif
+                        @error('plan_estudio_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
                     <div class="col-md-5">
                         <label for="turno" class="form-label">Turno <span class="text-danger">*</span></label>
                         <select name="turno" id="turno" class="form-select @error('turno') is-invalid @enderror">
@@ -98,5 +115,33 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    // Muestra solo los planes que cubren el año elegido y, si hay uno solo, lo elige.
+    document.addEventListener('DOMContentLoaded', () => {
+        const grado = document.getElementById('grado');
+        const plan = document.getElementById('plan_estudio_id');
+
+        const filtrar = (inicial) => {
+            const g = +grado.value;
+            const validas = [];
+            [...plan.options].forEach((o) => {
+                if (!o.value) return;
+                const ok = g && g >= +o.dataset.desde && g <= +o.dataset.hasta;
+                o.hidden = !ok;
+                o.disabled = !ok;
+                if (ok) validas.push(o);
+            });
+            if (plan.selectedOptions[0]?.disabled) plan.value = '';
+            if (!inicial && !plan.value && validas.length === 1) plan.value = validas[0].value;
+            if (inicial && !plan.value && validas.length === 1 && !{{ $curso->exists ? 'true' : 'false' }}) plan.value = validas[0].value;
+        };
+
+        grado.addEventListener('change', () => filtrar(false));
+        filtrar(true);
+    });
+</script>
+@endpush
 
 @endsection
