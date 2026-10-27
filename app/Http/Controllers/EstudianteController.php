@@ -7,6 +7,7 @@ use App\Models\CicloLectivo;
 use App\Models\Curso;
 use App\Models\Estudiante;
 use App\Models\InstitucionNivel;
+use App\Services\AsistenciaService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -82,7 +83,15 @@ class EstudianteController extends Controller
             'usuario',
         ]);
 
-        return view('estudiantes.show', compact('estudiante'));
+        $servicio = app(AsistenciaService::class);
+        $ciclo    = CicloLectivo::actual();
+
+        return view('estudiantes.show', [
+            'estudiante'  => $estudiante,
+            'ciclo'       => $ciclo,
+            'asistencia'  => $servicio->resumenEstudiante($estudiante, $ciclo),
+            'porMateria'  => $servicio->porMateria($estudiante, $ciclo),
+        ]);
     }
 
     public function edit(Estudiante $estudiante): View

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Institucion extends Model
 {
@@ -25,9 +26,14 @@ class Institucion extends Model
         'logo_path', 'activo',
     ];
 
+    protected $hidden = ['api_token'];
+
     protected function casts(): array
     {
-        return ['activo' => 'boolean'];
+        return [
+            'activo'              => 'boolean',
+            'api_token_creado_at' => 'datetime',
+        ];
     }
 
     /**
@@ -66,5 +72,41 @@ class Institucion extends Model
     public function getLogoUrlAttribute(): ?string
     {
         return $this->logo_path ? Storage::disk('public')->url($this->logo_path) : null;
+    }
+
+    // -------------------------------------------------------------------------
+    // Token de integración (GestiónAula). Se guarda solo el hash SHA-256:
+    // el token en claro se muestra una única vez al generarlo.
+    // -------------------------------------------------------------------------
+
+    public function generarApiToken(): string
+    {
+        $token = 'ge_' . Str::random(48);
+
+        $this->forceFill([
+            'api_token'           => hash('sha256', $token),
+            'api_token_creado_at' => now(),
+        ])->save();
+
+        return $token;
+    }
+
+    public function revocarApiToken(): void
+    {
+        $this->forceFill(['api_token' => null, 'api_token_creado_at' => null])->save();
+    }
+
+    public function tieneApiToken(): bool
+    {
+        return $this->api_token !== null;
+    }
+
+    public static function porApiToken(?string $token): ?self
+    {
+        if (! $token) {
+            return null;
+        }
+
+        return static::where('api_token', hash('sha256', $token))->where('activo', true)->first();
     }
 }

@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\InstitucionController;
+use App\Http\Controllers\AsignacionController;
+use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CicloLectivoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Docente\MisCursosController;
+use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EspacioCurricularController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InscripcionController;
@@ -71,6 +76,8 @@ Route::middleware(['auth', 'institucion'])->group(function () {
     Route::middleware(['rol:admin', RequiereInstitucion::class])->group(function () {
         Route::get('/mi-institucion', [MiInstitucionController::class, 'edit'])->name('institucion.edit');
         Route::put('/mi-institucion', [MiInstitucionController::class, 'update'])->name('institucion.update');
+        Route::post('/mi-institucion/token', [MiInstitucionController::class, 'generarToken'])->name('institucion.token');
+        Route::delete('/mi-institucion/token', [MiInstitucionController::class, 'revocarToken'])->name('institucion.token.revocar');
 
         Route::resource('usuarios', UsuarioController::class)
             ->parameters(['usuarios' => 'usuario'])
@@ -142,6 +149,48 @@ Route::middleware(['auth', 'institucion'])->group(function () {
             ->name('inscripciones.estado');
         Route::delete('/inscripciones/{inscripcion}', [InscripcionController::class, 'destroy'])
             ->name('inscripciones.destroy');
+
+        // Docentes y asignaciones
+        Route::resource('docentes', DocenteController::class)
+            ->parameters(['docentes' => 'docente'])
+            ->except(['destroy']);
+        Route::resource('asignaciones', AsignacionController::class)
+            ->parameters(['asignaciones' => 'asignacion'])
+            ->except(['show']);
+    });
+
+    // -----------------------------------------------------------------
+    // Asistencia diaria (preceptoría, dirección y secretaría)
+    // -----------------------------------------------------------------
+    Route::middleware(['rol:admin,directivo,secretario,preceptor', RequiereInstitucion::class])->group(function () {
+        Route::get('/asistencia', [AsistenciaController::class, 'index'])->name('asistencia.index');
+        Route::get('/asistencia/cursos/{curso}', [AsistenciaController::class, 'tomar'])->name('asistencia.tomar');
+        Route::post('/asistencia/cursos/{curso}', [AsistenciaController::class, 'guardar'])->name('asistencia.guardar');
+        Route::get('/asistencia/cursos/{curso}/mensual', [AsistenciaController::class, 'mensual'])->name('asistencia.mensual');
+        Route::patch('/asistencia/{asistencia}/justificar', [AsistenciaController::class, 'justificar'])->name('asistencia.justificar');
+    });
+
+    // -----------------------------------------------------------------
+    // Calificaciones
+    // -----------------------------------------------------------------
+    Route::middleware(['rol:admin,directivo,secretario', RequiereInstitucion::class])->group(function () {
+        Route::get('/calificaciones/cargar', [CalificacionController::class, 'cargar'])->name('calificaciones.cargar');
+        Route::post('/calificaciones/cargar', [CalificacionController::class, 'guardar'])->name('calificaciones.guardar');
+        Route::delete('/calificaciones/{calificacion}', [CalificacionController::class, 'eliminar'])->name('calificaciones.eliminar');
+        Route::get('/calificaciones/configuracion', [CalificacionController::class, 'configuracion'])->name('calificaciones.configuracion');
+        Route::put('/calificaciones/configuracion', [CalificacionController::class, 'guardarConfiguracion'])->name('calificaciones.configuracion.guardar');
+    });
+    Route::middleware(['rol:admin,directivo,secretario,preceptor', RequiereInstitucion::class])->group(function () {
+        Route::get('/calificaciones', [CalificacionController::class, 'index'])->name('calificaciones.index');
+        Route::get('/estudiantes/{estudiante}/boletin', [CalificacionController::class, 'boletin'])->name('calificaciones.boletin');
+    });
+
+    // -----------------------------------------------------------------
+    // Portal docente
+    // -----------------------------------------------------------------
+    Route::middleware(['rol:docente', RequiereInstitucion::class])->group(function () {
+        Route::get('/mis-cursos', [MisCursosController::class, 'index'])->name('docente.cursos');
+        Route::get('/mis-cursos/{asignacion}', [MisCursosController::class, 'show'])->name('docente.cursos.show');
     });
 
     // -----------------------------------------------------------------

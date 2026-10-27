@@ -4,8 +4,15 @@ namespace Database\Seeders;
 
 use App\Enums\NivelEducativo;
 use App\Enums\Rol;
+use App\Models\Asignacion;
+use App\Models\Asistencia;
+use App\Models\AsistenciaEspacio;
+use App\Models\AsistenciaToma;
+use App\Models\Calificacion;
+use App\Models\PeriodoEvaluacion;
 use App\Models\CicloLectivo;
 use App\Models\Curso;
+use App\Models\Docente;
 use App\Models\EspacioCurricular;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
@@ -18,6 +25,7 @@ use App\Services\CicloLectivoService;
 use App\Support\InstitucionActual;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 /**
  * Datos iniciales:
@@ -28,6 +36,12 @@ use Illuminate\Support\Facades\DB;
  * - Planes de estudio de ejemplo para cada nivel (simplificados, para probar:
  *   no son los diseños curriculares oficiales completos).
  * - Estudiantes de ejemplo con sus familias e inscripciones.
+ * - Docentes con sus asignaciones (quedan algunos espacios sin cubrir a
+ *   propósito). Docente con usuario: Marcela Ríos, DNI 27111333.
+ * - Asistencia diaria de las últimas dos semanas en primaria y secundaria,
+ *   y algunas clases de 1° Grado A como si llegaran desde GestiónAula.
+ * - Calificaciones del primer período (y parte del segundo) e informes de
+ *   jardín, como si llegaran desde GestiónAula.
  *
  * Contraseña de todos los usuarios de demo: password
  * Cambiala en producción.
@@ -91,6 +105,12 @@ class DatabaseSeeder extends Seeder
 
         $this->estudiantesColegio($colegio);
         $this->estudiantesInstituto($isb);
+
+        $this->docentesColegio($colegio);
+        $this->docentesInstituto($isb);
+
+        $this->asistenciaColegio($colegio);
+        $this->calificacionesColegio($colegio);
 
         InstitucionActual::establecer(null);
     }
@@ -504,6 +524,303 @@ class DatabaseSeeder extends Seeder
                 'fecha'                => $ciclo->fecha_inicio->copy()->subDays(30)->toDateString(),
                 'condicion'            => $n < 4 ? 'ingresante' : 'regular',
             ]);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Docentes de ejemplo
+    // -------------------------------------------------------------------------
+
+    protected function docente(string $apellido, string $nombre, string $dni, ?string $titulo = null, bool $conUsuario = false): Docente
+    {
+        $docente = Docente::create([
+            'apellido'      => $apellido,
+            'nombre'        => $nombre,
+            'documento'     => $dni,
+            'titulo'        => $titulo,
+            'telefono'      => '221-15' . substr($dni, -6),
+            'email'         => mb_strtolower(Str::ascii($nombre . '.' . $apellido)) . '@docentes.ejemplo.com',
+            'fecha_ingreso' => now()->subYears(3)->startOfYear()->toDateString(),
+            'estado'        => 'activo',
+        ]);
+
+        if ($conUsuario) {
+            $usuario = User::create([
+                'institucion_id' => $docente->institucion_id,
+                'nombre'         => $nombre,
+                'apellido'       => $apellido,
+                'dni'            => $dni,
+                'email'          => $docente->email,
+                'password'       => 'password',
+                'rol'            => Rol::Docente,
+                'activo'         => true,
+            ]);
+            $docente->update(['user_id' => $usuario->id]);
+        }
+
+        return $docente;
+    }
+
+    /** Asigna al docente los espacios del curso cuyo nombre está (o no está) en la lista. */
+    protected function asignar(Docente $docente, Curso $curso, CicloLectivo $ciclo, ?array $solo = null, array $excepto = [], string $situacion = 'titular'): void
+    {
+        $espacios = EspacioCurricular::where('plan_estudio_id', $curso->plan_estudio_id)->where('grado', $curso->grado)->get()
+            ->filter(fn ($e) => ($solo === null || in_array($e->nombre, $solo, true)) && ! in_array($e->nombre, $excepto, true));
+
+        foreach ($espacios as $e) {
+            Asignacion::create([
+                'docente_id'            => $docente->id,
+                'ciclo_lectivo_id'      => $ciclo->id,
+                'espacio_curricular_id' => $e->id,
+                'curso_id'              => $curso->id,
+                'situacion'             => $situacion,
+                'horas'                 => $e->horas_semanales,
+                'fecha_desde'           => $ciclo->fecha_inicio->toDateString(),
+            ]);
+        }
+    }
+
+    protected function docentesColegio(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (Docente::exists()) {
+            return;
+        }
+
+        $ciclo  = CicloLectivo::enCurso()->first();
+        $cursos = Curso::with('nivel')->where('ciclo_lectivo_id', $ciclo->id)->orderBy('grado')->orderBy('division')->get()
+            ->groupBy(fn ($c) => $c->nivel->nivel->value);
+
+        $especiales = ['Educación Física', 'Educación Artística', 'Inglés'];
+        $edFisica = $this->docente('Castro', 'Rodrigo', '26444555', 'Profesor de Educación Física');
+        $artistica = $this->docente('Molina', 'Lucía', '29555666', 'Profesora de Artes Visuales');
+        $ingles = $this->docente('Herrera', 'Claudia', '24666777', 'Profesora de Inglés');
+
+        // Jardín: una maestra por sala (Ed. Física con el profesor especial).
+        $jardineras = [['Paz', 'Florencia'], ['Vega', 'Romina'], ['Luna', 'Agustina'], ['Ríos', 'Belén'], ['Suárez', 'Daiana'], ['Ortiz', 'Carla']];
+        foreach (($cursos['inicial'] ?? collect())->values() as $i => $curso) {
+            [$ap, $no] = $jardineras[$i % count($jardineras)];
+            $maestra = $this->docente($ap, $no, (string) (30100000 + $i * 111), 'Profesora de Educación Inicial');
+            $this->asignar($maestra, $curso, $ciclo, excepto: ['Educación Física', 'Educación Artística']);
+            $this->asignar($edFisica, $curso, $ciclo, solo: ['Educación Física']);
+            $this->asignar($artistica, $curso, $ciclo, solo: ['Educación Artística']);
+        }
+
+        // Primaria: maestra de grado + especiales.
+        $maestras = [['Ríos', 'Marcela'], ['Navarro', 'Silvia'], ['Cabrera', 'Andrea'], ['Giménez', 'Paola'], ['Ramos', 'Natalia'], ['Ojeda', 'Verónica'],
+                     ['Peralta', 'Gabriela'], ['Quiroga', 'Mónica'], ['Aguirre', 'Liliana'], ['Correa', 'Viviana'], ['Ledesma', 'Sandra'], ['Domínguez', 'Elena']];
+        foreach (($cursos['primario'] ?? collect())->values() as $i => $curso) {
+            [$ap, $no] = $maestras[$i % count($maestras)];
+            $dni = $i === 0 ? '27111333' : (string) (31200000 + $i * 111);
+            $maestra = $this->docente($ap, $no, $dni, 'Profesora de Educación Primaria', conUsuario: $i === 0);
+            $this->asignar($maestra, $curso, $ciclo, excepto: $especiales);
+            $this->asignar($edFisica, $curso, $ciclo, solo: ['Educación Física']);
+            $this->asignar($artistica, $curso, $ciclo, solo: ['Educación Artística']);
+            $this->asignar($ingles, $curso, $ciclo, solo: ['Inglés']);
+        }
+
+        // Secundaria y técnica: profesores por materia (algunas quedan sin cubrir).
+        $profesores = [
+            'Matemática'             => $this->docente('Benítez', 'Javier', '25777888', 'Profesor de Matemática'),
+            'Prácticas del Lenguaje' => $this->docente('Sosa', 'Mariana', '28888999', 'Profesora de Lengua y Literatura'),
+            'Literatura'             => null,
+            'Historia'               => $this->docente('Méndez', 'Ricardo', '23999111', 'Profesor de Historia'),
+            'Geografía'              => $this->docente('Rojas', 'Patricia', '27222444', 'Profesora de Geografía'),
+            'Biología'               => $this->docente('Figueroa', 'Laura', '30333555', 'Profesora de Biología'),
+            'Ciencias Naturales'     => null,
+            'Taller de Electricidad' => $this->docente('Arias', 'Oscar', '22444666', 'Técnico Electricista'),
+            'Procedimientos Técnicos' => null,
+        ];
+        $profesores['Literatura'] = $profesores['Prácticas del Lenguaje'];
+        $profesores['Ciencias Naturales'] = $profesores['Biología'];
+        $profesores['Procedimientos Técnicos'] = $profesores['Taller de Electricidad'];
+
+        foreach (['secundario', 'secundario_tecnico'] as $nivel) {
+            foreach (($cursos[$nivel] ?? collect()) as $curso) {
+                foreach ($profesores as $materia => $profe) {
+                    $this->asignar($profe, $curso, $ciclo, solo: [$materia]);
+                }
+                $this->asignar($edFisica, $curso, $ciclo, solo: ['Educación Física']);
+                $this->asignar($ingles, $curso, $ciclo, solo: ['Inglés']);
+            }
+        }
+
+        // Un suplente de ejemplo en Matemática de 1° Año A (secundaria).
+        $suplente = $this->docente('Villalba', 'Ezequiel', '33555777', 'Profesor de Matemática');
+        if ($curso = ($cursos['secundario'] ?? collect())->first()) {
+            $this->asignar($suplente, $curso, $ciclo, solo: ['Matemática'], situacion: 'suplente');
+        }
+
+        // Una docente sin asignaciones todavía.
+        $this->docente('Pereyra', 'Carolina', '34666888', 'Profesora de Química');
+    }
+
+    protected function docentesInstituto(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (Docente::exists()) {
+            return;
+        }
+
+        $ciclo = CicloLectivo::enCurso()->first();
+        $plan  = PlanEstudio::where('tipo', 'carrera')->with('espacios')->first();
+
+        $porCampo = [
+            'general'              => $this->docente('Lombardi', 'Ana', '21333444', 'Lic. en Ciencias de la Educación'),
+            'especifica'           => $this->docente('Ferreyra', 'Mario', '22555666', 'Profesor de Matemática'),
+            'practica_profesional' => $this->docente('Bianchi', 'Susana', '23777888', 'Profesora de Educación Primaria'),
+        ];
+
+        foreach ($plan->espacios as $i => $e) {
+            if ($i % 5 === 4) {
+                continue; // algunos sin cubrir
+            }
+
+            Asignacion::create([
+                'docente_id'            => $porCampo[$e->campo]->id,
+                'ciclo_lectivo_id'      => $ciclo->id,
+                'espacio_curricular_id' => $e->id,
+                'comision'              => 'Única',
+                'situacion'             => 'titular',
+                'horas'                 => $e->horas_semanales,
+                'fecha_desde'           => $ciclo->fecha_inicio->toDateString(),
+            ]);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Asistencia de ejemplo
+    // -------------------------------------------------------------------------
+
+    protected function asistenciaColegio(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (AsistenciaToma::exists()) {
+            return;
+        }
+
+        $ciclo = CicloLectivo::enCurso()->first();
+        $dias = collect(range(14, 1))->map(fn ($d) => today()->subDays($d))
+            ->filter(fn ($d) => $d->isWeekday() && $d->between($ciclo->fecha_inicio, $ciclo->fecha_fin))
+            ->values();
+
+        $preceptora = User::where('rol', Rol::Preceptor->value)->first();
+        $cursos = Curso::with('nivel')->where('ciclo_lectivo_id', $ciclo->id)->get()
+            ->filter(fn ($c) => in_array($c->nivel->nivel, [NivelEducativo::Primario, NivelEducativo::Secundario], true));
+
+        foreach ($cursos as $curso) {
+            $estudiantes = Inscripcion::where('curso_id', $curso->id)->where('estado', Inscripcion::ACTIVA)->pluck('estudiante_id');
+
+            foreach ($dias as $d => $dia) {
+                $toma = AsistenciaToma::create([
+                    'ciclo_lectivo_id' => $ciclo->id,
+                    'curso_id'         => $curso->id,
+                    'fecha'            => $dia->toDateString(),
+                    'user_id'          => $preceptora?->id,
+                ]);
+
+                foreach ($estudiantes as $i => $estudianteId) {
+                    $semilla = ($estudianteId * 7 + $d * 3) % 23;
+                    $estado = match (true) {
+                        $semilla === 0, $semilla === 11 => 'ausente',
+                        $semilla === 5                  => 'tarde',
+                        $semilla === 17                 => 'retiro',
+                        default                         => 'presente',
+                    };
+
+                    Asistencia::create([
+                        'asistencia_toma_id' => $toma->id,
+                        'estudiante_id'      => $estudianteId,
+                        'fecha'              => $dia->toDateString(),
+                        'estado'             => $estado,
+                        'justificada'        => $estado === 'ausente' && $semilla === 11,
+                        'motivo'             => $estado === 'ausente' && $semilla === 11 ? 'Certificado médico' : null,
+                    ]);
+                }
+            }
+        }
+
+        // Clases de Matemática de 1° Grado A recibidas "desde GestiónAula".
+        $asignacion = Asignacion::with('espacio')->whereHas('espacio', fn ($q) => $q->where('nombre', 'Matemática'))
+            ->whereHas('docente', fn ($q) => $q->where('documento', '27111333'))->first();
+
+        if ($asignacion) {
+            $estudiantes = Inscripcion::where('curso_id', $asignacion->curso_id)->where('estado', Inscripcion::ACTIVA)->pluck('estudiante_id');
+
+            foreach ($dias->take(6) as $d => $dia) {
+                foreach ($estudiantes as $i => $estudianteId) {
+                    AsistenciaEspacio::create([
+                        'ciclo_lectivo_id'      => $ciclo->id,
+                        'asignacion_id'         => $asignacion->id,
+                        'espacio_curricular_id' => $asignacion->espacio_curricular_id,
+                        'curso_id'              => $asignacion->curso_id,
+                        'docente_id'            => $asignacion->docente_id,
+                        'estudiante_id'         => $estudianteId,
+                        'fecha'                 => $dia->toDateString(),
+                        'estado'                => ($i + $d) % 5 === 0 ? 'ausente' : 'presente',
+                        'origen'                => 'gestionaula',
+                        'referencia'            => 'demo-' . $dia->format('Ymd'),
+                    ]);
+                }
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Calificaciones de ejemplo (como si llegaran desde GestiónAula)
+    // -------------------------------------------------------------------------
+
+    protected function calificacionesColegio(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (Calificacion::exists()) {
+            return;
+        }
+
+        $ciclo  = CicloLectivo::enCurso()->first();
+        $cursos = Curso::with(['nivel', 'plan'])->where('ciclo_lectivo_id', $ciclo->id)->whereNotNull('plan_estudio_id')->get();
+
+        foreach ($cursos as $curso) {
+            $periodos = PeriodoEvaluacion::where('ciclo_lectivo_id', $ciclo->id)
+                ->where('institucion_nivel_id', $curso->institucion_nivel_id)
+                ->where('tipo', PeriodoEvaluacion::REGULAR)->orderBy('orden')->get();
+            $espacios = EspacioCurricular::where('plan_estudio_id', $curso->plan_estudio_id)->where('grado', $curso->grado)->get();
+            $alumnos  = Inscripcion::where('curso_id', $curso->id)->where('estado', Inscripcion::ACTIVA)->pluck('estudiante_id');
+            $docentes = Asignacion::where('curso_id', $curso->id)->pluck('docente_id', 'espacio_curricular_id');
+            $inicial  = $curso->nivel->nivel === NivelEducativo::Inicial;
+
+            // Período 1 completo; período 2 solo la mitad de los espacios.
+            foreach ($periodos->take(2) as $p => $periodo) {
+                foreach ($espacios as $k => $espacio) {
+                    if ($p === 1 && $k % 2 === 1) {
+                        continue;
+                    }
+
+                    foreach ($alumnos as $i => $estudianteId) {
+                        $nota = 4 + (($estudianteId * 3 + $k * 5 + $p * 7) % 7); // 4 a 10
+
+                        Calificacion::create([
+                            'ciclo_lectivo_id'      => $ciclo->id,
+                            'periodo_evaluacion_id' => $periodo->id,
+                            'espacio_curricular_id' => $espacio->id,
+                            'curso_id'              => $curso->id,
+                            'estudiante_id'         => $estudianteId,
+                            'docente_id'            => $docentes[$espacio->id] ?? null,
+                            'valor'                 => $inicial ? null : (string) $nota,
+                            'valor_numerico'        => $inicial ? null : $nota,
+                            'informe'               => $inicial
+                                ? 'Participa con entusiasmo de las propuestas de ' . mb_strtolower($espacio->nombre) . '. Se vincula bien con sus pares y avanza en su autonomía.'
+                                : null,
+                            'observacion'           => ! $inicial && $nota < 6 ? 'Debe reforzar los contenidos del período.' : null,
+                            'origen'                => 'gestionaula',
+                        ]);
+                    }
+                }
+            }
         }
     }
 }

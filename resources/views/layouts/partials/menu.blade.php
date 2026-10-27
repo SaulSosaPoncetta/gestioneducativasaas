@@ -20,6 +20,7 @@
         'Académico' => [
             ['Planes de estudio', 'bi-diagram-3', 'planes.index', $gestion],
             ['Cursos y divisiones', 'bi-grid-3x3-gap', 'cursos.index', $gestion, 'cursos'],
+            ['Asignaciones docentes', 'bi-person-check', 'asignaciones.index', $gestion],
         ],
         'Personas' => [
             ['Estudiantes', 'bi-people', 'estudiantes.index', [...$gestion, 'preceptor']],
@@ -27,9 +28,9 @@
             ['Tutores / familias', 'bi-house-heart', 'tutores.index', [...$gestion, 'preceptor']],
         ],
         'Seguimiento' => [
-            ['Asistencia', 'bi-check2-square', 'asistencia.index', [...$gestion, 'preceptor', 'docente']],
-            ['Calificaciones', 'bi-123', 'calificaciones.index', [...$gestion, 'docente']],
-            ['Informes de inicial', 'bi-chat-square-text', 'informes.index', [...$gestion, 'docente'], 'inicial'],
+            ['Asistencia diaria', 'bi-check2-square', 'asistencia.index', [...$gestion, 'preceptor'], 'cursos'],
+            ['Calificaciones', 'bi-123', 'calificaciones.index', [...$gestion, 'preceptor']],
+            ['Escalas de calificación', 'bi-sliders', 'calificaciones.configuracion', $gestion],
             ['Mesas de examen', 'bi-award', 'mesas.index', $gestion, 'carreras'],
         ],
         'Documentación' => [

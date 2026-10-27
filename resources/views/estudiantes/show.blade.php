@@ -29,6 +29,9 @@
     </div>
     <div class="d-flex flex-wrap gap-2">
         <a href="{{ route('estudiantes.index') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
+        @if (Route::has('calificaciones.boletin'))
+            <a href="{{ route('calificaciones.boletin', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-text me-1"></i> Boletín</a>
+        @endif
         @if ($puedeEditar)
             <a href="{{ route('estudiantes.edit', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-pencil me-1"></i> Editar</a>
             <a href="{{ route('estudiantes.inscripciones.create', $estudiante) }}" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i> Inscribir</a>
@@ -144,6 +147,75 @@
                     @endforeach
                 </div>
             @endif
+        </div>
+
+        {{-- Asistencia --}}
+        <div class="card mb-3">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <span class="fw-semibold"><i class="bi bi-check2-square me-1"></i> Asistencia @if ($ciclo) {{ $ciclo->anio }} @endif</span>
+                @if ($asistencia['porcentaje'] !== null)
+                    <span class="badge {{ $asistencia['porcentaje'] < 85 ? 'text-bg-danger' : 'text-bg-success' }}">{{ number_format($asistencia['porcentaje'], 1, ',', '') }} %</span>
+                @endif
+            </div>
+            <div class="card-body">
+                @php $num = fn ($v) => rtrim(rtrim(number_format($v, 1, ',', ''), '0'), ','); @endphp
+                <div class="row text-center g-2 mb-2">
+                    <div class="col-3"><div class="fs-5 fw-semibold">{{ $asistencia['dias'] }}</div><div class="small text-muted">Días</div></div>
+                    <div class="col-3"><div class="fs-5 fw-semibold text-danger">{{ $num($asistencia['inasistencias']) }}</div><div class="small text-muted">Inasistencias</div></div>
+                    <div class="col-3"><div class="fs-5 fw-semibold">{{ $num($asistencia['justificadas']) }}</div><div class="small text-muted">Justificadas</div></div>
+                    <div class="col-3"><div class="fs-5 fw-semibold">{{ $num($asistencia['injustificadas']) }}</div><div class="small text-muted">Injustificadas</div></div>
+                </div>
+
+                @php $faltas = $asistencia['registros']->where('estado', '!=', 'presente'); @endphp
+                @if ($faltas->isNotEmpty())
+                    <div class="small fw-semibold mt-3 mb-1">Inasistencias, tardes y retiros</div>
+                    <ul class="list-group list-group-flush small">
+                        @foreach ($faltas->take(15) as $f)
+                            <li class="list-group-item px-0 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                                <span>
+                                    {{ $f->fecha->format('d/m') }} ·
+                                    <span class="text-{{ \App\Models\Asistencia::color($f->estado) }}">{{ $f->estado_label }}</span>
+                                    @if ($f->justificada) <span class="badge text-bg-light border">Justificada{{ $f->motivo ? ': ' . $f->motivo : '' }}</span> @endif
+                                </span>
+                                @if (auth()->user()->rol->esGestion() || auth()->user()->rol === \App\Enums\Rol::Preceptor)
+                                    <form method="POST" action="{{ route('asistencia.justificar', $f) }}" class="d-flex gap-1">
+                                        @csrf @method('PATCH')
+                                        @if ($f->justificada)
+                                            <input type="hidden" name="justificada" value="0">
+                                            <button class="btn btn-sm btn-link py-0">Quitar justificación</button>
+                                        @else
+                                            <input type="hidden" name="justificada" value="1">
+                                            <input type="text" name="motivo" class="form-control form-control-sm" placeholder="Motivo" maxlength="200" style="width: 140px">
+                                            <button class="btn btn-sm btn-outline-primary py-0">Justificar</button>
+                                        @endif
+                                    </form>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @elseif ($asistencia['dias'])
+                    <p class="small text-success mb-0"><i class="bi bi-check-circle"></i> Sin inasistencias.</p>
+                @else
+                    <p class="small text-muted mb-0">Todavía no hay asistencia registrada.</p>
+                @endif
+
+                @if ($porMateria->isNotEmpty())
+                    <div class="small fw-semibold mt-3 mb-1">Por materia <span class="text-muted fw-normal">(desde GestiónAula)</span></div>
+                    <table class="table table-sm small mb-0">
+                        <thead><tr><th>Espacio</th><th class="text-center">Clases</th><th class="text-center">Faltas</th><th class="text-center">%</th></tr></thead>
+                        <tbody>
+                            @foreach ($porMateria as $m)
+                                <tr>
+                                    <td>{{ $m->espacio->nombre }}</td>
+                                    <td class="text-center">{{ $m->clases }}</td>
+                                    <td class="text-center">{{ $num($m->faltas) }}</td>
+                                    <td class="text-center {{ $m->porcentaje < 75 ? 'text-danger fw-semibold' : '' }}">{{ number_format($m->porcentaje, 1, ',', '') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+            </div>
         </div>
 
         {{-- Inscripciones --}}

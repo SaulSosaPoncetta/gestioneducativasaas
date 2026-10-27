@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EscalaCalificacion;
 use App\Enums\NivelEducativo;
 use App\Models\Concerns\PerteneceAInstitucion;
 use Illuminate\Database\Eloquent\Model;
@@ -19,13 +20,15 @@ class InstitucionNivel extends Model
 
     protected $fillable = [
         'institucion_id', 'nivel', 'denominacion', 'cue_anexo', 'duracion', 'orden', 'activo',
+        'escala', 'nota_aprobacion', 'aprueba_desde',
     ];
 
     protected function casts(): array
     {
         return [
-            'nivel'  => NivelEducativo::class,
-            'activo' => 'boolean',
+            'nivel'           => NivelEducativo::class,
+            'activo'          => 'boolean',
+            'nota_aprobacion' => 'float',
         ];
     }
 
@@ -40,5 +43,35 @@ class InstitucionNivel extends Model
     public function getNombreAttribute(): string
     {
         return $this->denominacion ?: $this->nivel->label();
+    }
+
+    // -------------------------------------------------------------------------
+    // Calificaciones
+    // -------------------------------------------------------------------------
+
+    public function escalaCalificacion(): EscalaCalificacion
+    {
+        return EscalaCalificacion::tryFrom((string) $this->escala) ?? EscalaCalificacion::sugerida($this->nivel);
+    }
+
+    public function notaAprobacion(): float
+    {
+        return $this->nota_aprobacion ?: EscalaCalificacion::aprobacionSugerida($this->nivel);
+    }
+
+    public function apruebaDesde(): string
+    {
+        return $this->aprueba_desde ?: 'B';
+    }
+
+    /** ¿La calificación aprueba? null si la escala no aprueba/desaprueba (informe). */
+    public function aprueba(?string $valor, ?float $numerico): ?bool
+    {
+        return match ($this->escalaCalificacion()) {
+            EscalaCalificacion::Numerica => $numerico === null ? null : $numerico >= $this->notaAprobacion(),
+            EscalaCalificacion::Conceptual => $valor === null ? null : array_search($valor, array_keys(EscalaCalificacion::CONCEPTOS), true)
+                <= array_search($this->apruebaDesde(), array_keys(EscalaCalificacion::CONCEPTOS), true),
+            EscalaCalificacion::Informe => null,
+        };
     }
 }
