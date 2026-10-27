@@ -7,6 +7,7 @@ use App\Models\Asignacion;
 use App\Models\Asistencia;
 use App\Models\AsistenciaEspacio;
 use App\Models\Calificacion;
+use App\Models\Cursada;
 use App\Models\PeriodoEvaluacion;
 use App\Models\CicloLectivo;
 use App\Models\Docente;
@@ -47,7 +48,13 @@ class MisCursosController extends Controller
             $grupos = $grupos->map(fn ($lista) => (object) [
                 'asignaciones' => $lista,
                 'primera'      => $lista->first(),
-                'estudiantes'  => $lista->first()->curso_id ? ($porCurso[$lista->first()->curso_id] ?? 0) : null,
+                'estudiantes'  => $lista->first()->curso_id
+                    ? ($porCurso[$lista->first()->curso_id] ?? 0)
+                    : Cursada::where('ciclo_lectivo_id', $ciclo->id)
+                        ->whereIn('espacio_curricular_id', $lista->pluck('espacio_curricular_id'))
+                        ->where('comision', $lista->first()->comision ?: 'Única')
+                        ->where('condicion', '!=', 'abandono')
+                        ->distinct()->count('estudiante_id'),
             ]);
         }
 
@@ -62,14 +69,20 @@ class MisCursosController extends Controller
 
         $asignacion->load(['espacio.plan', 'curso.nivel', 'curso.preceptor', 'ciclo']);
 
-        $inscripciones = $asignacion->curso_id
+        // Escolar: inscriptos del curso. Superior: inscriptos a la cursada de la comisión.
+        $inscripciones = ($asignacion->curso_id
             ? Inscripcion::with('estudiante')
                 ->where('curso_id', $asignacion->curso_id)
                 ->where('estado', Inscripcion::ACTIVA)
                 ->get()
-                ->sortBy(fn ($i) => mb_strtolower(Str::ascii($i->estudiante->apellido . ' ' . $i->estudiante->nombre)))
-                ->values()
-            : collect();
+            : Cursada::with('estudiante')
+                ->where('espacio_curricular_id', $asignacion->espacio_curricular_id)
+                ->where('ciclo_lectivo_id', $asignacion->ciclo_lectivo_id)
+                ->where('comision', $asignacion->comision ?: 'Única')
+                ->where('condicion', '!=', 'abandono')
+                ->get())
+            ->sortBy(fn ($i) => mb_strtolower(Str::ascii($i->estudiante->apellido . ' ' . $i->estudiante->nombre)))
+            ->values();
 
         // Otros espacios del mismo docente en ese curso.
         $otros = Asignacion::with('espacio')->activas()

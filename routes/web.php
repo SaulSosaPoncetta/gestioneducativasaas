@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\InstitucionController;
+use App\Http\Controllers\AnaliticoController;
 use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CalificacionController;
+use App\Http\Controllers\CursadaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CicloLectivoController;
 use App\Http\Controllers\CursoController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EspacioCurricularController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InscripcionController;
+use App\Http\Controllers\MesaExamenController;
 use App\Http\Controllers\MiInstitucionController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PlanEstudioController;
@@ -180,7 +183,27 @@ Route::middleware(['auth', 'institucion'])->group(function () {
         Route::get('/calificaciones/configuracion', [CalificacionController::class, 'configuracion'])->name('calificaciones.configuracion');
         Route::put('/calificaciones/configuracion', [CalificacionController::class, 'guardarConfiguracion'])->name('calificaciones.configuracion.guardar');
     });
+    // -----------------------------------------------------------------
+    // Nivel superior: cursadas, mesas de examen y analítico
+    // -----------------------------------------------------------------
+    Route::middleware(['rol:admin,directivo,secretario', RequiereInstitucion::class])->group(function () {
+        Route::get('/cursadas', [CursadaController::class, 'index'])->name('cursadas.index');
+        Route::get('/cursadas/espacios/{espacio}', [CursadaController::class, 'comision'])->name('cursadas.comision');
+        Route::put('/cursadas/espacios/{espacio}', [CursadaController::class, 'cerrar'])->name('cursadas.cerrar');
+        Route::get('/estudiantes/{estudiante}/cursadas', [CursadaController::class, 'inscribir'])->name('cursadas.inscribir');
+        Route::post('/estudiantes/{estudiante}/cursadas', [CursadaController::class, 'guardarInscripcion'])->name('cursadas.guardar');
+        Route::delete('/cursadas/{cursada}', [CursadaController::class, 'destroy'])->name('cursadas.destroy');
+
+        Route::resource('mesas', MesaExamenController::class)->parameters(['mesas' => 'mesa']);
+        Route::post('/mesas/{mesa}/inscribir', [MesaExamenController::class, 'inscribir'])->name('mesas.inscribir');
+        Route::delete('/mesas/{mesa}/inscripciones/{inscripcion}', [MesaExamenController::class, 'quitar'])->name('mesas.quitar');
+        Route::put('/mesas/{mesa}/acta', [MesaExamenController::class, 'acta'])->name('mesas.acta');
+        Route::post('/mesas/{mesa}/cerrar', [MesaExamenController::class, 'cerrar'])->name('mesas.cerrar');
+        Route::get('/mesas/{mesa}/imprimir', [MesaExamenController::class, 'imprimir'])->name('mesas.imprimir');
+    });
+
     Route::middleware(['rol:admin,directivo,secretario,preceptor', RequiereInstitucion::class])->group(function () {
+        Route::get('/estudiantes/{estudiante}/analitico', [AnaliticoController::class, 'show'])->name('analitico.show');
         Route::get('/calificaciones', [CalificacionController::class, 'index'])->name('calificaciones.index');
         Route::get('/estudiantes/{estudiante}/boletin', [CalificacionController::class, 'boletin'])->name('calificaciones.boletin');
     });

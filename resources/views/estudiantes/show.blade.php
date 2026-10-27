@@ -29,7 +29,13 @@
     </div>
     <div class="d-flex flex-wrap gap-2">
         <a href="{{ route('estudiantes.index') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i></a>
-        @if (Route::has('calificaciones.boletin'))
+        @php $esSuperior = $estudiante->inscripciones->contains(fn ($i) => ! $i->curso_id && $i->plan_estudio_id); @endphp
+        @if ($esSuperior)
+            <a href="{{ route('analitico.show', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-ruled me-1"></i> Analítico</a>
+            @if ($puedeEditar)
+                <a href="{{ route('cursadas.inscribir', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-journal-bookmark me-1"></i> Cursadas</a>
+            @endif
+        @else
             <a href="{{ route('calificaciones.boletin', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-text me-1"></i> Boletín</a>
         @endif
         @if ($puedeEditar)

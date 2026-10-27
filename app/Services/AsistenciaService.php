@@ -8,6 +8,7 @@ use App\Models\AsistenciaEspacio;
 use App\Models\AsistenciaToma;
 use App\Models\CicloLectivo;
 use App\Models\Curso;
+use App\Models\Cursada;
 use App\Models\Docente;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
@@ -192,9 +193,7 @@ class AsistenciaService
         $asignacion = $this->resolverAsignacion($docente, $ciclo, $inscripciones, $datos['espacio'] ?? null);
 
         // Estudiantes que corresponden a esa asignación.
-        $delGrupo = $asignacion->curso_id
-            ? $inscripciones->where('curso_id', $asignacion->curso_id)->pluck('estudiante_id')
-            : $inscripciones->where('plan_estudio_id', $asignacion->espacio->plan_estudio_id)->pluck('estudiante_id');
+        $delGrupo = $this->delGrupo($asignacion, $inscripciones);
 
         $referencia = mb_substr((string) ($datos['referencia'] ?? ''), 0, 64);
         $registrados = 0;
@@ -294,6 +293,18 @@ class AsistenciaService
                 return $coinciden->first();
             }
 
+            // Mismo espacio en varias comisiones: la comisión donde cursan los estudiantes enviados.
+            if ($coinciden->count() > 1 && $coinciden->pluck('espacio_curricular_id')->unique()->count() === 1) {
+                $comision = Cursada::where('espacio_curricular_id', $coinciden->first()->espacio_curricular_id)
+                    ->where('ciclo_lectivo_id', $ciclo->id)
+                    ->whereIn('estudiante_id', $inscripciones->pluck('estudiante_id'))
+                    ->get()->countBy('comision')->sortDesc()->keys()->first();
+
+                if ($comision && ($elegida = $coinciden->firstWhere('comision', $comision))) {
+                    return $elegida;
+                }
+            }
+
             // Coincidencia parcial ("Matemática" en "Matemática y su Didáctica I") si es única.
             $parciales = $candidatas->filter(fn ($a) => str_contains($this->normalizar($a->espacio->nombre), $buscado));
             if ($parciales->count() === 1) {
@@ -307,6 +318,28 @@ class AsistenciaService
             'espacio' => 'No se pudo identificar el espacio curricular. Opciones del docente: '
                 . $candidatas->map(fn ($a) => $a->espacio->nombre . ' (' . $a->grupo . ')')->join('; ') . '.',
         ]);
+    }
+
+    /**
+     * Estudiantes de la asignación: los del curso (escolar) o, en superior,
+     * los inscriptos a la cursada de esa unidad y comisión (si todavía no hay
+     * cursadas cargadas, los inscriptos a la carrera).
+     */
+    public function delGrupo(Asignacion $asignacion, Collection $inscripciones): Collection
+    {
+        if ($asignacion->curso_id) {
+            return $inscripciones->where('curso_id', $asignacion->curso_id)->pluck('estudiante_id');
+        }
+
+        $cursadas = Cursada::where('espacio_curricular_id', $asignacion->espacio_curricular_id)
+            ->where('ciclo_lectivo_id', $asignacion->ciclo_lectivo_id)
+            ->where('comision', $asignacion->comision ?: 'Única')
+            ->where('condicion', '!=', 'abandono')
+            ->pluck('estudiante_id');
+
+        return $cursadas->isNotEmpty()
+            ? $cursadas
+            : $inscripciones->where('plan_estudio_id', $asignacion->espacio->plan_estudio_id)->pluck('estudiante_id');
     }
 
     public function normalizar(string $texto): string

@@ -29,12 +29,6 @@
     La asistencia y las notas de la materia se cargan en GestiónAula y se ven acá ({{ $clases }} {{ $clases === 1 ? 'clase recibida' : 'clases recibidas' }}).
 </p>
 
-@if (! $asignacion->curso_id)
-    <div class="alert alert-info">
-        <i class="bi bi-info-circle me-1"></i>
-        La lista de estudiantes de la comisión se arma con la inscripción a cursadas del nivel superior (próximo módulo).
-    </div>
-@else
     <div class="card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
             <span class="fw-semibold"><i class="bi bi-people me-1"></i> Estudiantes</span>
@@ -93,12 +87,10 @@
                             @endforeach
                         </tr>
                     @empty
-                        <tr><td colspan="{{ 6 + $periodos->count() }}" class="text-center text-muted py-4">El curso no tiene estudiantes inscriptos.</td></tr>
+                        <tr><td colspan="{{ 6 + $periodos->count() }}" class="text-center text-muted py-4">{{ $asignacion->curso_id ? 'El curso no tiene estudiantes inscriptos.' : 'No hay estudiantes inscriptos a la cursada de esta comisión.' }}</td></tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-@endif
-
 @endsection

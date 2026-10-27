@@ -31,6 +31,7 @@
             ['Asistencia diaria', 'bi-check2-square', 'asistencia.index', [...$gestion, 'preceptor'], 'cursos'],
             ['Calificaciones', 'bi-123', 'calificaciones.index', [...$gestion, 'preceptor']],
             ['Escalas de calificación', 'bi-sliders', 'calificaciones.configuracion', $gestion],
+            ['Cursadas (superior)', 'bi-journal-bookmark', 'cursadas.index', $gestion, 'carreras'],
             ['Mesas de examen', 'bi-award', 'mesas.index', $gestion, 'carreras'],
         ],
         'Documentación' => [

@@ -12,10 +12,13 @@ use App\Models\Calificacion;
 use App\Models\PeriodoEvaluacion;
 use App\Models\CicloLectivo;
 use App\Models\Curso;
+use App\Models\Cursada;
 use App\Models\Docente;
 use App\Models\EspacioCurricular;
 use App\Models\Estudiante;
 use App\Models\Inscripcion;
+use App\Models\MesaExamen;
+use App\Models\MesaInscripcion;
 use App\Models\Institucion;
 use App\Models\InstitucionNivel;
 use App\Models\PlanEstudio;
@@ -42,6 +45,8 @@ use Illuminate\Support\Str;
  *   y algunas clases de 1° Grado A como si llegaran desde GestiónAula.
  * - Calificaciones del primer período (y parte del segundo) e informes de
  *   jardín, como si llegaran desde GestiónAula.
+ * - ISB: ciclo anterior cerrado con cursadas y una mesa con acta, cursadas
+ *   del ciclo actual y una mesa abierta para inscribir.
  *
  * Contraseña de todos los usuarios de demo: password
  * Cambiala en producción.
@@ -111,6 +116,7 @@ class DatabaseSeeder extends Seeder
 
         $this->asistenciaColegio($colegio);
         $this->calificacionesColegio($colegio);
+        $this->trayectoriaInstituto($isb);
 
         InstitucionActual::establecer(null);
     }
@@ -822,5 +828,105 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+    }
+
+    // -------------------------------------------------------------------------
+    // Nivel superior: trayectoria de ejemplo (ISB)
+    // -------------------------------------------------------------------------
+
+    protected function trayectoriaInstituto(Institucion $institucion): void
+    {
+        InstitucionActual::establecer($institucion);
+
+        if (Cursada::exists()) {
+            return;
+        }
+
+        $actual = CicloLectivo::enCurso()->first();
+        $plan   = PlanEstudio::where('tipo', 'carrera')->with('espacios')->first();
+        $nivel  = InstitucionNivel::find($plan->institucion_nivel_id);
+        $anio   = $actual->anio - 1;
+
+        // Ciclo anterior, cerrado.
+        $anterior = app(CicloLectivoService::class)->crear(
+            ['anio' => $anio, 'nombre' => "Ciclo lectivo {$anio}", 'fecha_inicio' => "{$anio}-03-02", 'fecha_fin' => "{$anio}-12-18"],
+            [$nivel->id => ['esquema' => 'cuatrimestral']]
+        );
+        $anterior->update(['estado' => CicloLectivo::CERRADO]);
+
+        $primero = $plan->espacios->where('grado', 1)->values();
+        $segundo = $plan->espacios->where('grado', 2)->values();
+        $estudiantes = Inscripcion::where('ciclo_lectivo_id', $actual->id)->where('plan_estudio_id', $plan->id)
+            ->orderBy('estudiante_id')->get();
+        $pedagogia = $primero->firstWhere('codigo', 'PEP01');
+
+        foreach ($estudiantes as $n => $insc) {
+            if ($n >= 4) {
+                // Segundo año: 1° año cursado el ciclo anterior.
+                Inscripcion::create([
+                    'estudiante_id' => $insc->estudiante_id, 'ciclo_lectivo_id' => $anterior->id,
+                    'institucion_nivel_id' => $plan->institucion_nivel_id, 'plan_estudio_id' => $plan->id,
+                    'fecha' => "{$anio}-02-15", 'condicion' => 'ingresante', 'estado' => Inscripcion::FINALIZADA,
+                    'fecha_baja' => "{$anio}-12-18",
+                ]);
+
+                foreach ($primero as $k => $e) {
+                    $regular = $e->id === $pedagogia->id || ($k + $n) % 4 === 0;
+                    Cursada::create([
+                        'estudiante_id' => $insc->estudiante_id, 'espacio_curricular_id' => $e->id, 'ciclo_lectivo_id' => $anterior->id,
+                        'comision' => 'Única', 'fecha_inscripcion' => "{$anio}-03-01",
+                        'condicion' => $regular ? 'regular' : 'promocionado',
+                        'nota' => $regular ? 5 : 7 + ($k + $n) % 3,
+                        'fecha_condicion' => "{$anio}-12-10",
+                        'vence' => $regular ? ($anio + 2) . '-12-18' : null,
+                    ]);
+                }
+
+                // 2° año en el ciclo actual.
+                foreach ($segundo as $e) {
+                    Cursada::create([
+                        'estudiante_id' => $insc->estudiante_id, 'espacio_curricular_id' => $e->id, 'ciclo_lectivo_id' => $actual->id,
+                        'comision' => 'Única', 'fecha_inscripcion' => $actual->fecha_inicio, 'condicion' => 'cursando',
+                    ]);
+                }
+                $insc->update(['condicion' => 'regular']);
+            } else {
+                // Ingresantes: 1° año en el ciclo actual; la materia del 1° cuatrimestre ya cerrada.
+                foreach ($primero as $k => $e) {
+                    $cerrada = $e->regimen === 'primer_cuatrimestre';
+                    Cursada::create([
+                        'estudiante_id' => $insc->estudiante_id, 'espacio_curricular_id' => $e->id, 'ciclo_lectivo_id' => $actual->id,
+                        'comision' => 'Única', 'fecha_inscripcion' => $actual->fecha_inicio,
+                        'condicion' => $cerrada ? ($n % 2 ? 'promocionado' : 'regular') : 'cursando',
+                        'nota' => $cerrada ? ($n % 2 ? 8 : 5) : null,
+                        'fecha_condicion' => $cerrada ? "{$actual->anio}-07-20" : null,
+                        'vence' => $cerrada && $n % 2 === 0 ? ($actual->anio + 2) . '-12-18' : null,
+                    ]);
+                }
+            }
+        }
+
+        // Mesa de diciembre del año anterior (acta cerrada) de Pedagogía.
+        $mesa = MesaExamen::create([
+            'espacio_curricular_id' => $pedagogia->id, 'llamado' => "Diciembre {$anio} - 1° llamado",
+            'fecha' => "{$anio}-12-15 18:00", 'aula' => '12', 'presidente_id' => Docente::first()?->id, 'vocales' => 'Ferreyra, Bianchi',
+            'inscripcion_desde' => "{$anio}-12-01", 'inscripcion_hasta' => "{$anio}-12-12", 'admite_libres' => true,
+            'estado' => 'cerrada', 'libro' => '3', 'folio' => '47', 'cerrada_at' => "{$anio}-12-15 21:00",
+        ]);
+        foreach ($estudiantes->slice(4)->values() as $k => $insc) {
+            $nota = [8, 3, 6, null][$k] ?? null;
+            MesaInscripcion::create([
+                'mesa_examen_id' => $mesa->id, 'estudiante_id' => $insc->estudiante_id, 'condicion' => 'regular',
+                'nota' => $nota, 'resultado' => $nota === null ? 'ausente' : ($nota >= 4 ? 'aprobado' : 'desaprobado'),
+            ]);
+        }
+
+        // Mesa abierta del ciclo actual (Psicología Educacional) con inscripción vigente.
+        $psico = $primero->firstWhere('codigo', 'PEP05');
+        MesaExamen::create([
+            'espacio_curricular_id' => $psico->id, 'llamado' => "Noviembre {$actual->anio} - 1° llamado",
+            'fecha' => today()->addWeeks(3)->setTime(18, 0), 'aula' => '8', 'presidente_id' => Docente::first()?->id,
+            'inscripcion_desde' => today()->subDays(3), 'inscripcion_hasta' => today()->addWeeks(2), 'admite_libres' => true,
+        ]);
     }
 }

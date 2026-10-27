@@ -59,9 +59,7 @@ class CalificacionService
         }
 
         $escala = $nivel->escalaCalificacion();
-        $delGrupo = $asignacion->curso_id
-            ? $inscripciones->where('curso_id', $asignacion->curso_id)->pluck('estudiante_id')
-            : $inscripciones->where('plan_estudio_id', $asignacion->espacio->plan_estudio_id)->pluck('estudiante_id');
+        $delGrupo = $this->asistencia->delGrupo($asignacion, $inscripciones);
 
         $res = ['registradas' => 0, 'no_encontrados' => [], 'fuera_del_grupo' => [], 'invalidas' => [], 'corregidas_en_secretaria' => []];
 
