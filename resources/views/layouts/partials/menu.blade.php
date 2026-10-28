@@ -34,8 +34,11 @@
             ['Cursadas (superior)', 'bi-journal-bookmark', 'cursadas.index', $gestion, 'carreras'],
             ['Mesas de examen', 'bi-award', 'mesas.index', $gestion, 'carreras'],
         ],
+        'Comunicación' => [
+            ['Comunicados', 'bi-megaphone', 'comunicados.index', [...$gestion, 'preceptor']],
+        ],
         'Documentación' => [
-            ['Constancias', 'bi-file-earmark-text', 'constancias.index', $gestion],
+            ['Constancias', 'bi-file-earmark-check', 'constancias.index', [...$gestion, 'preceptor']],
             ['Analíticos y boletines', 'bi-file-earmark-ruled', 'analiticos.index', $gestion],
             ['Auditoría', 'bi-clock-history', 'auditoria.index', ['admin']],
         ],
@@ -43,7 +46,11 @@
             ['Mis cursos', 'bi-easel', 'docente.cursos', ['docente']],
             ['Mis hijos', 'bi-person-hearts', 'tutor.hijos', ['tutor']],
             ['Mi cursada', 'bi-journal-check', 'estudiante.cursada', ['estudiante']],
-            ['Inscripción a finales', 'bi-pencil-square', 'estudiante.finales', ['estudiante'], 'carreras'],
+            ['Inscripción a cursadas', 'bi-journal-plus', 'estudiante.cursadas', ['estudiante'], 'carreras'],
+            ['Mesas de examen', 'bi-pencil-square', 'estudiante.finales', ['estudiante'], 'carreras'],
+            ['Mi analítico', 'bi-file-earmark-ruled', 'estudiante.analitico', ['estudiante'], 'carreras'],
+            ['Constancias', 'bi-file-earmark-check', 'portal.constancias.index', ['tutor', 'estudiante']],
+            ['Comunicados', 'bi-bell', 'bandeja.index', ['docente', 'tutor', 'estudiante']],
         ],
     ];
 
@@ -64,6 +71,11 @@
         [$label, $icono, $ruta, $roles] = $item;
 
         if (! Route::has($ruta) || ! $usuario->tieneRol(...$roles)) {
+            return false;
+        }
+
+        // Los portales (Mi espacio) son solo para su rol, no para el superadmin.
+        if ($usuario->esSuperAdmin() && array_intersect($roles, ['docente', 'tutor', 'estudiante']) === $roles) {
             return false;
         }
 

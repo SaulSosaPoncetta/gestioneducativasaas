@@ -1,37 +1,5 @@
-@extends('layouts.app')
-
-@section('titulo', 'Analítico de ' . $estudiante->nombre_completo)
-
-@push('estilos')
-<style>
-    @media print {
-        body { background: #fff !important; }
-        .card { box-shadow: none !important; border: 1px solid #999 !important; }
-        @page { margin: 12mm; }
-    }
-</style>
-@endpush
-
-@section('contenido')
-
+{{-- Contenido del analítico (gestión y portales). Requiere: $estudiante, $plan, $porAnio, $totales --}}
 @php $num = fn ($v) => $v === null ? '' : rtrim(rtrim(number_format($v, 2, ',', ''), '0'), ','); @endphp
-
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 no-print">
-    <h1 class="h3 mb-0">Analítico</h1>
-    <div class="d-flex gap-2">
-        @if ($carreras->count() > 1)
-            <form method="GET">
-                <select name="plan" class="form-select" onchange="this.form.submit()">
-                    @foreach ($carreras as $c)
-                        <option value="{{ $c->id }}" @selected($plan?->id === $c->id)>{{ $c->nombre }}</option>
-                    @endforeach
-                </select>
-            </form>
-        @endif
-        <button type="button" class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer me-1"></i> Imprimir</button>
-        <a href="{{ route('estudiantes.show', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Legajo</a>
-    </div>
-</div>
 
 <div class="card mb-3">
     <div class="card-body d-flex flex-wrap gap-3 align-items-center">
@@ -112,5 +80,3 @@
         <div style="width: 35%; border-top: 1px solid #000">Dirección / Rectorado</div>
     </div>
 @endif
-
-@endsection

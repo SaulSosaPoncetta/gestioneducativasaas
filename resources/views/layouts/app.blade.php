@@ -12,13 +12,27 @@
 <body class="d-flex flex-column min-vh-100">
 
     {{-- Navbar superior: secciones como desplegables; en celular se colapsa --}}
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-principal sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-xl navbar-dark navbar-principal sticky-top shadow-sm">
         <div class="container-fluid">
 
             <a href="{{ route('dashboard') }}" class="navbar-brand d-flex align-items-center gap-2">
                 <i class="bi bi-mortarboard-fill"></i>
                 <span>{{ config('app.name') }}</span>
             </a>
+
+            @php
+                $conBandeja = Route::has('bandeja.index') && ($institucionActual ?? null)
+                    && ! auth()->user()->esSuperAdmin() && auth()->user()->tieneRol('tutor', 'estudiante', 'docente');
+                $sinLeer = $conBandeja ? \App\Models\Comunicado::sinLeerPara(auth()->user()) : 0;
+            @endphp
+
+            {{-- En celular, el aviso de comunicados queda visible sin abrir el menú --}}
+            @if ($sinLeer)
+                <a href="{{ route('bandeja.index') }}" class="btn btn-link text-white ms-auto me-2 d-xl-none position-relative" title="Comunicados sin leer">
+                    <i class="bi bi-bell-fill fs-5"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-light text-primary">{{ $sinLeer > 99 ? '99+' : $sinLeer }}</span>
+                </a>
+            @endif
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navPrincipal"
                     aria-controls="navPrincipal" aria-expanded="false" aria-label="Abrir menú">
@@ -30,12 +44,26 @@
                 @include('layouts.partials.menu')
 
                 {{-- Usuario --}}
-                <ul class="navbar-nav ms-lg-auto">
+                <ul class="navbar-nav ms-xl-auto">
+                    {{-- Comunicados recibidos (familias, estudiantes y docentes) --}}
+                    @if ($conBandeja)
+                        <li class="nav-item">
+                            <a href="{{ route('bandeja.index') }}" class="nav-link position-relative d-flex align-items-center gap-1 {{ request()->routeIs('bandeja.*') ? 'active' : '' }}"
+                               title="Comunicados">
+                                <i class="bi bi-bell{{ $sinLeer ? '-fill' : '' }} fs-5"></i>
+                                <span class="d-xl-none">Comunicados</span>
+                                @if ($sinLeer)
+                                    <span class="badge rounded-pill text-bg-light text-primary">{{ $sinLeer > 99 ? '99+' : $sinLeer }}</span>
+                                @endif
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="avatar">{{ auth()->user()->iniciales }}</span>
-                            <span class="text-start lh-sm">
+                            {{-- El nombre se oculta en pantallas medianas para que entre todo el menú --}}
+                            <span class="text-start lh-sm d-xl-none d-xxl-inline">
                                 <span class="d-block small fw-semibold">{{ auth()->user()->nombre }} {{ auth()->user()->apellido }}</span>
                                 <span class="d-block small opacity-75">{{ auth()->user()->rol->label() }}</span>
                             </span>

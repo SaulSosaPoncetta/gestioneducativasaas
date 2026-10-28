@@ -24,4 +24,24 @@
                class="form-control @error('fecha_fin') is-invalid @enderror" required>
         @error('fecha_fin') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
+
+    @if (($institucionActual ?? null)?->nivelesActivos()->contains(fn ($n) => $n->usaCarreras()))
+        <div class="col-12">
+            <div class="small fw-semibold mt-2">Nivel superior: inscripción a cursadas desde el portal del estudiante</div>
+        </div>
+        <div class="col-6">
+            <label for="inscripcion_cursadas_desde" class="form-label small">Desde</label>
+            <input type="date" name="inscripcion_cursadas_desde" id="inscripcion_cursadas_desde"
+                   value="{{ old('inscripcion_cursadas_desde', $ciclo->inscripcion_cursadas_desde?->format('Y-m-d')) }}"
+                   class="form-control @error('inscripcion_cursadas_desde') is-invalid @enderror">
+            @error('inscripcion_cursadas_desde') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+        <div class="col-6">
+            <label for="inscripcion_cursadas_hasta" class="form-label small">Hasta</label>
+            <input type="date" name="inscripcion_cursadas_hasta" id="inscripcion_cursadas_hasta"
+                   value="{{ old('inscripcion_cursadas_hasta', $ciclo->inscripcion_cursadas_hasta?->format('Y-m-d')) }}"
+                   class="form-control @error('inscripcion_cursadas_hasta') is-invalid @enderror">
+            @error('inscripcion_cursadas_hasta') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+    @endif
 </div>

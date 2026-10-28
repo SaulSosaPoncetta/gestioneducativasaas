@@ -26,6 +26,10 @@ use App\Models\Tutor;
 use App\Models\User;
 use App\Services\CicloLectivoService;
 use App\Support\InstitucionActual;
+use App\Models\Auditoria;
+use App\Models\Comunicado;
+use App\Services\ComunicadoService;
+use App\Services\ConstanciaService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -47,6 +51,9 @@ use Illuminate\Support\Str;
  *   jardín, como si llegaran desde GestiónAula.
  * - ISB: ciclo anterior cerrado con cursadas y una mesa con acta, cursadas
  *   del ciclo actual y una mesa abierta para inscribir.
+ * - Accesos de ejemplo a los portales (contraseña: password):
+ *   familia: la madre/padre de Sofía Romero (1° Grado A) -> ingresa con su DNI;
+ *   estudiante superior: Pablo González, DNI 40000000.
  *
  * Contraseña de todos los usuarios de demo: password
  * Cambiala en producción.
@@ -55,6 +62,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Los datos de demostración no se auditan.
+        Auditoria::$activa = false;
+
         User::updateOrCreate(
             ['email' => 'admin@migestion.com.ar'],
             [
@@ -117,6 +127,12 @@ class DatabaseSeeder extends Seeder
         $this->asistenciaColegio($colegio);
         $this->calificacionesColegio($colegio);
         $this->trayectoriaInstituto($isb);
+
+        $this->accesosPortales($colegio, $isb);
+        $this->comunicados($colegio, $isb);
+        $this->constancias($colegio, $isb);
+
+        Auditoria::$activa = true;
 
         InstitucionActual::establecer(null);
     }
@@ -928,5 +944,108 @@ class DatabaseSeeder extends Seeder
             'fecha' => today()->addWeeks(3)->setTime(18, 0), 'aula' => '8', 'presidente_id' => Docente::first()?->id,
             'inscripcion_desde' => today()->subDays(3), 'inscripcion_hasta' => today()->addWeeks(2), 'admite_libres' => true,
         ]);
+    }
+
+    // -------------------------------------------------------------------------
+    // Accesos de ejemplo a los portales
+    // -------------------------------------------------------------------------
+
+    protected function accesosPortales(Institucion $colegio, Institucion $isb): void
+    {
+        // Familia de una estudiante de 1° Grado A.
+        InstitucionActual::establecer($colegio);
+        $curso = Curso::whereHas('nivel', fn ($q) => $q->where('nivel', 'primario'))->where('grado', 1)->where('division', 'A')->first();
+        $estudiante = Inscripcion::with('estudiante.tutores')->where('curso_id', $curso?->id)->get()
+            ->pluck('estudiante')->sortBy('apellido')->first();
+
+        if ($tutor = $estudiante?->tutores->first()) {
+            $usuario = User::firstOrCreate(
+                ['institucion_id' => $colegio->id, 'dni' => $tutor->documento],
+                ['nombre' => $tutor->nombre, 'apellido' => $tutor->apellido, 'password' => 'password', 'rol' => Rol::Tutor, 'activo' => true]
+            );
+            $tutor->update(['user_id' => $usuario->id]);
+        }
+
+        // Estudiante de nivel superior con inscripción a cursadas abierta.
+        InstitucionActual::establecer($isb);
+        CicloLectivo::enCurso()->first()?->update([
+            'inscripcion_cursadas_desde' => today()->subDays(5),
+            'inscripcion_cursadas_hasta' => today()->addDays(10),
+        ]);
+
+        if ($alumno = Estudiante::where('documento', '40000000')->first()) {
+            $usuario = User::firstOrCreate(
+                ['institucion_id' => $isb->id, 'dni' => $alumno->documento],
+                ['nombre' => $alumno->nombre, 'apellido' => $alumno->apellido, 'password' => 'password', 'rol' => Rol::Estudiante, 'activo' => true]
+            );
+            $alumno->update(['user_id' => $usuario->id]);
+        }
+
+        InstitucionActual::establecer(null);
+    }
+    protected function comunicados(Institucion $colegio, Institucion $isb): void
+    {
+        $servicio = app(ComunicadoService::class);
+
+        InstitucionActual::establecer($colegio);
+        $autor = User::where('institucion_id', $colegio->id)->where('rol', Rol::Admin)->first();
+        $primaria = InstitucionNivel::where('nivel', 'primario')->first();
+
+        $reunion = Comunicado::create([
+            'autor_id'              => $autor?->id,
+            'titulo'                => 'Reunión de familias de Primaria',
+            'cuerpo'                => "Estimadas familias:\n\nLas invitamos a la reunión informativa del segundo cuatrimestre, el próximo jueves a las 18 h en el SUM.\n\nVamos a conversar sobre el cierre del ciclo, actos y salidas educativas.\n\nLa Dirección",
+            'alcance'               => 'niveles',
+            'alcance_ids'           => [$primaria?->id],
+            'para'                  => ['familias', 'docentes'],
+            'requiere_confirmacion' => true,
+            'enviar_email'          => false,
+        ]);
+        $servicio->publicar($reunion);
+
+        Comunicado::create([
+            'autor_id'    => $autor?->id,
+            'titulo'      => 'Jornada institucional (borrador)',
+            'cuerpo'      => "El viernes no habrá clases por jornada institucional.",
+            'alcance'     => 'institucion',
+            'alcance_ids' => [],
+            'para'        => ['familias', 'estudiantes'],
+        ]);
+
+        InstitucionActual::establecer($isb);
+        $autor = User::where('institucion_id', $isb->id)->where('rol', Rol::Admin)->first();
+
+        $mesas = Comunicado::create([
+            'autor_id'     => $autor?->id,
+            'titulo'       => 'Inscripción a mesas de diciembre',
+            'cuerpo'       => "Recordamos que la inscripción a mesas de examen se hace desde el portal, en \"Mesas de examen\".\n\nConsultas: https://www.example.com/bedelia",
+            'alcance'      => 'carreras',
+            'alcance_ids'  => PlanEstudio::pluck('id')->all(),
+            'para'         => ['estudiantes'],
+            'enviar_email' => false,
+        ]);
+        $servicio->publicar($mesas);
+
+        InstitucionActual::establecer(null);
+    }
+    protected function constancias(Institucion $colegio, Institucion $isb): void
+    {
+        $servicio = app(ConstanciaService::class);
+
+        InstitucionActual::establecer($colegio);
+        $secretario = User::where('institucion_id', $colegio->id)->where('rol', Rol::Admin)->first();
+
+        Estudiante::whereHas('inscripciones', fn ($q) => $q->where('estado', 'activa'))
+            ->orderBy('apellido')->limit(3)->get()
+            ->each(fn ($e) => $servicio->emitirAlumnoRegular($e, 'ANSES', $secretario?->id));
+
+        InstitucionActual::establecer($isb);
+        $secretario = User::where('institucion_id', $isb->id)->where('rol', Rol::Admin)->first();
+
+        if ($examen = MesaInscripcion::where('resultado', 'aprobado')->first()) {
+            $servicio->emitirExamen($examen, 'Empleador', true, $secretario?->id);
+        }
+
+        InstitucionActual::establecer(null);
     }
 }

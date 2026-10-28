@@ -317,4 +317,70 @@ class TrayectoriaService
             ]);
         }
     }
+
+    // -------------------------------------------------------------------------
+    // Portal del estudiante
+    // -------------------------------------------------------------------------
+
+    /** Carreras en las que el estudiante tiene inscripción activa. */
+    public function carrerasActivas(Estudiante $estudiante): Collection
+    {
+        return Inscripcion::with('plan')->where('estudiante_id', $estudiante->id)
+            ->where('estado', Inscripcion::ACTIVA)->whereNull('curso_id')->whereNotNull('plan_estudio_id')
+            ->get()->pluck('plan')->unique('id')->values();
+    }
+
+    /**
+     * Mesas abiertas de sus carreras, con si se puede inscribir y por qué no.
+     *
+     * @return Collection<object> mesa, inscripcion (si ya está), puede, motivo, condicion
+     */
+    public function mesasParaEstudiante(Estudiante $estudiante): Collection
+    {
+        $planes = $this->carrerasActivas($estudiante);
+        $estadosPorPlan = $planes->mapWithKeys(fn ($p) => [$p->id => $this->estados($estudiante, $p)]);
+
+        return MesaExamen::with(['espacio.plan', 'espacio.correlativas'])
+            ->where('estado', 'abierta')
+            ->where('fecha', '>=', today())
+            ->whereHas('espacio', fn ($q) => $q->whereIn('plan_estudio_id', $planes->pluck('id')))
+            ->orderBy('fecha')
+            ->get()
+            ->map(function (MesaExamen $mesa) use ($estudiante, $estadosPorPlan) {
+                $estados = $estadosPorPlan[$mesa->espacio->plan_estudio_id];
+                $estado  = $estados->get($mesa->espacio_curricular_id)?->estado ?? 'pendiente';
+                $insc    = $mesa->inscripciones()->where('estudiante_id', $estudiante->id)->first();
+                $faltan  = $this->faltantes($mesa->espacio, $estados, 'rendir');
+                $condicion = $estado === 'regular' ? 'regular' : 'libre';
+
+                $motivo = match (true) {
+                    $estado === 'aprobada'                       => 'Ya la tenés aprobada.',
+                    ! $mesa->inscripcionAbierta()                => 'Inscripción del ' . $mesa->inscripcion_desde->format('d/m') . ' al ' . $mesa->inscripcion_hasta->format('d/m') . '.',
+                    $condicion === 'libre' && ! $mesa->admite_libres => 'No sos regular y la mesa no admite libres.',
+                    (bool) $faltan                               => 'Te falta: ' . implode(', ', $faltan) . '.',
+                    default                                      => null,
+                };
+
+                return (object) [
+                    'mesa'        => $mesa,
+                    'inscripcion' => $insc,
+                    'puede'       => ! $insc && $motivo === null,
+                    'motivo'      => $motivo,
+                    'condicion'   => $condicion,
+                    'estado'      => $estado,
+                ];
+            })
+            ->filter(fn ($m) => $m->inscripcion || $m->estado !== 'aprobada')
+            ->values();
+    }
+
+    /** El estudiante se da de baja de una mesa (solo mientras la inscripción está abierta). */
+    public function bajaMesa(MesaExamen $mesa, Estudiante $estudiante): void
+    {
+        if (! $mesa->inscripcionAbierta()) {
+            throw ValidationException::withMessages(['mesa' => 'La inscripción ya cerró: no podés darte de baja. Consultá en secretaría.']);
+        }
+
+        $mesa->inscripciones()->where('estudiante_id', $estudiante->id)->whereNull('resultado')->delete();
+    }
 }

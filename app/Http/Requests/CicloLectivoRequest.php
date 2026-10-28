@@ -45,6 +45,8 @@ class CicloLectivoRequest extends FormRequest
             'nombre'       => ['required', 'string', 'max:80'],
             'fecha_inicio' => ['required', 'date'],
             'fecha_fin'    => ['required', 'date', 'after:fecha_inicio'],
+            'inscripcion_cursadas_desde' => ['nullable', 'date', 'required_with:inscripcion_cursadas_hasta'],
+            'inscripcion_cursadas_hasta' => ['nullable', 'date', 'after_or_equal:inscripcion_cursadas_desde', 'required_with:inscripcion_cursadas_desde'],
         ];
 
         if ($this->esAlta()) {
@@ -92,11 +94,13 @@ class CicloLectivoRequest extends FormRequest
             'fecha_inicio'      => 'inicio de clases',
             'fecha_fin'         => 'fin de clases',
             'niveles.*.esquema' => 'esquema de evaluación',
+            'inscripcion_cursadas_desde' => 'inicio de inscripción a cursadas',
+            'inscripcion_cursadas_hasta' => 'cierre de inscripción a cursadas',
         ];
     }
 
     public function datosCiclo(): array
     {
-        return $this->only(['anio', 'nombre', 'fecha_inicio', 'fecha_fin']);
+        return $this->only(['anio', 'nombre', 'fecha_inicio', 'fecha_fin', 'inscripcion_cursadas_desde', 'inscripcion_cursadas_hasta']);
     }
 }

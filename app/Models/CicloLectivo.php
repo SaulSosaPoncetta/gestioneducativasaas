@@ -23,7 +23,10 @@ class CicloLectivo extends Model
         self::CERRADO       => 'Cerrado',
     ];
 
-    protected $fillable = ['institucion_id', 'anio', 'nombre', 'fecha_inicio', 'fecha_fin', 'estado'];
+    protected $fillable = [
+        'institucion_id', 'anio', 'nombre', 'fecha_inicio', 'fecha_fin', 'estado',
+        'inscripcion_cursadas_desde', 'inscripcion_cursadas_hasta',
+    ];
 
     protected function casts(): array
     {
@@ -31,6 +34,8 @@ class CicloLectivo extends Model
             'anio'         => 'integer',
             'fecha_inicio' => 'date',
             'fecha_fin'    => 'date',
+            'inscripcion_cursadas_desde' => 'date',
+            'inscripcion_cursadas_hasta' => 'date',
         ];
     }
 
@@ -53,6 +58,14 @@ class CicloLectivo extends Model
     public static function actual(): ?self
     {
         return static::enCurso()->first() ?? static::orderByDesc('anio')->first();
+    }
+
+    /** Los estudiantes de nivel superior pueden inscribirse solos a cursadas. */
+    public function inscripcionCursadasAbierta(): bool
+    {
+        return ! $this->estaCerrado()
+            && $this->inscripcion_cursadas_desde && $this->inscripcion_cursadas_hasta
+            && today()->between($this->inscripcion_cursadas_desde, $this->inscripcion_cursadas_hasta);
     }
 
     public function estaCerrado(): bool

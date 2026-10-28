@@ -11,9 +11,21 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
         $usuario = $request->user();
+
+        // Estudiantes, familias y docentes van directo a su portal.
+        $portal = match ($usuario->rol) {
+            \App\Enums\Rol::Estudiante => 'estudiante.cursada',
+            \App\Enums\Rol::Tutor      => 'tutor.hijos',
+            \App\Enums\Rol::Docente    => 'docente.cursos',
+            default                       => null,
+        };
+
+        if ($portal && \Illuminate\Support\Facades\Route::has($portal)) {
+            return redirect()->route($portal);
+        }
 
         // Superadmin sin institución elegida: listado de instituciones.
         if ($usuario->esSuperAdmin() && ! InstitucionActual::existe()) {

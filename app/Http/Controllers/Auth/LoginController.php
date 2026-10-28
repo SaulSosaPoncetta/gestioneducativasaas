@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auditoria;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,12 +51,14 @@ class LoginController extends Controller
 
         if (! $usuario) {
             RateLimiter::hit($clave, 60);
+            $this->registrarFallido($datos['usuario'], 'contraseña o usuario incorrecto');
             throw ValidationException::withMessages([
                 'usuario' => 'Los datos ingresados no son correctos.',
             ]);
         }
 
         if (! $usuario->activo) {
+            $this->registrarFallido($datos['usuario'], 'usuario deshabilitado', $usuario);
             throw ValidationException::withMessages([
                 'usuario' => 'Tu usuario está deshabilitado.',
             ]);
@@ -82,6 +85,25 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
+    }
+
+    /**
+     * Intento fallido: se registra en la institución del usuario buscado
+     * (si existe), para que su administración lo vea. Nunca se guarda la clave.
+     */
+    protected function registrarFallido(string $ingresado, string $motivo, ?User $usuario = null): void
+    {
+        $ingresado = trim($ingresado);
+        $usuario ??= str_contains($ingresado, '@')
+            ? User::where('email', Str::lower($ingresado))->first()
+            : User::where('dni', preg_replace('/\D/', '', $ingresado))->first();
+
+        Auditoria::registrar('ingreso_fallido', 'Ingreso fallido de "' . Str::limit($ingresado, 60) . '": ' . $motivo, [
+            'usuario'        => null,
+            'institucion_id' => $usuario?->institucion_id,
+            'modelo_tipo'    => $usuario ? User::class : null,
+            'modelo_id'      => $usuario?->id,
+        ]);
     }
 
     protected function buscarUsuario(string $usuario, string $password): ?User

@@ -15,7 +15,25 @@
         </p>
     </div>
     @if ($puedeEditar)
-        <a href="{{ route('estudiantes.create') }}" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> Nuevo estudiante</a>
+        <div class="d-flex gap-2">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"><i class="bi bi-key me-1"></i> Accesos a portales</button>
+                <div class="dropdown-menu dropdown-menu-end p-2" style="min-width: 290px">
+                    <form method="POST" action="{{ route('accesos.masivo') }}" data-confirmar="¿Generar el acceso de todas las familias de estudiantes activos que todavía no lo tienen?">
+                        @csrf <input type="hidden" name="tipo" value="familias">
+                        <button class="dropdown-item rounded">Generar accesos de familias</button>
+                    </form>
+                    @if (($institucionActual ?? null)?->nivelesActivos()->contains(fn ($n) => $n->usaCarreras()))
+                        <form method="POST" action="{{ route('accesos.masivo') }}" data-confirmar="¿Generar el acceso de los estudiantes de nivel superior que todavía no lo tienen?">
+                            @csrf <input type="hidden" name="tipo" value="superior">
+                            <button class="dropdown-item rounded">Generar accesos de estudiantes (superior)</button>
+                        </form>
+                    @endif
+                    <div class="small text-muted px-2 pt-1">Ingresan con su DNI; la contraseña inicial es el DNI.</div>
+                </div>
+            </div>
+            <a href="{{ route('estudiantes.create') }}" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i> Nuevo estudiante</a>
+        </div>
     @endif
 </div>
 

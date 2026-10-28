@@ -38,6 +38,12 @@
         @else
             <a href="{{ route('calificaciones.boletin', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-text me-1"></i> Boletín</a>
         @endif
+        @if (Route::has('auditoria.index') && auth()->user()->tieneRol('admin'))
+            <a href="{{ route('auditoria.index', ['modelo' => 'Estudiante', 'id' => $estudiante->id]) }}" class="btn btn-outline-secondary" title="Historial de cambios"><i class="bi bi-clock-history"></i></a>
+        @endif
+        @if (Route::has('constancias.create'))
+            <a href="{{ route('constancias.create', ['estudiante' => $estudiante->id]) }}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-check me-1"></i> Constancia</a>
+        @endif
         @if ($puedeEditar)
             <a href="{{ route('estudiantes.edit', $estudiante) }}" class="btn btn-outline-secondary"><i class="bi bi-pencil me-1"></i> Editar</a>
             <a href="{{ route('estudiantes.inscripciones.create', $estudiante) }}" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i> Inscribir</a>
@@ -140,6 +146,18 @@
                                 </div>
                                 @if ($puedeEditar)
                                     <div class="text-nowrap">
+                                        @if ($t->user_id)
+                                            <form method="POST" action="{{ route('accesos.restablecer', $t->user_id) }}" class="d-inline"
+                                                  data-confirmar="¿Volver la contraseña de {{ $t->nombre_completo }} a su DNI?">
+                                                @csrf
+                                                <button class="btn btn-sm btn-outline-success" title="Tiene acceso al portal. Clic: restablecer contraseña"><i class="bi bi-key-fill"></i></button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="{{ route('accesos.tutor', $t) }}" class="d-inline">
+                                                @csrf
+                                                <button class="btn btn-sm btn-outline-secondary" title="Crear acceso al portal de familias"><i class="bi bi-key"></i></button>
+                                            </form>
+                                        @endif
                                         <a href="{{ route('estudiantes.tutores.edit', [$estudiante, $t]) }}" class="btn btn-sm btn-outline-secondary" title="Editar"><i class="bi bi-pencil"></i></a>
                                         <form method="POST" action="{{ route('estudiantes.tutores.destroy', [$estudiante, $t]) }}" class="d-inline"
                                               data-confirmar="¿Desvincular a {{ $t->nombre_completo }} de este estudiante?">
@@ -154,6 +172,33 @@
                 </div>
             @endif
         </div>
+
+        {{-- Acceso al portal del estudiante --}}
+        @if ($puedeEditar)
+            <div class="card mb-3">
+                <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2 py-2">
+                    <span class="small">
+                        <i class="bi bi-person-badge me-1"></i> Portal del estudiante:
+                        @if ($estudiante->user_id)
+                            <span class="text-success">tiene acceso</span> (ingresa con su DNI)
+                        @else
+                            <span class="text-muted">sin acceso</span>
+                        @endif
+                    </span>
+                    @if ($estudiante->user_id)
+                        <form method="POST" action="{{ route('accesos.restablecer', $estudiante->user_id) }}" data-confirmar="¿Volver la contraseña a su DNI?">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-secondary">Restablecer contraseña</button>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('accesos.estudiante', $estudiante) }}">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-key me-1"></i> Crear acceso</button>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        @endif
 
         {{-- Asistencia --}}
         <div class="card mb-3">

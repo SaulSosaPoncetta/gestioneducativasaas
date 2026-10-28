@@ -34,4 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = ver ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
         });
     });
+
+    // Código QR: <div data-qr="https://..."></div> (se carga solo en las páginas que lo usan)
+    const qrs = document.querySelectorAll('[data-qr]');
+    if (qrs.length) {
+        import('qrcode').then(({ default: QRCode }) => {
+            qrs.forEach((el) => {
+                QRCode.toString(el.dataset.qr, { type: 'svg', margin: 0, width: Number(el.dataset.qrTamano || 110) }, (err, svg) => {
+                    if (!err) el.innerHTML = svg;
+                });
+            });
+        });
+    }
 });
